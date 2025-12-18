@@ -1,3 +1,10 @@
+-- 先创建数据库（如果不存在）
+CREATE DATABASE IF NOT EXISTS village_committee CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- 使用数据库
+USE village_committee;
+
+-- 村民表
 CREATE TABLE IF NOT EXISTS residents (
   id BIGINT NOT NULL AUTO_INCREMENT,
   name VARCHAR(50) NOT NULL,
@@ -5,5 +12,15 @@ CREATE TABLE IF NOT EXISTS residents (
   phone VARCHAR(20) NULL,
   address VARCHAR(255) NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 公告表
+CREATE TABLE IF NOT EXISTS announcements (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  title VARCHAR(100) NOT NULL,
+  content TEXT NOT NULL,
+  publisher VARCHAR(50) NOT NULL,
+  publish_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
