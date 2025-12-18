@@ -1,5 +1,7 @@
 package com.village.committee.config;
 
+import com.village.committee.web.filter.CsrfTokenFilter;
+import com.village.committee.web.filter.RequestIdFilter;
 import jakarta.servlet.Filter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -23,9 +25,14 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Filter[] getServletFilters() {
-        CharacterEncodingFilter f = new CharacterEncodingFilter();
-        f.setEncoding("UTF-8");
-        f.setForceEncoding(true);
-        return new Filter[]{f};
+        CharacterEncodingFilter encoding = new CharacterEncodingFilter();
+        encoding.setEncoding("UTF-8");
+        encoding.setForceEncoding(true);
+
+        return new Filter[]{
+                encoding,
+                new RequestIdFilter(),
+                new CsrfTokenFilter()
+        };
     }
 }

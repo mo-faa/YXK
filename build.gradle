@@ -1,4 +1,4 @@
-plugins {
+    plugins {
     id 'java'
     id 'war'
 }
@@ -31,13 +31,15 @@ dependencies {
     implementation "com.zaxxer:HikariCP:7.0.2"
     runtimeOnly "com.mysql:mysql-connector-j:9.5.0"
 
+    // Jackson 3
     implementation "tools.jackson.core:jackson-databind:3.0.3"
 
     // JSP + JSTL (Jakarta JSTL 3.0.1) - MUST be packaged into WAR
     implementation "jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.1"
     implementation "org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1"
 
-    // Logging (optional but recommended; avoids SLF4J NOP)
+    // Logging
+    implementation "org.slf4j:slf4j-api:2.0.16"
     runtimeOnly "org.slf4j:slf4j-simple:2.0.16"
 
     // Provided by Tomcat 11 (Servlet 6.1 / JSP 4.0 / EL 6.0 / Annotations)

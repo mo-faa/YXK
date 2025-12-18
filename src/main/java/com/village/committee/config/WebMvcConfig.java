@@ -1,5 +1,6 @@
 package com.village.committee.config;
 
+import com.village.committee.web.interceptor.RequestTimingInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +9,7 @@ import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
@@ -29,14 +31,22 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public JsonMapper.Builder jsonMapperBuilder() {
-        // Jackson 3：自动发现并注册模块（包含 Java time 相关支持）
         return JsonMapper.builder().findAndAddModules();
     }
 
     @Override
     public void configureMessageConverters(HttpMessageConverters.ServerBuilder builder) {
-        // Spring 7：converter 构造器接收 JsonMapper.Builder / JsonMapper
         builder.withJsonConverter(new JacksonJsonHttpMessageConverter(jsonMapperBuilder()));
+    }
+
+    @Bean
+    public RequestTimingInterceptor requestTimingInterceptor() {
+        return new RequestTimingInterceptor();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(requestTimingInterceptor());
     }
 
     @Override

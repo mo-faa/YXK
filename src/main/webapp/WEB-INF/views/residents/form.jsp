@@ -29,6 +29,8 @@
 </p>
 
 <form action="<c:url value='${actionUrl}'/>" method="post">
+    <input type="hidden" name="_csrf" value="${_csrf}" />
+
     <p>
         <label>姓名（必填）：</label>
         <input type="text" name="name" value="${resident.name}" maxlength="50" />

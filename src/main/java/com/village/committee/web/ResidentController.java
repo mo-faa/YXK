@@ -1,7 +1,12 @@
 package com.village.committee.web;
 
+import com.village.committee.common.PageResult;
 import com.village.committee.domain.Resident;
 import com.village.committee.service.ResidentService;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,9 +25,59 @@ public class ResidentController {
     }
 
     @GetMapping
-    public String list(Model model, @ModelAttribute("flash") String flash) {
-        model.addAttribute("residents", residentService.list());
+    public String list(Model model,
+                       @RequestParam(value = "q", required = false) String q,
+                       @RequestParam(value = "page", required = false) Integer page,
+                       @RequestParam(value = "size", required = false) Integer size,
+                       @ModelAttribute("flash") String flash) {
+
+        PageResult<Resident> result = residentService.page(q, page, size);
+        model.addAttribute("page", result);
+        model.addAttribute("q", q);
         return "residents/list";
+    }
+
+    @GetMapping(value = "/export.csv")
+    public void exportCsv(@RequestParam(value = "q", required = false) String q,
+                          HttpServletResponse resp) {
+        try {
+            List<Resident> rows = residentService.export(q);
+
+            resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
+            resp.setContentType("text/csv; charset=UTF-8");
+            resp.setHeader("Content-Disposition", "attachment; filename=\"residents.csv\"");
+
+            try (PrintWriter w = resp.getWriter()) {
+                // UTF-8 BOM (Excel 兼容)
+                w.write('\uFEFF');
+
+                w.println("id,name,idCard,phone,address,createdAt");
+                for (Resident r : rows) {
+                    w.print(csv(r.getId()));
+                    w.print(",");
+                    w.print(csv(r.getName()));
+                    w.print(",");
+                    w.print(csv(r.getIdCard()));
+                    w.print(",");
+                    w.print(csv(r.getPhone()));
+                    w.print(",");
+                    w.print(csv(r.getAddress()));
+                    w.print(",");
+                    w.println(csv(r.getCreatedAt()));
+                }
+                w.flush();
+            }
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "CSV export failed: " + ex.getMessage(), ex);
+        }
+    }
+
+    private String csv(Object v) {
+        if (v == null) return "";
+        String s = String.valueOf(v);
+        boolean needQuote = s.contains(",") || s.contains("\"") || s.contains("\n") || s.contains("\r");
+        if (!needQuote) return s;
+        return "\"" + s.replace("\"", "\"\"") + "\"";
     }
 
     @GetMapping("/new")

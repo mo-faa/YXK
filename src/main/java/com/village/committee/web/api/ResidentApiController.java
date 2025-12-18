@@ -1,5 +1,6 @@
 package com.village.committee.web.api;
 
+import com.village.committee.common.PageResult;
 import com.village.committee.domain.Resident;
 import com.village.committee.service.ResidentService;
 import java.util.List;
@@ -19,9 +20,18 @@ public class ResidentApiController {
         this.residentService = residentService;
     }
 
+    // 保持你原来的行为：返回 List
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Resident> list() {
         return residentService.list();
+    }
+
+    // 新增：分页 + 搜索（不会影响原接口）
+    @GetMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
+    public PageResult<Resident> page(@RequestParam(value = "q", required = false) String q,
+                                     @RequestParam(value = "page", required = false) Integer page,
+                                     @RequestParam(value = "size", required = false) Integer size) {
+        return residentService.page(q, page, size);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

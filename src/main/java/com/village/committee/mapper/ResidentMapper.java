@@ -21,6 +21,46 @@ public interface ResidentMapper {
             """)
     Resident findById(@Param("id") Long id);
 
+    @Select("""
+            <script>
+            SELECT id, name, id_card, phone, address, created_at
+            FROM residents
+            <where>
+              <if test="q != null and q != ''">
+                AND (
+                    name LIKE CONCAT('%', #{q}, '%')
+                    OR id_card LIKE CONCAT('%', #{q}, '%')
+                    OR phone LIKE CONCAT('%', #{q}, '%')
+                    OR address LIKE CONCAT('%', #{q}, '%')
+                )
+              </if>
+            </where>
+            ORDER BY id DESC
+            LIMIT #{limit} OFFSET #{offset}
+            </script>
+            """)
+    List<Resident> findPage(@Param("q") String q,
+                           @Param("offset") int offset,
+                           @Param("limit") int limit);
+
+    @Select("""
+            <script>
+            SELECT COUNT(1)
+            FROM residents
+            <where>
+              <if test="q != null and q != ''">
+                AND (
+                    name LIKE CONCAT('%', #{q}, '%')
+                    OR id_card LIKE CONCAT('%', #{q}, '%')
+                    OR phone LIKE CONCAT('%', #{q}, '%')
+                    OR address LIKE CONCAT('%', #{q}, '%')
+                )
+              </if>
+            </where>
+            </script>
+            """)
+    long count(@Param("q") String q);
+
     @Insert("""
             INSERT INTO residents (name, id_card, phone, address)
             VALUES (#{name}, #{idCard}, #{phone}, #{address})

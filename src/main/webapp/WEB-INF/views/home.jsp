@@ -13,9 +13,14 @@
 
 <ul>
     <li><a href="<c:url value='/db/ping'/>">测试数据库链路：/db/ping</a></li>
-    <li><a href="<c:url value='/residents'/>">村民信息管理（JSP CRUD）</a></li>
-    <li><a href="<c:url value='/api/residents'/>">村民信息 API（JSON）</a></li>
+    <li><a href="<c:url value='/api/health'/>">健康检查：/api/health</a></li>
+    <li><a href="<c:url value='/residents'/>">村民信息管理（JSP CRUD + 搜索分页 + CSV 导出）</a></li>
+    <li><a href="<c:url value='/api/residents'/>">村民信息 API（JSON List）</a></li>
+    <li><a href="<c:url value='/api/residents/page'/>">村民分页 API（JSON PageResult）</a></li>
 </ul>
+
+<hr/>
+<p style="color:#666;">RequestId: ${requestId}</p>
 
 </body>
 </html>
