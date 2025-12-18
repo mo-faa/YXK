@@ -1,0 +1,15 @@
+# 忽略bin和build文件夹
+bin/
+build/
+
+# 忽略gradle文件夹
+gradle/
+
+# 忽略其他根目录文件，但保留build.gradle、gradle.properties、gradlew和gradlew.bat
+# 注意：由于gitignore只能指定忽略哪些文件，不能指定保留哪些文件
+# 所以我们需要单独列出要忽略的根目录文件
+/settings.gradle
+/自动构建.py
+/获取代码.py
+/论文需求.txt
+/项目代码.txt
