@@ -1,0 +1,63 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group = 'com.village'
+version = '0.1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Framework 7.0.2 (NO Spring Boot)
+    implementation platform("org.springframework:spring-framework-bom:7.0.2")
+    implementation "org.springframework:spring-webmvc"
+    implementation "org.springframework:spring-jdbc"
+    implementation "org.springframework:spring-tx"
+
+    // MyBatis
+    implementation "org.mybatis:mybatis:3.5.19"
+    implementation "org.mybatis:mybatis-spring:4.0.0"
+
+    // DataSource / DB driver
+    implementation "com.zaxxer:HikariCP:7.0.2"
+    runtimeOnly "com.mysql:mysql-connector-j:9.5.0"
+
+    implementation "tools.jackson.core:jackson-databind:3.0.3"
+
+    // JSP + JSTL (Jakarta JSTL 3.0.1) - MUST be packaged into WAR
+    implementation "jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.1"
+    implementation "org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1"
+
+    // Logging (optional but recommended; avoids SLF4J NOP)
+    runtimeOnly "org.slf4j:slf4j-simple:2.0.16"
+
+    // Provided by Tomcat 11 (Servlet 6.1 / JSP 4.0 / EL 6.0 / Annotations)
+    compileOnly "jakarta.servlet:jakarta.servlet-api:6.1.0"
+    compileOnly "jakarta.servlet.jsp:jakarta.servlet.jsp-api:4.0.0"
+    compileOnly "jakarta.el:jakarta.el-api:6.0.1"
+    compileOnly "jakarta.annotation:jakarta.annotation-api:3.0.0"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:5.11.0"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+    options.release.set(25)
+}
+
+test {
+    useJUnitPlatform()
+}
+
+war {
+    archiveFileName = "YXK.war"
+}
