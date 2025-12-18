@@ -2,7 +2,7 @@
     id 'java'
     id 'war'
 }
-
+#我要开始了
 group = 'com.village'
 version = '0.1.0-SNAPSHOT'
 
