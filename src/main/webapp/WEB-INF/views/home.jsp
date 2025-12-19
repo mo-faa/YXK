@@ -495,32 +495,30 @@
                     '<span class="badge bg-success">数据库正常</span>' : 
                     '<span class="badge bg-danger">数据库异常</span>';
                 
-                statusDiv.innerHTML = `
-                    <div class="alert ${data.db eq 'UP' ? 'alert-success' : 'alert-danger'}">
-                        <h5 class="alert-heading">
-                            <i class="fas fa-server me-2"></i>系统状态
-                        </h5>
-                        <p class="mb-2">
-                            <strong>应用状态：</strong> 
-                            <span class="badge bg-success">运行正常</span>
-                        </p>
-                        <p class="mb-0">
-                            <strong>数据库状态：</strong> ${dbStatus}
-                        </p>
-                        <hr>
-                        <small class="text-muted">检查时间：<script>document.write(new Date().toLocaleString());</script></small>
-                    </div>
-                `;
+                statusDiv.innerHTML = 
+                    '<div class="alert ' + (data.db === 'UP' ? 'alert-success' : 'alert-danger') + '">' +
+                    '<h5 class="alert-heading">' +
+                    '<i class="fas fa-server me-2"></i>系统状态' +
+                    '</h5>' +
+                    '<p class="mb-2">' +
+                    '<strong>应用状态：</strong> ' +
+                    '<span class="badge bg-success">运行正常</span>' +
+                    '</p>' +
+                    '<p class="mb-0">' +
+                    '<strong>数据库状态：</strong> ' + dbStatus +
+                    '</p>' +
+                    '<hr>' +
+                    '<small class="text-muted">检查时间：' + new Date().toLocaleString() + '</small>' +
+                    '</div>';
             })
             .catch(error => {
-                statusDiv.innerHTML = `
-                    <div class="alert alert-danger">
-                        <h5 class="alert-heading">
-                            <i class="fas fa-exclamation-triangle me-2"></i>检查失败
-                        </h5>
-                        <p class="mb-0">无法获取系统状态信息</p>
-                    </div>
-                `;
+                statusDiv.innerHTML = 
+                    '<div class="alert alert-danger">' +
+                    '<h5 class="alert-heading">' +
+                    '<i class="fas fa-exclamation-triangle me-2"></i>检查失败' +
+                    '</h5>' +
+                    '<p class="mb-0">无法获取系统状态信息</p>' +
+                    '</div>';
             });
     }
 
