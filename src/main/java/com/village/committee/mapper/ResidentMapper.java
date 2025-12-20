@@ -28,10 +28,10 @@ public interface ResidentMapper {
             <where>
               <if test="q != null and q != ''">
                 AND (
-                    name LIKE CONCAT('%', #{q}, '%')
-                    OR id_card LIKE CONCAT('%', #{q}, '%')
-                    OR phone LIKE CONCAT('%', #{q}, '%')
-                    OR address LIKE CONCAT('%', #{q}, '%')
+                    name LIKE CONCAT(#{q}, '%')
+                    OR id_card = #{q}
+                    OR phone = #{q}
+                    OR MATCH(name, phone, address) AGAINST(#{q} IN BOOLEAN MODE)
                 )
               </if>
             </where>
@@ -50,10 +50,10 @@ public interface ResidentMapper {
             <where>
               <if test="q != null and q != ''">
                 AND (
-                    name LIKE CONCAT('%', #{q}, '%')
-                    OR id_card LIKE CONCAT('%', #{q}, '%')
-                    OR phone LIKE CONCAT('%', #{q}, '%')
-                    OR address LIKE CONCAT('%', #{q}, '%')
+                    name LIKE CONCAT(#{q}, '%')
+                    OR id_card = #{q}
+                    OR phone = #{q}
+                    OR MATCH(name, phone, address) AGAINST(#{q} IN BOOLEAN MODE)
                 )
               </if>
             </where>

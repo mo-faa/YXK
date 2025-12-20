@@ -19,17 +19,23 @@ public class HealthApiController {
     @GetMapping("/api/health")
     public Map<String, Object> health() {
         Map<String, Object> m = new LinkedHashMap<>();
-        m.put("status", "UP");
-        m.put("time", Instant.now().toString());
+        boolean dbOk = false;
 
         try {
             String db = healthMapper.ping();
-            m.put("db", "UP");
+            dbOk = true;
             m.put("dbPing", db);
         } catch (Exception ex) {
-            m.put("db", "DOWN");
             m.put("dbError", ex.getClass().getSimpleName() + ": " + ex.getMessage());
         }
+
+        // 匹配前端期望的格式
+        m.put("ok", true); // 应用本身是正常的
+        m.put("dbOk", dbOk);
+        m.put("version", "1.0.0"); // 添加版本信息
+        m.put("uptime", "运行中"); // 添加运行状态信息
+        m.put("time", Instant.now().toString());
+
         return m;
     }
 }

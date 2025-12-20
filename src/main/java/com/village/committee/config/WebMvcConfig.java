@@ -1,4 +1,3 @@
-
 package com.village.committee.config;
 
 import com.village.committee.web.interceptor.RequestTimingInterceptor;
@@ -15,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.resource.VersionResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import tools.jackson.databind.json.JsonMapper;
@@ -44,10 +44,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return JsonMapper.builder().findAndAddModules();
     }
 
-    /**
-     * Spring Framework 7：推荐用 HttpMessageConverters.ServerBuilder 进行配置。
-     * 你项目里用的是 Jackson 3，因此这里用 JacksonJsonHttpMessageConverter。
-     */
     @Override
     public void configureMessageConverters(HttpMessageConverters.ServerBuilder builder) {
         builder.withJsonConverter(new JacksonJsonHttpMessageConverter(jsonMapperBuilder()));
@@ -66,8 +62,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        VersionResourceResolver versionResolver = new VersionResourceResolver();
+        versionResolver.addContentVersionStrategy("/**");
+        
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("/static/")
-                .setCacheControl(CacheControl.maxAge(30, TimeUnit.DAYS).cachePublic());
+                .setCacheControl(CacheControl.maxAge(30, TimeUnit.DAYS).cachePublic())
+                .resourceChain(true)
+                .addResolver(versionResolver);
     }
 }

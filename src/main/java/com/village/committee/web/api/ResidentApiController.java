@@ -1,3 +1,5 @@
+// FILE: src/main/java/com/village/committee/web/api/ResidentApiController.java
+
 package com.village.committee.web.api;
 
 import com.village.committee.common.PageResult;
@@ -20,13 +22,11 @@ public class ResidentApiController {
         this.residentService = residentService;
     }
 
-    // 保持你原来的行为：返回 List
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Resident> list() {
         return residentService.list();
     }
 
-    // 新增：分页 + 搜索（不会影响原接口）
     @GetMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
     public PageResult<Resident> page(@RequestParam(value = "q", required = false) String q,
                                      @RequestParam(value = "page", required = false) Integer page,
@@ -45,18 +45,14 @@ public class ResidentApiController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Resident> create(@RequestBody Resident resident) {
-        if (resident.getName() == null || resident.getName().trim().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "name is required");
-        }
+        // Service层会自动验证
         Resident created = residentService.create(resident);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Resident update(@PathVariable("id") Long id, @RequestBody Resident resident) {
-        if (resident.getName() == null || resident.getName().trim().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "name is required");
-        }
+        // Service层会自动验证
         boolean ok = residentService.update(id, resident);
         if (!ok) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Resident not found: " + id);
@@ -73,4 +69,3 @@ public class ResidentApiController {
         return ResponseEntity.noContent().build();
     }
 }
-

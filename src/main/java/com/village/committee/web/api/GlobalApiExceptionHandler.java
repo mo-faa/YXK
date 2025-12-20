@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "com.village.committee.web.api")
 public class GlobalApiExceptionHandler {
 
     @ExceptionHandler(ResponseStatusException.class)
@@ -39,4 +39,3 @@ public class GlobalApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
     }
 }
-

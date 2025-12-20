@@ -1,4 +1,4 @@
-    plugins {
+plugins {
     id 'java'
     id 'war'
 }
@@ -54,6 +54,9 @@ dependencies {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
     options.release.set(25)
+
+    // ✅ 关键：让 Spring 通过反射能拿到方法参数名（避免 @PathVariable/@RequestParam 报 “Name for argument...not available”）
+    options.compilerArgs.add("-parameters")
 }
 
 test {
@@ -63,4 +66,3 @@ test {
 war {
     archiveFileName = "YXK.war"
 }
-
