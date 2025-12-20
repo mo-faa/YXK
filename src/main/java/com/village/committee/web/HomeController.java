@@ -1,6 +1,7 @@
 package com.village.committee.web;
 
 import com.village.committee.service.AnnouncementService;
+import com.village.committee.service.OperationLogService;
 import com.village.committee.service.ResidentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,10 +12,14 @@ public class HomeController {
 
     private final AnnouncementService announcementService;
     private final ResidentService residentService;
+    private final OperationLogService operationLogService;
 
-    public HomeController(AnnouncementService announcementService, ResidentService residentService) {
+    public HomeController(AnnouncementService announcementService,
+                          ResidentService residentService,
+                          OperationLogService operationLogService) {
         this.announcementService = announcementService;
         this.residentService = residentService;
+        this.operationLogService = operationLogService;
     }
 
     @GetMapping(value = {"/", "/home"})
@@ -25,8 +30,15 @@ public class HomeController {
         model.addAttribute("residentTotal", residentService.countAll());
         model.addAttribute("announcementTotal", announcementService.countAll());
 
-        // 首页公告：只查最新 5 条，避免 announcements 表大了拖慢首页
+        // 首页公告：只查最新 5 条
         model.addAttribute("announcements", announcementService.latest(5));
+
+        // 最近公告（用于"最近公告"板块）
+        model.addAttribute("recentAnnouncements", announcementService.latest(5));
+
+        // 最近操作日志（用于"最近操作"板块）
+        model.addAttribute("recentLogs", operationLogService.latest(5));
+
         return "home";
     }
 }

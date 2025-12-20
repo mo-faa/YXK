@@ -53,6 +53,9 @@
                   action="${pageContext.request.contextPath}/residents${mode == 'edit' ? '/' += resident.id : ''}"
                   novalidate>
 
+                <%-- ✅ 关键修复：添加 CSRF Token 隐藏字段 --%>
+                <input type="hidden" name="_csrf" value="${_csrf}"/>
+
                 <%-- 姓名 --%>
                 <div class="mb-3 form-group">
                     <label class="form-label" for="name">姓名 <span class="text-danger">*</span></label>
