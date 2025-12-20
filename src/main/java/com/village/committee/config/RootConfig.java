@@ -67,3 +67,4 @@ public class RootConfig {
         return new SqlSessionTemplate(factory);
     }
 }
+

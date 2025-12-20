@@ -4,6 +4,7 @@ import com.village.committee.common.PageResult;
 import com.village.committee.common.Paging;
 import com.village.committee.domain.Resident;
 import com.village.committee.mapper.ResidentMapper;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,10 @@ public class ResidentService {
      */
     public long countAll() {
         return residentMapper.count(null);
+    }
+
+    public long countSince(LocalDateTime from) {
+        return residentMapper.countSince(from);
     }
 
     public PageResult<Resident> page(String q, Integer page, Integer size) {

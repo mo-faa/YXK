@@ -1,3 +1,4 @@
+
 package com.village.committee.config;
 
 import com.village.committee.web.interceptor.RequestTimingInterceptor;
@@ -23,6 +24,12 @@ import tools.jackson.databind.json.JsonMapper;
 @ComponentScan(basePackages = "com.village.committee.web")
 public class WebMvcConfig implements WebMvcConfigurer {
 
+    private final RequestTimingInterceptor requestTimingInterceptor;
+
+    public WebMvcConfig(RequestTimingInterceptor requestTimingInterceptor) {
+        this.requestTimingInterceptor = requestTimingInterceptor;
+    }
+
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver vr = new InternalResourceViewResolver();
@@ -37,19 +44,19 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return JsonMapper.builder().findAndAddModules();
     }
 
+    /**
+     * Spring Framework 7：推荐用 HttpMessageConverters.ServerBuilder 进行配置。
+     * 你项目里用的是 Jackson 3，因此这里用 JacksonJsonHttpMessageConverter。
+     */
     @Override
     public void configureMessageConverters(HttpMessageConverters.ServerBuilder builder) {
         builder.withJsonConverter(new JacksonJsonHttpMessageConverter(jsonMapperBuilder()));
     }
 
-    @Bean
-    public RequestTimingInterceptor requestTimingInterceptor() {
-        return new RequestTimingInterceptor();
-    }
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(requestTimingInterceptor());
+        registry.addInterceptor(requestTimingInterceptor)
+                .excludePathPatterns("/static/**", "/api/**", "/db/**");
     }
 
     @Override
@@ -61,7 +68,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("/static/")
-                // 新增：静态资源缓存（30天），减少重复下载，提升访问速度
                 .setCacheControl(CacheControl.maxAge(30, TimeUnit.DAYS).cachePublic());
     }
 }

@@ -9,3 +9,4 @@ public interface HealthMapper {
     @Select("SELECT 'OK'")
     String ping();
 }
+

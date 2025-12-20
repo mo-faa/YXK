@@ -10,3 +10,4 @@ public record ApiError(
         String path,
         String requestId
 ) {}
+

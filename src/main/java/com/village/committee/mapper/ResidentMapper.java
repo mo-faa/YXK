@@ -61,6 +61,9 @@ public interface ResidentMapper {
             """)
     long count(@Param("q") String q);
 
+    @Select("SELECT COUNT(1) FROM residents WHERE created_at >= #{from}")
+    long countSince(@Param("from") java.time.LocalDateTime from);
+
     @Insert("""
             INSERT INTO residents (name, id_card, phone, address)
             VALUES (#{name}, #{idCard}, #{phone}, #{address})

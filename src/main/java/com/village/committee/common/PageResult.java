@@ -45,3 +45,4 @@ public class PageResult<T> {
         return page < getTotalPages();
     }
 }
+
