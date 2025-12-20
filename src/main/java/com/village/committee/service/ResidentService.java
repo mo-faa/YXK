@@ -21,6 +21,15 @@ public class ResidentService {
         return residentMapper.findAll();
     }
 
+    /**
+     * 首页统计用：统计全表村民总数
+     * 说明：在你的 page() 方法里 residentMapper.count(query) 当 query 为 null 时就是全表 COUNT(*)，
+     * 所以这里直接传 null 即可。
+     */
+    public long countAll() {
+        return residentMapper.count(null);
+    }
+
     public PageResult<Resident> page(String q, Integer page, Integer size) {
         String query = Paging.normalizeQuery(q);
         int p = Paging.normalizePage(page);

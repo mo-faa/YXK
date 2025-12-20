@@ -1,9 +1,11 @@
 package com.village.committee.config;
 
 import com.village.committee.web.interceptor.RequestTimingInterceptor;
+import java.util.concurrent.TimeUnit;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.CacheControl;
 import org.springframework.http.converter.HttpMessageConverters;
 import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.web.servlet.ViewResolver;
@@ -58,6 +60,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**")
-                .addResourceLocations("/static/");
+                .addResourceLocations("/static/")
+                // 新增：静态资源缓存（30天），减少重复下载，提升访问速度
+                .setCacheControl(CacheControl.maxAge(30, TimeUnit.DAYS).cachePublic());
     }
 }
