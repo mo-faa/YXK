@@ -24,98 +24,114 @@
         <div class="col-md-4" data-animate="fade-up" data-delay="100">
             <div class="stat-card">
                 <div class="stat-card-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                    <i class="fa-solid fa-users"></i>
+                    <i class="fa-solid fa-people-group"></i>
                 </div>
-                <div class="stat-card-content">
-                    <div class="stat-card-value">${residentTotal}</div>
-                    <div class="stat-card-label">居民总数</div>
-                </div>
+                <div class="stat-card-title">居民总数</div>
+                <div class="stat-card-value">${residentTotal}</div>
+                <div class="stat-card-meta">户籍与常住居民</div>
             </div>
         </div>
+
         <div class="col-md-4" data-animate="fade-up" data-delay="200">
             <div class="stat-card">
                 <div class="stat-card-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
                     <i class="fa-solid fa-bullhorn"></i>
                 </div>
-                <div class="stat-card-content">
-                    <div class="stat-card-value">${announcementTotal}</div>
-                    <div class="stat-card-label">公告总数</div>
-                </div>
+                <div class="stat-card-title">公告总数</div>
+                <div class="stat-card-value">${announcementTotal}</div>
+                <div class="stat-card-meta">已发布与草稿</div>
             </div>
         </div>
+
         <div class="col-md-4" data-animate="fade-up" data-delay="300">
             <div class="stat-card">
                 <div class="stat-card-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                    <i class="fa-solid fa-clipboard-list"></i>
+                    <i class="fa-solid fa-file-lines"></i>
                 </div>
-                <div class="stat-card-content">
-                    <div class="stat-card-value">${fn:length(recentLogs)}</div>
-                    <div class="stat-card-label">最近操作</div>
-                </div>
+                <div class="stat-card-title">投诉总数</div>
+                <div class="stat-card-value">${complaintTotal}</div>
+                <div class="stat-card-meta">处理中与已结案</div>
             </div>
         </div>
     </div>
 
     <!-- 快捷入口 -->
-    <div class="card soft mb-5" data-animate="fade-up">
-        <div class="card-header">
-            <i class="fa-solid fa-rocket me-2"></i>快捷入口
+    <div class="row g-4 mb-5">
+        <div class="col-12" data-animate="fade-up">
+            <h2 class="section-title mb-4">
+                <i class="fa-solid fa-bolt me-2"></i>快捷入口
+            </h2>
         </div>
-        <div class="card-body">
-            <div class="row g-3">
-                <div class="col-6 col-md-3">
-                    <a href="<c:url value='/residents'/>" class="quick-link">
-                        <i class="fa-solid fa-user-plus"></i>
-                        <span>居民管理</span>
-                    </a>
+
+        <div class="col-md-6 col-lg-3" data-animate="fade-up" data-delay="100">
+            <a href="${pageContext.request.contextPath}/residents" class="quick-card">
+                <div class="quick-card-icon">
+                    <i class="fa-solid fa-user-group"></i>
                 </div>
-                <div class="col-6 col-md-3">
-                    <a href="<c:url value='/announcements'/>" class="quick-link">
-                        <i class="fa-solid fa-newspaper"></i>
-                        <span>公告管理</span>
-                    </a>
+                <div class="quick-card-title">居民管理</div>
+                <div class="quick-card-desc">查看与维护居民信息</div>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-3" data-animate="fade-up" data-delay="200">
+            <a href="${pageContext.request.contextPath}/announcements" class="quick-card">
+                <div class="quick-card-icon">
+                    <i class="fa-solid fa-bullhorn"></i>
                 </div>
-                <div class="col-6 col-md-3">
-                    <a href="<c:url value='/logs'/>" class="quick-link">
-                        <i class="fa-solid fa-clipboard-list"></i>
-                        <span>操作日志</span>
-                    </a>
+                <div class="quick-card-title">公告管理</div>
+                <div class="quick-card-desc">发布与管理村务公告</div>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-3" data-animate="fade-up" data-delay="300">
+            <a href="${pageContext.request.contextPath}/complaints" class="quick-card">
+                <div class="quick-card-icon">
+                    <i class="fa-solid fa-comment-dots"></i>
                 </div>
-                <div class="col-6 col-md-3">
-                    <a href="<c:url value='/residents/new'/>" class="quick-link">
-                        <i class="fa-solid fa-circle-plus"></i>
-                        <span>新增居民</span>
-                    </a>
+                <div class="quick-card-title">投诉建议</div>
+                <div class="quick-card-desc">处理群众反馈</div>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-3" data-animate="fade-up" data-delay="400">
+            <a href="${pageContext.request.contextPath}/stats" class="quick-card">
+                <div class="quick-card-icon">
+                    <i class="fa-solid fa-chart-line"></i>
                 </div>
-            </div>
+                <div class="quick-card-title">统计分析</div>
+                <div class="quick-card-desc">查看数据与趋势</div>
+            </a>
         </div>
     </div>
 
+    <!-- 最新动态 -->
     <div class="row g-4">
         <!-- 最近公告 -->
         <div class="col-lg-6" data-animate="fade-up" data-delay="100">
             <div class="card soft h-100">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span><i class="fa-solid fa-bullhorn me-2"></i>最近公告</span>
-                    <a href="<c:url value='/announcements'/>" class="btn btn-sm btn-light">
+                    <h3 class="card-title mb-0">
+                        <i class="fa-solid fa-bullhorn me-2"></i>最近公告
+                    </h3>
+                    <a href="${pageContext.request.contextPath}/announcements" class="btn btn-sm btn-outline-primary">
                         查看全部 <i class="fa-solid fa-arrow-right ms-1"></i>
                     </a>
                 </div>
                 <div class="card-body p-0">
                     <c:if test="${not empty recentAnnouncements}">
                         <ul class="list-group list-group-flush">
-                            <c:forEach var="ann" items="${recentAnnouncements}">
-                                <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                        <div class="fw-bold">
-                                            <a href="<c:url value='/announcements/${ann.id}'/>" class="text-decoration-none">
+                            <c:forEach items="${recentAnnouncements}" var="ann">
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-4 py-3">
+                                    <div>
+                                        <div class="fw-semibold">
+                                            <a href="${pageContext.request.contextPath}/announcements/view?id=${ann.id}" class="text-decoration-none">
                                                 ${ann.title}
                                             </a>
                                         </div>
                                         <small class="text-muted">
                                             <c:choose>
-                                                <c:when test="${not empty ann.createdAt}">
-                                                    ${fn:substring(fn:replace(ann.createdAt, 'T', ' '), 0, 10)}
+                                                <c:when test="${not empty ann.publishTime}">
+                                                    ${fn:substring(fn:replace(ann.publishTime, 'T', ' '), 0, 10)}
                                                 </c:when>
                                                 <c:otherwise>-</c:otherwise>
                                             </c:choose>
@@ -123,11 +139,11 @@
                                     </div>
                                     <span class="badge 
                                         <c:choose>
-                                            <c:when test="${ann.status == 'PUBLISHED'}">bg-success</c:when>
-                                            <c:when test="${ann.status == 'DRAFT'}">bg-warning text-dark</c:when>
+                                            <c:when test="${ann.published}">bg-success</c:when>
+                                            <c:when test="${empty ann.status || ann.status == 0}">bg-warning text-dark</c:when>
                                             <c:otherwise>bg-secondary</c:otherwise>
                                         </c:choose>
-                                    ">${ann.status}</span>
+                                    ">${ann.statusText}</span>
                                 </li>
                             </c:forEach>
                         </ul>
@@ -146,44 +162,45 @@
         <div class="col-lg-6" data-animate="fade-up" data-delay="200">
             <div class="card soft h-100">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span><i class="fa-solid fa-clock-rotate-left me-2"></i>最近操作</span>
-                    <a href="<c:url value='/logs'/>" class="btn btn-sm btn-light">
-                        查看全部 <i class="fa-solid fa-arrow-right ms-1"></i>
+                    <h3 class="card-title mb-0">
+                        <i class="fa-solid fa-clock-rotate-left me-2"></i>最近操作
+                    </h3>
+                    <a href="${pageContext.request.contextPath}/logs" class="btn btn-sm btn-outline-primary">
+                        查看日志 <i class="fa-solid fa-arrow-right ms-1"></i>
                     </a>
                 </div>
                 <div class="card-body p-0">
                     <c:if test="${not empty recentLogs}">
                         <ul class="list-group list-group-flush">
-                            <c:forEach var="log" items="${recentLogs}">
-                                <li class="list-group-item">
-                                    <div class="d-flex justify-content-between align-items-start">
-                                        <div class="ms-2 me-auto">
-                                            <div class="d-flex align-items-center gap-2 mb-1">
-                                                <span class="badge 
-                                                    <c:choose>
-                                                        <c:when test="${log.operationType == 'CREATE'}">bg-success</c:when>
-                                                        <c:when test="${log.operationType == 'UPDATE'}">bg-primary</c:when>
-                                                        <c:when test="${log.operationType == 'DELETE'}">bg-danger</c:when>
-                                                        <c:otherwise>bg-info</c:otherwise>
-                                                    </c:choose>
-                                                ">${log.operationType}</span>
-                                                <span class="badge bg-outline-secondary border">${log.targetType}</span>
-                                            </div>
-                                            <div class="small text-truncate" style="max-width: 280px;">
-                                                ${log.description}
-                                            </div>
-                                        </div>
-                                        <div class="text-end">
-                                            <div class="small text-muted">${log.operator}</div>
-                                            <div class="small text-muted">
+                            <c:forEach items="${recentLogs}" var="log">
+                                <li class="list-group-item px-4 py-3">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <div class="fw-semibold">
                                                 <c:choose>
-                                                    <c:when test="${not empty log.createdAt}">
-                                                        ${fn:substring(fn:replace(log.createdAt, 'T', ' '), 0, 16)}
+                                                    <c:when test="${not empty log.description}">
+                                                        ${log.description}
                                                     </c:when>
                                                     <c:otherwise>-</c:otherwise>
                                                 </c:choose>
                                             </div>
+                                            <small class="text-muted">
+                                                <c:choose>
+                                                    <c:when test="${not empty log.operator}">
+                                                        ${log.operator}
+                                                    </c:when>
+                                                    <c:otherwise>-</c:otherwise>
+                                                </c:choose>
+                                            </small>
                                         </div>
+                                        <small class="text-muted">
+                                            <c:choose>
+                                                <c:when test="${not empty log.createdAt}">
+                                                    ${fn:substring(fn:replace(log.createdAt, 'T', ' '), 0, 16)}
+                                                </c:when>
+                                                <c:otherwise>-</c:otherwise>
+                                            </c:choose>
+                                        </small>
                                     </div>
                                 </li>
                             </c:forEach>
