@@ -1,0 +1,181 @@
+/* FILE: src/main/webapp/static/css/dark-fix.css
+ * 目的：
+ * 1) 修复暗色模式下“快捷入口 / 最近公告 / 最近操作”等区域文字仍为黑色
+ * 2) 修复暗色模式下 list-group 背景仍为白色（最近操作/最近公告列表）
+ * 3) 修复暗色模式下居民管理页（搜索/分页信息/表格/输入框等）颜色不随主题变化
+ * 4) 尽量不破坏你现有 main.css 的设计：这里只做暗色模式覆盖 + Bootstrap 变量覆写
+ */
+
+html[data-theme="dark"] {
+  /* ===== 你项目的暗色基调 ===== */
+  --yxk-bg: #0b1020;
+  --yxk-surface: #111827;
+  --yxk-surface-2: #0f172a;
+  --yxk-text: #e5e7eb;
+  --yxk-muted: #9ca3af;
+  --yxk-border: rgba(255, 255, 255, 0.12);
+
+  /* ===== 让 Bootstrap 5.3 组件跟随暗色 ===== */
+  color-scheme: dark;
+  --bs-body-bg: var(--yxk-bg);
+  --bs-body-color: var(--yxk-text);
+
+  --bs-secondary-color: var(--yxk-muted);
+  --bs-tertiary-color: rgba(229, 231, 235, 0.65);
+  --bs-emphasis-color: var(--yxk-text);
+
+  --bs-border-color: var(--yxk-border);
+
+  --bs-link-color: #93c5fd;
+  --bs-link-hover-color: #bfdbfe;
+
+  --bs-card-bg: var(--yxk-surface);
+  --bs-card-cap-bg: var(--yxk-surface-2);
+
+  --bs-list-group-bg: var(--yxk-surface);
+  --bs-list-group-color: var(--yxk-text);
+  --bs-list-group-border-color: var(--yxk-border);
+
+  --bs-table-color: var(--yxk-text);
+  --bs-table-bg: transparent;
+  --bs-table-border-color: var(--yxk-border);
+  --bs-table-striped-bg: rgba(255, 255, 255, 0.04);
+  --bs-table-hover-bg: rgba(255, 255, 255, 0.06);
+
+  --bs-pagination-bg: var(--yxk-surface);
+  --bs-pagination-border-color: var(--yxk-border);
+  --bs-pagination-color: var(--yxk-text);
+  --bs-pagination-hover-bg: var(--yxk-surface-2);
+  --bs-pagination-hover-color: var(--yxk-text);
+  --bs-pagination-active-bg: #2563eb;
+  --bs-pagination-active-border-color: #2563eb;
+}
+
+/* 页面整体（避免“文字仍是黑色”） */
+html[data-theme="dark"] body {
+  background-color: var(--bs-body-bg) !important;
+  color: var(--bs-body-color) !important;
+}
+
+/* 你页面里大量用到的“soft 卡片” */
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .card.soft {
+  background-color: var(--bs-card-bg) !important;
+  border-color: var(--bs-border-color) !important;
+  color: var(--bs-body-color) !important;
+}
+html[data-theme="dark"] .card .card-header,
+html[data-theme="dark"] .card.soft .card-header {
+  background-color: var(--bs-card-cap-bg) !important;
+  border-bottom-color: var(--bs-border-color) !important;
+  color: var(--bs-body-color) !important;
+}
+
+/* 修复：最近公告/最近操作 list-group 背景总是白色 */
+html[data-theme="dark"] .list-group-item {
+  background-color: var(--bs-list-group-bg) !important;
+  color: var(--bs-list-group-color) !important;
+  border-color: var(--bs-list-group-border-color) !important;
+}
+html[data-theme="dark"] .list-group-item a {
+  color: inherit;
+}
+html[data-theme="dark"] .list-group-item a:hover {
+  color: var(--bs-link-hover-color);
+}
+
+/* 修复：text-muted 在暗色下太暗/发黑 */
+html[data-theme="dark"] .text-muted {
+  color: var(--bs-secondary-color) !important;
+}
+
+/* 修复：主页“快捷入口”卡片里的 quick-link 在暗色下文字/边框不随主题 */
+html[data-theme="dark"] .quick-link {
+  background: var(--yxk-surface-2) !important;
+  border: 1px solid var(--yxk-border) !important;
+  color: var(--bs-body-color) !important;
+}
+html[data-theme="dark"] .quick-link i {
+  color: var(--bs-link-color) !important;
+}
+html[data-theme="dark"] .quick-link:hover {
+  filter: brightness(1.06);
+  text-decoration: none;
+}
+
+/* 修复：主页/列表页里“查看全部”使用 btn-light，暗色下不要刺眼白底 */
+html[data-theme="dark"] .btn.btn-light {
+  background-color: var(--yxk-surface-2) !important;
+  color: var(--bs-body-color) !important;
+  border-color: var(--yxk-border) !important;
+}
+html[data-theme="dark"] .btn.btn-light:hover {
+  background-color: rgba(255, 255, 255, 0.10) !important;
+}
+
+/* 表格（居民管理页） */
+html[data-theme="dark"] .table {
+  color: var(--bs-table-color) !important;
+}
+html[data-theme="dark"] .table thead th {
+  border-color: var(--bs-table-border-color) !important;
+}
+html[data-theme="dark"] .table tbody td,
+html[data-theme="dark"] .table tbody th {
+  border-color: var(--bs-table-border-color) !important;
+}
+
+/* 输入框/选择框（居民管理页的“搜索/每页条数”等） */
+html[data-theme="dark"] .form-label {
+  color: var(--bs-body-color) !important;
+}
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select,
+html[data-theme="dark"] input[type="number"].form-control,
+html[data-theme="dark"] input[type="text"].form-control {
+  background-color: var(--yxk-surface) !important;
+  color: var(--bs-body-color) !important;
+  border-color: var(--yxk-border) !important;
+}
+html[data-theme="dark"] .form-control::placeholder {
+  color: rgba(229, 231, 235, 0.55) !important;
+}
+html[data-theme="dark"] .form-control:focus,
+html[data-theme="dark"] .form-select:focus {
+  border-color: rgba(59, 130, 246, 0.85) !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.20) !important;
+}
+
+/* 下拉/模态/提示（尽量覆盖“好多页面不跟随主题”的常见组件） */
+html[data-theme="dark"] .dropdown-menu {
+  background-color: var(--yxk-surface) !important;
+  border-color: var(--yxk-border) !important;
+}
+html[data-theme="dark"] .dropdown-item {
+  color: var(--bs-body-color) !important;
+}
+html[data-theme="dark"] .dropdown-item:hover,
+html[data-theme="dark"] .dropdown-item:focus {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .modal-content {
+  background-color: var(--yxk-surface) !important;
+  color: var(--bs-body-color) !important;
+  border-color: var(--yxk-border) !important;
+}
+html[data-theme="dark"] .alert {
+  border-color: var(--yxk-border) !important;
+}
+
+/* 兜底：一些页面用了 bg-light / bg-white，暗色下统一压掉 */
+html[data-theme="dark"] .bg-light,
+html[data-theme="dark"] .bg-white {
+  background-color: var(--yxk-surface) !important;
+}
+html[data-theme="dark"] .border,
+html[data-theme="dark"] .border-top,
+html[data-theme="dark"] .border-bottom,
+html[data-theme="dark"] .border-start,
+html[data-theme="dark"] .border-end {
+  border-color: var(--yxk-border) !important;
+}

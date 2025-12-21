@@ -1,0 +1,1257 @@
+/* ============================================
+   网上村委会 - 全站主题样式
+   ============================================ */
+
+/* ==================== CSS 变量 ==================== */
+:root {
+    /* 主色调 */
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --primary-color: #667eea;
+    --primary-dark: #5a6fd6;
+    --secondary-color: #764ba2;
+
+    /* 亮色模式变量 */
+    --bg-body: #f0f2f5;
+    --bg-card: #ffffff;
+    --bg-card-header: #f8f9fa;
+    --bg-input: #ffffff;
+    --bg-hover: #f8f9fa;
+    --bg-table-stripe: rgba(0, 0, 0, 0.02);
+
+    --text-primary: #1a1a2e;
+    --text-secondary: #6c757d;
+    --text-muted: #adb5bd;
+    --text-heading: #1a1a2e;
+    --text-card-header: #1a1a2e;
+    --text-label: #1a1a2e;
+    --text-body: #212529;
+
+    --border-color: #e9ecef;
+    --border-light: #f1f3f4;
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.12);
+
+    /* 状态色 */
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --info-color: #17a2b8;
+
+    /* 导航栏 */
+    --navbar-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+    /* 页脚 */
+    --footer-bg: #1a1a2e;
+    --footer-text: rgba(255, 255, 255, 0.8);
+
+    /* 列表组 */
+    --list-group-bg: #ffffff;
+    --list-group-hover-bg: #f8f9fa;
+    --list-group-border: rgba(0, 0, 0, 0.125);
+
+    /* 徽章 */
+    --badge-soft-bg: #e9ecef;
+    --badge-soft-color: #495057;
+}
+
+/* ==================== 暗色模式 ==================== */
+[data-theme="dark"] {
+    --bg-body: #121212;
+    --bg-card: #1e1e1e;
+    --bg-card-header: #252525;
+    --bg-input: #2d2d2d;
+    --bg-hover: #2a2a2a;
+    --bg-table-stripe: rgba(255, 255, 255, 0.02);
+
+    --text-primary: #e4e4e4;
+    --text-secondary: #b0b0b0;
+    --text-muted: #888888;
+    --text-heading: #ffffff;
+    --text-card-header: #ffffff;
+    --text-label: #e4e4e4;
+    --text-body: #e4e4e4;
+
+    --border-color: #333333;
+    --border-light: #2a2a2a;
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+
+    --navbar-bg: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+    --footer-bg: #0d0d0d;
+
+    --list-group-bg: #1e1e1e;
+    --list-group-hover-bg: #2a2a2a;
+    --list-group-border: rgba(255, 255, 255, 0.1);
+
+    --badge-soft-bg: #333333;
+    --badge-soft-color: #e4e4e4;
+}
+
+/* ==================== 全局基础样式 ==================== */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    background-color: var(--bg-body);
+    color: var(--text-body);
+    line-height: 1.6;
+    padding-top: 70px;
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ==================== 链接样式 ==================== */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+/* 暗色模式链接 */
+[data-theme="dark"] a {
+    color: #8fa4f3;
+}
+
+[data-theme="dark"] a:hover {
+    color: #a8bbf7;
+}
+
+/* ==================== 导航栏 ==================== */
+.navbar {
+    background: var(--navbar-bg);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-md);
+    padding: 0.75rem 0;
+    transition: background 0.3s ease;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    border-radius: 8px;
+    margin: 0 0.15rem;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+#themeToggle {
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+#themeToggle:hover {
+    transform: rotate(20deg);
+}
+
+/* ==================== 页面标题区 ==================== */
+.page-hero {
+    background: var(--primary-gradient);
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    color: #fff;
+    box-shadow: var(--shadow-md);
+}
+
+.page-hero-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.page-hero-subtitle {
+    opacity: 0.9;
+    font-size: 1rem;
+}
+
+/* ==================== 卡片样式 ==================== */
+.card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    background-color: var(--bg-card);
+    color: var(--text-body);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.card.soft {
+    background-color: var(--bg-card);
+}
+
+.card-header {
+    background-color: var(--bg-card-header);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+    padding: 1rem 1.25rem;
+    border-radius: 16px 16px 0 0 !important;
+    color: var(--text-card-header);
+}
+
+.card-body {
+    padding: 1.5rem;
+    color: var(--text-body);
+}
+
+/* ==================== 统计卡片 ==================== */
+.stat-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    color: var(--text-body);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.stat-card-content {
+    flex: 1;
+}
+
+.stat-card-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-heading);
+}
+
+.stat-card-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+/* ==================== 快捷入口 ==================== */
+.quick-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1rem;
+    background: var(--bg-hover);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    gap: 0.75rem;
+}
+
+.quick-link:hover {
+    background: var(--primary-gradient);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.quick-link i {
+    font-size: 1.75rem;
+}
+
+.quick-link span {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* ==================== 表格样式 ==================== */
+.table-wrap {
+    border-radius: 0 0 16px 16px;
+    overflow: hidden;
+}
+
+.table {
+    margin-bottom: 0;
+    color: var(--text-body);
+    background-color: var(--bg-card);
+}
+
+.table thead {
+    background-color: var(--bg-card-header);
+}
+
+.table thead th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    border-bottom: 2px solid var(--border-color);
+    padding: 1rem 1.25rem;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: var(--bg-hover);
+}
+
+.table tbody td {
+    padding: 1rem 1.25rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-body);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: var(--bg-table-stripe);
+}
+
+/* 暗色模式表格 */
+[data-theme="dark"] .table {
+    --bs-table-bg: var(--bg-card);
+    --bs-table-color: var(--text-body);
+    --bs-table-border-color: var(--border-color);
+    --bs-table-striped-bg: var(--bg-table-stripe);
+    --bs-table-hover-bg: var(--bg-hover);
+}
+
+[data-theme="dark"] .table-hover tbody tr:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-body);
+}
+
+/* ==================== 表单样式 ==================== */
+.form-control,
+.form-select {
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease;
+    background-color: var(--bg-input);
+    color: var(--text-body);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+    background-color: var(--bg-input);
+    color: var(--text-body);
+}
+
+.form-control::placeholder {
+    color: var(--text-muted);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--text-label);
+    margin-bottom: 0.5rem;
+}
+
+.form-text {
+    color: var(--text-muted);
+}
+
+/* 暗色模式表单 */
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+    background-color: var(--bg-input);
+    border-color: var(--border-color);
+    color: var(--text-body);
+}
+
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus {
+    background-color: var(--bg-input);
+    border-color: var(--primary-color);
+    color: var(--text-body);
+}
+
+[data-theme="dark"] .form-control::placeholder {
+    color: var(--text-muted);
+}
+
+/* ==================== 按钮样式 ==================== */
+.btn {
+    border-radius: 10px;
+    font-weight: 500;
+    padding: 0.625rem 1.25rem;
+    transition: all 0.2s ease;
+}
+
+.btn-gradient {
+    background: var(--primary-gradient);
+    border: none;
+    color: #fff;
+}
+
+.btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    color: #fff;
+}
+
+.btn-light {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    color: var(--primary-color);
+}
+
+.btn-light:hover {
+    background: #fff;
+    color: var(--primary-dark);
+}
+
+.btn-outline-primary {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+}
+
+.btn-outline-secondary {
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+}
+
+.btn-outline-secondary:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+/* 暗色模式按钮 */
+[data-theme="dark"] .btn-outline-secondary {
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .btn-outline-secondary:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .btn-light {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .btn-light:hover {
+    background: var(--bg-hover);
+    color: var(--text-heading);
+}
+
+/* ==================== 徽章样式 ==================== */
+.badge {
+    font-weight: 500;
+    padding: 0.4em 0.8em;
+}
+
+.badge-soft {
+    background-color: var(--badge-soft-bg);
+    color: var(--badge-soft-color);
+}
+
+.badge.rounded-pill.badge-soft {
+    background-color: var(--badge-soft-bg);
+    color: var(--badge-soft-color);
+}
+
+/* 暗色模式徽章 */
+[data-theme="dark"] .badge-soft,
+[data-theme="dark"] .badge.rounded-pill.badge-soft {
+    background-color: var(--badge-soft-bg);
+    color: var(--badge-soft-color);
+}
+
+/* ==================== 分页样式 ==================== */
+.pagination {
+    gap: 0.25rem;
+}
+
+.page-item .page-link {
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.5rem 0.85rem;
+    background-color: var(--bg-card);
+    transition: all 0.2s ease;
+}
+
+.page-item .page-link:hover {
+    background-color: var(--bg-hover);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.page-item.active .page-link {
+    background: var(--primary-gradient);
+    border-color: transparent;
+    color: #fff;
+}
+
+.page-item.disabled .page-link {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+    color: var(--text-muted);
+}
+
+/* 暗色模式分页 */
+[data-theme="dark"] .page-item .page-link {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .page-item .page-link:hover {
+    background-color: var(--bg-hover);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+[data-theme="dark"] .page-item.disabled .page-link {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+    color: var(--text-muted);
+}
+
+/* ==================== 列表组样式 ==================== */
+.list-group {
+    border-radius: 0;
+}
+
+.list-group-item {
+    background-color: var(--list-group-bg);
+    border-color: var(--list-group-border);
+    color: var(--text-body);
+    transition: background-color 0.2s ease;
+}
+
+.list-group-item:hover {
+    background-color: var(--list-group-hover-bg);
+}
+
+.list-group-flush .list-group-item {
+    border-left: 0;
+    border-right: 0;
+}
+
+.list-group-flush .list-group-item:first-child {
+    border-top: 0;
+}
+
+.list-group-flush .list-group-item:last-child {
+    border-bottom: 0;
+}
+
+/* 暗色模式列表组 */
+[data-theme="dark"] .list-group-item {
+    background-color: var(--list-group-bg);
+    border-color: var(--list-group-border);
+    color: var(--text-body);
+}
+
+[data-theme="dark"] .list-group-item:hover {
+    background-color: var(--list-group-hover-bg);
+}
+
+[data-theme="dark"] .list-group-item a {
+    color: #8fa4f3;
+}
+
+[data-theme="dark"] .list-group-item a:hover {
+    color: #a8bbf7;
+}
+
+/* ==================== 警告框样式 ==================== */
+.alert {
+    border-radius: 12px;
+    border: none;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(40, 167, 69, 0.05));
+    color: var(--success-color);
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.05));
+    color: var(--danger-color);
+}
+
+/* 暗色模式警告框 */
+[data-theme="dark"] .alert-success {
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.2), rgba(40, 167, 69, 0.1));
+}
+
+[data-theme="dark"] .alert-danger {
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.2), rgba(220, 53, 69, 0.1));
+}
+
+/* ==================== 空状态 ==================== */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-muted);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* ==================== 文章内容 ==================== */
+.article-meta {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.article-content {
+    line-height: 1.8;
+    font-size: 1.05rem;
+    white-space: pre-wrap;
+    color: var(--text-body);
+}
+
+/* ==================== 页脚 ==================== */
+.footer {
+    background: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 3rem 0 1.5rem;
+    margin-top: 4rem;
+}
+
+.footer h5 {
+    color: #fff;
+    font-weight: 600;
+}
+
+.footer a {
+    color: var(--footer-text);
+    transition: color 0.2s ease;
+}
+
+.footer a:hover {
+    color: #fff;
+}
+
+.footer hr {
+    border-color: rgba(255, 255, 255, 0.1);
+    margin: 2rem 0;
+}
+
+/* ==================== 回到顶部按钮 ==================== */
+.back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    color: #fff;
+    border: none;
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ==================== 动画效果 ==================== */
+[data-animate="fade-up"] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+[data-animate="fade-up"].animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==================== 响应式调整 ==================== */
+@media (max-width: 768px) {
+    body {
+        padding-top: 60px;
+    }
+
+    .page-hero {
+        padding: 1.5rem;
+        border-radius: 16px;
+    }
+
+    .page-hero-title {
+        font-size: 1.35rem;
+    }
+
+    .stat-card {
+        padding: 1.25rem;
+    }
+
+    .stat-card-value {
+        font-size: 1.5rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .table thead th,
+    .table tbody td {
+        padding: 0.75rem;
+    }
+}
+
+/* ==================== 文字颜色工具类覆盖 ==================== */
+[data-theme="dark"] .text-dark {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .text-muted {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .text-secondary {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .text-body {
+    color: var(--text-body) !important;
+}
+
+/* 确保 fw-bold 等字体样式正确显示颜色 */
+[data-theme="dark"] .fw-bold {
+    color: var(--text-heading);
+}
+
+/* 标题颜色 */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6 {
+    color: var(--text-heading);
+}
+
+/* 段落颜色 */
+[data-theme="dark"] p {
+    color: var(--text-body);
+}
+
+/* strong/b 标签颜色 */
+[data-theme="dark"] strong,
+[data-theme="dark"] b {
+    color: var(--text-heading);
+}
+
+/* small 标签颜色 */
+[data-theme="dark"] small {
+    color: var(--text-secondary);
+}
+
+/* ==================== Bootstrap 组件覆盖 ==================== */
+/* Modal 模态框 */
+[data-theme="dark"] .modal-content {
+    background-color: var(--bg-card);
+    color: var(--text-body);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .modal-header {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .modal-footer {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .modal-title {
+    color: var(--text-heading);
+}
+
+/* Dropdown 下拉菜单 */
+[data-theme="dark"] .dropdown-menu {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .dropdown-item {
+    color: var(--text-body);
+}
+
+[data-theme="dark"] .dropdown-item:hover,
+[data-theme="dark"] .dropdown-item:focus {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+/* Breadcrumb 面包屑 */
+[data-theme="dark"] .breadcrumb {
+    background-color: transparent;
+}
+
+[data-theme="dark"] .breadcrumb-item a {
+    color: #8fa4f3;
+}
+
+[data-theme="dark"] .breadcrumb-item.active {
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .breadcrumb-item + .breadcrumb-item::before {
+    color: var(--text-muted);
+}
+
+/* Input Group 输入组 */
+[data-theme="dark"] .input-group-text {
+    background-color: var(--bg-input);
+    border-color: var(--border-color);
+    color: var(--text-body);
+}
+
+/* ==================== 首页特定样式修复 ==================== */
+/* 确保所有卡片标题在暗色模式正确显示 */
+[data-theme="dark"] .card-header span,
+[data-theme="dark"] .card-header i {
+    color: var(--text-card-header);
+}
+
+/* 快捷入口文字 */
+[data-theme="dark"] .quick-link {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .quick-link:hover {
+    color: #fff;
+}
+
+/* ==================== 居民管理页面特定样式 ==================== */
+/* 搜索区域标签 */
+[data-theme="dark"] .card-body .form-label {
+    color: var(--text-label);
+}
+
+/* 分页信息文字 */
+[data-theme="dark"] .card-body .d-flex {
+    color: var(--text-body);
+}
+
+[data-theme="dark"] .card-body .d-flex strong {
+    color: var(--text-heading);
+}
+
+[data-theme="dark"] .card-body .d-flex i {
+    color: var(--primary-color);
+}
+
+/* ==================== 表单页面修复 ==================== */
+/* 表单验证状态 */
+[data-theme="dark"] .form-control.is-invalid,
+[data-theme="dark"] .form-select.is-invalid {
+    border-color: var(--danger-color);
+    background-color: var(--bg-input);
+}
+
+[data-theme="dark"] .form-control.is-valid,
+[data-theme="dark"] .form-select.is-valid {
+    border-color: var(--success-color);
+    background-color: var(--bg-input);
+}
+
+[data-theme="dark"] .invalid-feedback {
+    color: #f87171;
+}
+
+[data-theme="dark"] .valid-feedback {
+    color: #4ade80;
+}
+
+/* Checkbox 和 Radio */
+[data-theme="dark"] .form-check-input {
+    background-color: var(--bg-input);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+[data-theme="dark"] .form-check-label {
+    color: var(--text-body);
+}
+
+/* Textarea */
+[data-theme="dark"] textarea.form-control {
+    background-color: var(--bg-input);
+    color: var(--text-body);
+}
+
+/* ==================== 详情页面样式 ==================== */
+/* 详情项 */
+.detail-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.detail-value {
+    color: var(--text-body);
+    font-size: 1rem;
+}
+
+[data-theme="dark"] .detail-label {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .detail-value {
+    color: var(--text-body);
+}
+
+/* ==================== 搜索结果高亮 ==================== */
+.highlight {
+    background-color: rgba(102, 126, 234, 0.2);
+    padding: 0.1em 0.2em;
+    border-radius: 3px;
+}
+
+[data-theme="dark"] .highlight {
+    background-color: rgba(102, 126, 234, 0.3);
+}
+
+/* ==================== 加载状态 ==================== */
+.loading-spinner {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==================== 工具提示 ==================== */
+[data-theme="dark"] .tooltip-inner {
+    background-color: var(--bg-card);
+    color: var(--text-body);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .tooltip.bs-tooltip-top .tooltip-arrow::before {
+    border-top-color: var(--bg-card);
+}
+
+[data-theme="dark"] .tooltip.bs-tooltip-bottom .tooltip-arrow::before {
+    border-bottom-color: var(--bg-card);
+}
+
+/* ==================== 手风琴组件 ==================== */
+[data-theme="dark"] .accordion-item {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .accordion-button {
+    background-color: var(--bg-card);
+    color: var(--text-body);
+}
+
+[data-theme="dark"] .accordion-button:not(.collapsed) {
+    background-color: var(--bg-card-header);
+    color: var(--primary-color);
+}
+
+[data-theme="dark"] .accordion-button::after {
+    filter: invert(1);
+}
+
+[data-theme="dark"] .accordion-body {
+    background-color: var(--bg-card);
+    color: var(--text-body);
+}
+
+/* ==================== 选项卡组件 ==================== */
+[data-theme="dark"] .nav-tabs {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .nav-tabs .nav-link {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .nav-tabs .nav-link:hover {
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .nav-tabs .nav-link.active {
+    background-color: var(--bg-card);
+    border-color: var(--border-color) var(--border-color) var(--bg-card);
+    color: var(--primary-color);
+}
+
+[data-theme="dark"] .nav-pills .nav-link {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .nav-pills .nav-link.active {
+    background: var(--primary-gradient);
+    color: #fff;
+}
+
+/* ==================== 进度条 ==================== */
+[data-theme="dark"] .progress {
+    background-color: var(--bg-input);
+}
+
+/* ==================== 关闭按钮 ==================== */
+[data-theme="dark"] .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* ==================== 卡片内嵌元素修复 ==================== */
+/* 确保卡片内所有文本颜色正确 */
+[data-theme="dark"] .card p,
+[data-theme="dark"] .card span,
+[data-theme="dark"] .card div {
+    color: inherit;
+}
+
+/* 修复 d-flex 内的文字颜色 */
+[data-theme="dark"] .card .d-flex .text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* 修复时间戳等小文字 */
+[data-theme="dark"] .card small.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* ==================== 首页公告/政策列表修复 ==================== */
+[data-theme="dark"] .list-group-item h6,
+[data-theme="dark"] .list-group-item .h6 {
+    color: var(--text-heading);
+}
+
+[data-theme="dark"] .list-group-item p {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .list-group-item small {
+    color: var(--text-muted);
+}
+
+/* ==================== 用户头像/图标背景 ==================== */
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #fff;
+}
+
+.avatar-lg {
+    width: 60px;
+    height: 60px;
+    font-size: 1.25rem;
+}
+
+/* ==================== 打印样式 ==================== */
+@media print {
+    body {
+        background: #fff !important;
+        color: #000 !important;
+        padding-top: 0 !important;
+    }
+
+    .navbar,
+    .footer,
+    .back-to-top,
+    .btn,
+    .no-print {
+        display: none !important;
+    }
+
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+    }
+
+    a {
+        color: #000 !important;
+        text-decoration: underline !important;
+    }
+}
+
+/* ==================== 辅助工具类 ==================== */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-4px);
+}
+
+.text-gradient {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 圆角工具类 */
+.rounded-xl {
+    border-radius: 16px !important;
+}
+
+.rounded-2xl {
+    border-radius: 20px !important;
+}
+
+/* 间距扩展 */
+.gap-4 {
+    gap: 1.5rem !important;
+}
+
+.gap-5 {
+    gap: 2rem !important;
+}
+
+/* ==================== 滚动条美化 ==================== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-body);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--text-muted);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--bg-body);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: #444;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* ==================== 选中文本样式 ==================== */
+::selection {
+    background: rgba(102, 126, 234, 0.3);
+    color: inherit;
+}
+
+[data-theme="dark"] ::selection {
+    background: rgba(102, 126, 234, 0.5);
+}
+
+/* ==================== 焦点可见性 (无障碍) ==================== */
+:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* ==================== 结束 ==================== */
