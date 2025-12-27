@@ -34,7 +34,7 @@ public class RootConfig {
         cfg.setMaximumPoolSize(env.getProperty("db.maxPoolSize", Integer.class, 10));
         cfg.setMinimumIdle(env.getProperty("db.minIdle", Integer.class, 2));
 
-        // 允许应用在 DB 暂不可用时也能启动（你点 /db/ping 时再连接）
+        // 允许应用在 DB 暂不可用时也能启动
         cfg.setInitializationFailTimeout(-1);
 
         cfg.setPoolName("VillageHikariCP");

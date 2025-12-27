@@ -1,117 +1,74 @@
-/* ============================================
-   网上村委会 - 全站主题样式
-   ============================================ */
+/* =====================================================
+   网上村委会 - 主题样式表
+   作者：于翔堃
+   ===================================================== */
 
 /* ==================== CSS 变量 ==================== */
 :root {
     /* 主色调 */
     --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --primary-color: #667eea;
-    --primary-dark: #5a6fd6;
-    --secondary-color: #764ba2;
-
-    /* 亮色模式变量 */
-    --bg-body: #f0f2f5;
-    --bg-card: #ffffff;
-    --bg-card-header: #f8f9fa;
-    --bg-input: #ffffff;
-    --bg-hover: #f8f9fa;
-    --bg-table-stripe: rgba(0, 0, 0, 0.02);
-
-    --text-primary: #1a1a2e;
-    --text-secondary: #6c757d;
-    --text-muted: #adb5bd;
-    --text-heading: #1a1a2e;
-    --text-card-header: #1a1a2e;
-    --text-label: #1a1a2e;
-    --text-body: #212529;
-
-    --border-color: #e9ecef;
-    --border-light: #f1f3f4;
-
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.12);
-
-    /* 状态色 */
-    --success-color: #28a745;
-    --warning-color: #ffc107;
-    --danger-color: #dc3545;
-    --info-color: #17a2b8;
-
+    --primary-dark: #5a67d8;
+    
+    /* 背景色 */
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    
+    /* 文字颜色 */
+    --text-color: #1a202c;
+    --text-muted: #718096;
+    --text-light: #a0aec0;
+    
+    /* 边框 */
+    --border-color: #e2e8f0;
+    --border-radius: 16px;
+    --border-radius-sm: 8px;
+    
     /* 导航栏 */
     --navbar-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-
+    --navbar-height: 70px;
+    
     /* 页脚 */
-    --footer-bg: #1a1a2e;
-    --footer-text: rgba(255, 255, 255, 0.8);
-
-    /* 列表组 */
-    --list-group-bg: #ffffff;
-    --list-group-hover-bg: #f8f9fa;
-    --list-group-border: rgba(0, 0, 0, 0.125);
-
-    /* 徽章 */
-    --badge-soft-bg: #e9ecef;
-    --badge-soft-color: #495057;
+    --footer-bg: #1a202c;
+    
+    /* 统计卡片 */
+    --stat-card-bg: #ffffff;
+    --stat-card-border: rgba(102, 126, 234, 0.1);
 }
 
-/* ==================== 暗色模式 ==================== */
+/* 暗色主题变量 */
 [data-theme="dark"] {
-    --bg-body: #121212;
-    --bg-card: #1e1e1e;
-    --bg-card-header: #252525;
-    --bg-input: #2d2d2d;
-    --bg-hover: #2a2a2a;
-    --bg-table-stripe: rgba(255, 255, 255, 0.02);
-
-    --text-primary: #e4e4e4;
-    --text-secondary: #b0b0b0;
-    --text-muted: #888888;
-    --text-heading: #ffffff;
-    --text-card-header: #ffffff;
-    --text-label: #e4e4e4;
-    --text-body: #e4e4e4;
-
-    --border-color: #333333;
-    --border-light: #2a2a2a;
-
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
-
-    --navbar-bg: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
-    --footer-bg: #0d0d0d;
-
-    --list-group-bg: #1e1e1e;
-    --list-group-hover-bg: #2a2a2a;
-    --list-group-border: rgba(255, 255, 255, 0.1);
-
-    --badge-soft-bg: #333333;
-    --badge-soft-color: #e4e4e4;
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --text-color: #f1f5f9;
+    --text-muted: #94a3b8;
+    --text-light: #64748b;
+    --border-color: #334155;
+    --footer-bg: #0f172a;
+    --stat-card-bg: #1e293b;
+    --stat-card-border: rgba(102, 126, 234, 0.2);
 }
 
-/* ==================== 全局基础样式 ==================== */
+/* ==================== 基础样式 ==================== */
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
-    "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    background-color: var(--bg-body);
-    color: var(--text-body);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans SC', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     line-height: 1.6;
-    padding-top: 70px;
+    padding-top: var(--navbar-height);
     min-height: 100vh;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
-/* ==================== 链接样式 ==================== */
 a {
     color: var(--primary-color);
     text-decoration: none;
@@ -122,65 +79,48 @@ a:hover {
     color: var(--primary-dark);
 }
 
-/* 暗色模式链接 */
-[data-theme="dark"] a {
-    color: #8fa4f3;
-}
-
-[data-theme="dark"] a:hover {
-    color: #a8bbf7;
-}
-
 /* ==================== 导航栏 ==================== */
 .navbar {
-    background: var(--navbar-bg);
+    background: var(--navbar-bg) !important;
     backdrop-filter: blur(10px);
-    box-shadow: var(--shadow-md);
-    padding: 0.75rem 0;
-    transition: background 0.3s ease;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    padding: 0 1rem;
+    min-height: var(--navbar-height);
 }
 
 .navbar-brand {
-    font-weight: 700;
     font-size: 1.4rem;
-    letter-spacing: 0.5px;
+    font-weight: 700;
+    color: #fff !important;
+    display: flex;
+    align-items: center;
 }
 
-.nav-link {
+.navbar-brand i {
+    font-size: 1.6rem;
+}
+
+.navbar .nav-link {
+    color: rgba(255, 255, 255, 0.85) !important;
     font-weight: 500;
     padding: 0.5rem 1rem !important;
-    border-radius: 8px;
-    margin: 0 0.15rem;
+    border-radius: var(--border-radius-sm);
     transition: all 0.2s ease;
 }
 
-.nav-link:hover,
-.nav-link.active {
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+    color: #fff !important;
     background: rgba(255, 255, 255, 0.15);
-}
-
-#themeToggle {
-    border-radius: 50%;
-    width: 38px;
-    height: 38px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease;
-}
-
-#themeToggle:hover {
-    transform: rotate(20deg);
 }
 
 /* ==================== 页面标题区 ==================== */
 .page-hero {
     background: var(--primary-gradient);
-    border-radius: 20px;
     padding: 2rem 2.5rem;
+    border-radius: var(--border-radius);
     color: #fff;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
 }
 
 .page-hero-title {
@@ -194,447 +134,179 @@ a:hover {
     font-size: 1rem;
 }
 
-/* ==================== 卡片样式 ==================== */
-.card {
-    border: none;
-    border-radius: 16px;
-    box-shadow: var(--shadow-sm);
-    transition: all 0.3s ease;
-    background-color: var(--bg-card);
-    color: var(--text-body);
-}
-
-.card:hover {
-    box-shadow: var(--shadow-md);
-}
-
-.card.soft {
-    background-color: var(--bg-card);
-}
-
-.card-header {
-    background-color: var(--bg-card-header);
-    border-bottom: 1px solid var(--border-color);
-    font-weight: 600;
-    padding: 1rem 1.25rem;
-    border-radius: 16px 16px 0 0 !important;
-    color: var(--text-card-header);
-}
-
-.card-body {
-    padding: 1.5rem;
-    color: var(--text-body);
-}
-
 /* ==================== 统计卡片 ==================== */
 .stat-card {
-    background: var(--bg-card);
-    border-radius: 16px;
-    padding: 1.5rem;
     display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    box-shadow: var(--shadow-sm);
-    transition: all 0.3s ease;
-    color: var(--text-body);
+    align-items: stretch;
+    /* 兜底：确保卡片主体始终有底色（避免出现“只有图标块有背景、文字区透明”的情况） */
+    background: var(--stat-card-bg) !important;
+    background-color: var(--stat-card-bg) !important;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--stat-card-border);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 140px;
 }
 
 .stat-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+}
+
+.stat-card--glow {
+    position: relative;
+}
+
+.stat-card--glow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--primary-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: var(--border-radius);
+    z-index: 0;
+}
+
+.stat-card--glow:hover::before {
+    opacity: 0.03;
 }
 
 .stat-card-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    width: 100px;
+    min-width: 100px;
+    font-size: 2.5rem;
     color: #fff;
     flex-shrink: 0;
 }
 
 .stat-card-content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.5rem;
+    background: var(--stat-card-bg) !important;
+    background-color: var(--stat-card-bg) !important;
+    position: relative;
+    z-index: 1;
+}
+
+.stat-card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
 }
 
 .stat-card-value {
-    font-size: 1.75rem;
+    font-size: 2.5rem;
     font-weight: 700;
+    color: var(--text-color);
     line-height: 1.2;
-    color: var(--text-heading);
+    margin-bottom: 0.25rem;
 }
 
-.stat-card-label {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    margin-top: 0.25rem;
+.stat-card-meta {
+    font-size: 0.85rem;
+    color: var(--text-light);
 }
 
-/* ==================== 快捷入口 ==================== */
-.quick-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem 1rem;
-    background: var(--bg-hover);
-    border-radius: 12px;
-    text-decoration: none;
-    color: var(--text-primary);
-    transition: all 0.3s ease;
-    gap: 0.75rem;
+/* ==================== 卡片通用样式 ==================== */
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
 }
 
-.quick-link:hover {
-    background: var(--primary-gradient);
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
+.card.soft {
+    border: none;
 }
 
-.quick-link i {
-    font-size: 1.75rem;
+.card-header {
+    background: transparent;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.25rem 1.5rem;
 }
 
-.quick-link span {
-    font-weight: 500;
-    font-size: 0.9rem;
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.card-body {
+    padding: 1.5rem;
 }
 
 /* ==================== 表格样式 ==================== */
 .table-wrap {
-    border-radius: 0 0 16px 16px;
-    overflow: hidden;
+    overflow-x: auto;
 }
 
 .table {
     margin-bottom: 0;
-    color: var(--text-body);
-    background-color: var(--bg-card);
-}
-
-.table thead {
-    background-color: var(--bg-card-header);
 }
 
 .table thead th {
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.5px;
-    color: var(--text-secondary);
+    background: var(--bg-color);
     border-bottom: 2px solid var(--border-color);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
     padding: 1rem 1.25rem;
-}
-
-.table tbody tr {
-    transition: background-color 0.2s ease;
-}
-
-.table tbody tr:hover {
-    background-color: var(--bg-hover);
 }
 
 .table tbody td {
     padding: 1rem 1.25rem;
     vertical-align: middle;
     border-bottom: 1px solid var(--border-color);
-    color: var(--text-body);
 }
 
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: var(--bg-table-stripe);
-}
-
-/* 暗色模式表格 */
-[data-theme="dark"] .table {
-    --bs-table-bg: var(--bg-card);
-    --bs-table-color: var(--text-body);
-    --bs-table-border-color: var(--border-color);
-    --bs-table-striped-bg: var(--bg-table-stripe);
-    --bs-table-hover-bg: var(--bg-hover);
-}
-
-[data-theme="dark"] .table-hover tbody tr:hover {
-    background-color: var(--bg-hover);
-    color: var(--text-body);
-}
-
-/* ==================== 表单样式 ==================== */
-.form-control,
-.form-select {
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-    padding: 0.75rem 1rem;
-    transition: all 0.2s ease;
-    background-color: var(--bg-input);
-    color: var(--text-body);
-}
-
-.form-control:focus,
-.form-select:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
-    background-color: var(--bg-input);
-    color: var(--text-body);
-}
-
-.form-control::placeholder {
-    color: var(--text-muted);
-}
-
-.form-label {
-    font-weight: 600;
-    color: var(--text-label);
-    margin-bottom: 0.5rem;
-}
-
-.form-text {
-    color: var(--text-muted);
-}
-
-/* 暗色模式表单 */
-[data-theme="dark"] .form-control,
-[data-theme="dark"] .form-select {
-    background-color: var(--bg-input);
-    border-color: var(--border-color);
-    color: var(--text-body);
-}
-
-[data-theme="dark"] .form-control:focus,
-[data-theme="dark"] .form-select:focus {
-    background-color: var(--bg-input);
-    border-color: var(--primary-color);
-    color: var(--text-body);
-}
-
-[data-theme="dark"] .form-control::placeholder {
-    color: var(--text-muted);
+.table-hover tbody tr:hover {
+    background-color: rgba(102, 126, 234, 0.05);
 }
 
 /* ==================== 按钮样式 ==================== */
-.btn {
-    border-radius: 10px;
-    font-weight: 500;
-    padding: 0.625rem 1.25rem;
-    transition: all 0.2s ease;
-}
-
 .btn-gradient {
     background: var(--primary-gradient);
     border: none;
     color: #fff;
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    border-radius: var(--border-radius-sm);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .btn-gradient:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
     color: #fff;
 }
 
 .btn-light {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     border: none;
     color: var(--primary-color);
+    font-weight: 600;
 }
 
 .btn-light:hover {
     background: #fff;
     color: var(--primary-dark);
-}
-
-.btn-outline-primary {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
-
-.btn-outline-primary:hover {
-    background: var(--primary-color);
-    border-color: var(--primary-color);
-    color: #fff;
-}
-
-.btn-outline-secondary {
-    border-color: var(--border-color);
-    color: var(--text-secondary);
-}
-
-.btn-outline-secondary:hover {
-    background: var(--bg-hover);
-    border-color: var(--border-color);
-    color: var(--text-primary);
-}
-
-/* 暗色模式按钮 */
-[data-theme="dark"] .btn-outline-secondary {
-    border-color: var(--border-color);
-    color: var(--text-secondary);
-}
-
-[data-theme="dark"] .btn-outline-secondary:hover {
-    background: var(--bg-hover);
-    border-color: var(--border-color);
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] .btn-light {
-    background: var(--bg-card);
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] .btn-light:hover {
-    background: var(--bg-hover);
-    color: var(--text-heading);
-}
-
-/* ==================== 徽章样式 ==================== */
-.badge {
-    font-weight: 500;
-    padding: 0.4em 0.8em;
-}
-
-.badge-soft {
-    background-color: var(--badge-soft-bg);
-    color: var(--badge-soft-color);
-}
-
-.badge.rounded-pill.badge-soft {
-    background-color: var(--badge-soft-bg);
-    color: var(--badge-soft-color);
-}
-
-/* 暗色模式徽章 */
-[data-theme="dark"] .badge-soft,
-[data-theme="dark"] .badge.rounded-pill.badge-soft {
-    background-color: var(--badge-soft-bg);
-    color: var(--badge-soft-color);
-}
-
-/* ==================== 分页样式 ==================== */
-.pagination {
-    gap: 0.25rem;
-}
-
-.page-item .page-link {
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    padding: 0.5rem 0.85rem;
-    background-color: var(--bg-card);
-    transition: all 0.2s ease;
-}
-
-.page-item .page-link:hover {
-    background-color: var(--bg-hover);
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
-
-.page-item.active .page-link {
-    background: var(--primary-gradient);
-    border-color: transparent;
-    color: #fff;
-}
-
-.page-item.disabled .page-link {
-    background-color: var(--bg-card);
-    border-color: var(--border-color);
-    color: var(--text-muted);
-}
-
-/* 暗色模式分页 */
-[data-theme="dark"] .page-item .page-link {
-    background-color: var(--bg-card);
-    border-color: var(--border-color);
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] .page-item .page-link:hover {
-    background-color: var(--bg-hover);
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
-
-[data-theme="dark"] .page-item.disabled .page-link {
-    background-color: var(--bg-card);
-    border-color: var(--border-color);
-    color: var(--text-muted);
-}
-
-/* ==================== 列表组样式 ==================== */
-.list-group {
-    border-radius: 0;
-}
-
-.list-group-item {
-    background-color: var(--list-group-bg);
-    border-color: var(--list-group-border);
-    color: var(--text-body);
-    transition: background-color 0.2s ease;
-}
-
-.list-group-item:hover {
-    background-color: var(--list-group-hover-bg);
-}
-
-.list-group-flush .list-group-item {
-    border-left: 0;
-    border-right: 0;
-}
-
-.list-group-flush .list-group-item:first-child {
-    border-top: 0;
-}
-
-.list-group-flush .list-group-item:last-child {
-    border-bottom: 0;
-}
-
-/* 暗色模式列表组 */
-[data-theme="dark"] .list-group-item {
-    background-color: var(--list-group-bg);
-    border-color: var(--list-group-border);
-    color: var(--text-body);
-}
-
-[data-theme="dark"] .list-group-item:hover {
-    background-color: var(--list-group-hover-bg);
-}
-
-[data-theme="dark"] .list-group-item a {
-    color: #8fa4f3;
-}
-
-[data-theme="dark"] .list-group-item a:hover {
-    color: #a8bbf7;
-}
-
-/* ==================== 警告框样式 ==================== */
-.alert {
-    border-radius: 12px;
-    border: none;
-}
-
-.alert-success {
-    background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(40, 167, 69, 0.05));
-    color: var(--success-color);
-}
-
-.alert-danger {
-    background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.05));
-    color: var(--danger-color);
-}
-
-/* 暗色模式警告框 */
-[data-theme="dark"] .alert-success {
-    background: linear-gradient(135deg, rgba(40, 167, 69, 0.2), rgba(40, 167, 69, 0.1));
-}
-
-[data-theme="dark"] .alert-danger {
-    background: linear-gradient(135deg, rgba(220, 53, 69, 0.2), rgba(220, 53, 69, 0.1));
 }
 
 /* ==================== 空状态 ==================== */
@@ -646,72 +318,192 @@ a:hover {
 
 .empty-state i {
     font-size: 4rem;
+    opacity: 0.3;
     margin-bottom: 1rem;
-    opacity: 0.5;
 }
 
-/* ==================== 文章内容 ==================== */
-.article-meta {
-    margin-top: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+/* ==================== Badge 样式 ==================== */
+.badge-soft {
+    background: rgba(102, 126, 234, 0.1);
+    color: var(--primary-color);
+    font-weight: 500;
 }
 
-.article-content {
-    line-height: 1.8;
-    font-size: 1.05rem;
-    white-space: pre-wrap;
-    color: var(--text-body);
+/* ==================== 分页样式 ==================== */
+.pagination .page-link {
+    border: none;
+    color: var(--text-color);
+    padding: 0.5rem 0.85rem;
+    margin: 0 2px;
+    border-radius: var(--border-radius-sm);
+    transition: all 0.2s ease;
 }
 
-/* ==================== 页脚 ==================== */
+.pagination .page-link:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: var(--primary-color);
+}
+
+.pagination .page-item.active .page-link {
+    background: var(--primary-gradient);
+    color: #fff;
+}
+
+.pagination .page-item.disabled .page-link {
+    background: transparent;
+    color: var(--text-light);
+}
+
+/* ==================== 页脚样式 ==================== */
 .footer {
     background: var(--footer-bg);
-    color: var(--footer-text);
+    color: rgba(255, 255, 255, 0.7);
     padding: 3rem 0 1.5rem;
-    margin-top: 4rem;
+    margin-top: auto;
 }
 
-.footer h5 {
+.footer h5,
+.footer h6 {
     color: #fff;
-    font-weight: 600;
 }
 
-.footer a {
-    color: var(--footer-text);
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.7);
     transition: color 0.2s ease;
 }
 
-.footer a:hover {
+.footer-links a:hover {
     color: #fff;
 }
 
-.footer hr {
-    border-color: rgba(255, 255, 255, 0.1);
-    margin: 2rem 0;
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
 }
 
-/* ==================== 回到顶部按钮 ==================== */
+/* ==================== 页脚社交图标与悬浮二维码 ==================== */
+.footer-social {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.social-icon-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.social-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff !important;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.social-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+    color: #fff !important;
+}
+
+/* 悬浮二维码弹出框 - 默认完全隐藏 */
+.qr-popup-box {
+    position: absolute;
+    /* 兜底：确保默认不占位、不显示（避免某些环境下 opacity/visibility 未生效导致“总是显示”） */
+    display: none;
+    bottom: calc(100% + 15px);
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 9999;
+    pointer-events: none;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* 小三角箭头 */
+.qr-popup-box::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 10px solid transparent;
+    border-top-color: #ffffff;
+}
+
+/* 二维码图片样式 - 关键：固定尺寸且保持比例 */
+.qr-popup-box img {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+    border-radius: 12px;
+    display: block;
+    background: #f5f5f5;
+}
+
+/* 提示文字 */
+.qr-popup-box .qr-tip {
+    display: block;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #666;
+}
+
+/* 悬浮时显示二维码 */
+.social-icon-wrapper:hover .qr-popup-box {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) scale(1);
+    pointer-events: auto;
+}
+
+/* Modal中的二维码图片 */
+.qr-modal-img {
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ==================== 返回顶部按钮 ==================== */
 .back-to-top {
     position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    width: 48px;
-    height: 48px;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: var(--primary-gradient);
-    color: #fff;
     border: none;
-    box-shadow: var(--shadow-md);
+    color: #fff;
+    font-size: 1.2rem;
     cursor: pointer;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
     z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .back-to-top.show {
@@ -720,538 +512,136 @@ a:hover {
 }
 
 .back-to-top:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
 }
 
 /* ==================== 动画效果 ==================== */
-[data-animate="fade-up"] {
+[data-animate] {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-[data-animate="fade-up"].animated {
+[data-animate].animated {
     opacity: 1;
     transform: translateY(0);
 }
 
-/* ==================== 响应式调整 ==================== */
-@media (max-width: 768px) {
-    body {
-        padding-top: 60px;
-    }
+/* ==================== Alert 样式 ==================== */
+.alert {
+    border: none;
+    border-radius: var(--border-radius-sm);
+}
 
+.alert-success {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: #fff;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #fc8181 0%, #e53e3e 100%);
+    color: #fff;
+}
+
+.alert .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+/* ==================== 文章内容样式 ==================== */
+.article-meta {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.article-content {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* ==================== 响应式适配 ==================== */
+@media (max-width: 768px) {
     .page-hero {
         padding: 1.5rem;
-        border-radius: 16px;
     }
-
+    
     .page-hero-title {
-        font-size: 1.35rem;
+        font-size: 1.4rem;
     }
-
+    
     .stat-card {
-        padding: 1.25rem;
+        min-height: 120px;
     }
-
+    
+    .stat-card-icon {
+        width: 80px;
+        min-width: 80px;
+        font-size: 2rem;
+    }
+    
     .stat-card-value {
-        font-size: 1.5rem;
+        font-size: 2rem;
     }
-
-    .card-body {
+    
+    .stat-card-content {
         padding: 1rem;
     }
-
-    .table thead th,
-    .table tbody td {
-        padding: 0.75rem;
+    
+    /* 移动端隐藏悬浮二维码，使用点击Modal */
+    .qr-popup-box {
+        display: none !important;
+    }
+    
+    .social-icon-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
     }
 }
 
-/* ==================== 文字颜色工具类覆盖 ==================== */
-[data-theme="dark"] .text-dark {
-    color: var(--text-primary) !important;
-}
-
-[data-theme="dark"] .text-muted {
-    color: var(--text-muted) !important;
-}
-
-[data-theme="dark"] .text-secondary {
-    color: var(--text-secondary) !important;
-}
-
-[data-theme="dark"] .text-body {
-    color: var(--text-body) !important;
-}
-
-/* 确保 fw-bold 等字体样式正确显示颜色 */
-[data-theme="dark"] .fw-bold {
-    color: var(--text-heading);
-}
-
-/* 标题颜色 */
-[data-theme="dark"] h1,
-[data-theme="dark"] h2,
-[data-theme="dark"] h3,
-[data-theme="dark"] h4,
-[data-theme="dark"] h5,
-[data-theme="dark"] h6 {
-    color: var(--text-heading);
-}
-
-/* 段落颜色 */
-[data-theme="dark"] p {
-    color: var(--text-body);
-}
-
-/* strong/b 标签颜色 */
-[data-theme="dark"] strong,
-[data-theme="dark"] b {
-    color: var(--text-heading);
-}
-
-/* small 标签颜色 */
-[data-theme="dark"] small {
-    color: var(--text-secondary);
-}
-
-/* ==================== Bootstrap 组件覆盖 ==================== */
-/* Modal 模态框 */
-[data-theme="dark"] .modal-content {
-    background-color: var(--bg-card);
-    color: var(--text-body);
-    border-color: var(--border-color);
-}
-
-[data-theme="dark"] .modal-header {
-    border-color: var(--border-color);
-}
-
-[data-theme="dark"] .modal-footer {
-    border-color: var(--border-color);
-}
-
-[data-theme="dark"] .modal-title {
-    color: var(--text-heading);
-}
-
-/* Dropdown 下拉菜单 */
-[data-theme="dark"] .dropdown-menu {
-    background-color: var(--bg-card);
-    border-color: var(--border-color);
-}
-
-[data-theme="dark"] .dropdown-item {
-    color: var(--text-body);
-}
-
-[data-theme="dark"] .dropdown-item:hover,
-[data-theme="dark"] .dropdown-item:focus {
-    background-color: var(--bg-hover);
-    color: var(--text-primary);
-}
-
-/* Breadcrumb 面包屑 */
-[data-theme="dark"] .breadcrumb {
-    background-color: transparent;
-}
-
-[data-theme="dark"] .breadcrumb-item a {
-    color: #8fa4f3;
-}
-
-[data-theme="dark"] .breadcrumb-item.active {
-    color: var(--text-muted);
-}
-
-[data-theme="dark"] .breadcrumb-item + .breadcrumb-item::before {
-    color: var(--text-muted);
-}
-
-/* Input Group 输入组 */
-[data-theme="dark"] .input-group-text {
-    background-color: var(--bg-input);
-    border-color: var(--border-color);
-    color: var(--text-body);
-}
-
-/* ==================== 首页特定样式修复 ==================== */
-/* 确保所有卡片标题在暗色模式正确显示 */
-[data-theme="dark"] .card-header span,
-[data-theme="dark"] .card-header i {
-    color: var(--text-card-header);
-}
-
-/* 快捷入口文字 */
-[data-theme="dark"] .quick-link {
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] .quick-link:hover {
-    color: #fff;
-}
-
-/* ==================== 居民管理页面特定样式 ==================== */
-/* 搜索区域标签 */
-[data-theme="dark"] .card-body .form-label {
-    color: var(--text-label);
-}
-
-/* 分页信息文字 */
-[data-theme="dark"] .card-body .d-flex {
-    color: var(--text-body);
-}
-
-[data-theme="dark"] .card-body .d-flex strong {
-    color: var(--text-heading);
-}
-
-[data-theme="dark"] .card-body .d-flex i {
-    color: var(--primary-color);
-}
-
-/* ==================== 表单页面修复 ==================== */
-/* 表单验证状态 */
-[data-theme="dark"] .form-control.is-invalid,
-[data-theme="dark"] .form-select.is-invalid {
-    border-color: var(--danger-color);
-    background-color: var(--bg-input);
-}
-
-[data-theme="dark"] .form-control.is-valid,
-[data-theme="dark"] .form-select.is-valid {
-    border-color: var(--success-color);
-    background-color: var(--bg-input);
-}
-
-[data-theme="dark"] .invalid-feedback {
-    color: #f87171;
-}
-
-[data-theme="dark"] .valid-feedback {
-    color: #4ade80;
-}
-
-/* Checkbox 和 Radio */
-[data-theme="dark"] .form-check-input {
-    background-color: var(--bg-input);
-    border-color: var(--border-color);
-}
-
-[data-theme="dark"] .form-check-input:checked {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-[data-theme="dark"] .form-check-label {
-    color: var(--text-body);
-}
-
-/* Textarea */
-[data-theme="dark"] textarea.form-control {
-    background-color: var(--bg-input);
-    color: var(--text-body);
-}
-
-/* ==================== 详情页面样式 ==================== */
-/* 详情项 */
-.detail-item {
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.detail-item:last-child {
-    border-bottom: none;
-}
-
-.detail-label {
-    font-weight: 600;
-    color: var(--text-secondary);
-    margin-bottom: 0.25rem;
-}
-
-.detail-value {
-    color: var(--text-body);
-    font-size: 1rem;
-}
-
-[data-theme="dark"] .detail-label {
-    color: var(--text-secondary);
-}
-
-[data-theme="dark"] .detail-value {
-    color: var(--text-body);
-}
-
-/* ==================== 搜索结果高亮 ==================== */
-.highlight {
-    background-color: rgba(102, 126, 234, 0.2);
-    padding: 0.1em 0.2em;
-    border-radius: 3px;
-}
-
-[data-theme="dark"] .highlight {
-    background-color: rgba(102, 126, 234, 0.3);
-}
-
-/* ==================== 加载状态 ==================== */
-.loading-spinner {
-    display: inline-block;
-    width: 1.5rem;
-    height: 1.5rem;
-    border: 2px solid var(--border-color);
-    border-radius: 50%;
-    border-top-color: var(--primary-color);
-    animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
+@media (max-width: 576px) {
+    .stat-card {
+        flex-direction: column;
+        text-align: center;
     }
-}
-
-/* ==================== 工具提示 ==================== */
-[data-theme="dark"] .tooltip-inner {
-    background-color: var(--bg-card);
-    color: var(--text-body);
-    border: 1px solid var(--border-color);
-}
-
-[data-theme="dark"] .tooltip.bs-tooltip-top .tooltip-arrow::before {
-    border-top-color: var(--bg-card);
-}
-
-[data-theme="dark"] .tooltip.bs-tooltip-bottom .tooltip-arrow::before {
-    border-bottom-color: var(--bg-card);
-}
-
-/* ==================== 手风琴组件 ==================== */
-[data-theme="dark"] .accordion-item {
-    background-color: var(--bg-card);
-    border-color: var(--border-color);
-}
-
-[data-theme="dark"] .accordion-button {
-    background-color: var(--bg-card);
-    color: var(--text-body);
-}
-
-[data-theme="dark"] .accordion-button:not(.collapsed) {
-    background-color: var(--bg-card-header);
-    color: var(--primary-color);
-}
-
-[data-theme="dark"] .accordion-button::after {
-    filter: invert(1);
-}
-
-[data-theme="dark"] .accordion-body {
-    background-color: var(--bg-card);
-    color: var(--text-body);
-}
-
-/* ==================== 选项卡组件 ==================== */
-[data-theme="dark"] .nav-tabs {
-    border-color: var(--border-color);
-}
-
-[data-theme="dark"] .nav-tabs .nav-link {
-    color: var(--text-secondary);
-}
-
-[data-theme="dark"] .nav-tabs .nav-link:hover {
-    border-color: var(--border-color);
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] .nav-tabs .nav-link.active {
-    background-color: var(--bg-card);
-    border-color: var(--border-color) var(--border-color) var(--bg-card);
-    color: var(--primary-color);
-}
-
-[data-theme="dark"] .nav-pills .nav-link {
-    color: var(--text-secondary);
-}
-
-[data-theme="dark"] .nav-pills .nav-link.active {
-    background: var(--primary-gradient);
-    color: #fff;
-}
-
-/* ==================== 进度条 ==================== */
-[data-theme="dark"] .progress {
-    background-color: var(--bg-input);
-}
-
-/* ==================== 关闭按钮 ==================== */
-[data-theme="dark"] .btn-close {
-    filter: invert(1) grayscale(100%) brightness(200%);
-}
-
-/* ==================== 卡片内嵌元素修复 ==================== */
-/* 确保卡片内所有文本颜色正确 */
-[data-theme="dark"] .card p,
-[data-theme="dark"] .card span,
-[data-theme="dark"] .card div {
-    color: inherit;
-}
-
-/* 修复 d-flex 内的文字颜色 */
-[data-theme="dark"] .card .d-flex .text-muted {
-    color: var(--text-muted) !important;
-}
-
-/* 修复时间戳等小文字 */
-[data-theme="dark"] .card small.text-muted {
-    color: var(--text-muted) !important;
-}
-
-/* ==================== 首页公告/政策列表修复 ==================== */
-[data-theme="dark"] .list-group-item h6,
-[data-theme="dark"] .list-group-item .h6 {
-    color: var(--text-heading);
-}
-
-[data-theme="dark"] .list-group-item p {
-    color: var(--text-secondary);
-}
-
-[data-theme="dark"] .list-group-item small {
-    color: var(--text-muted);
-}
-
-/* ==================== 用户头像/图标背景 ==================== */
-.avatar-circle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    color: #fff;
-}
-
-.avatar-lg {
-    width: 60px;
-    height: 60px;
-    font-size: 1.25rem;
+    
+    .stat-card-icon {
+        width: 100%;
+        min-width: 100%;
+        padding: 1.25rem;
+        font-size: 2.5rem;
+    }
+    
+    .stat-card-content {
+        padding: 1.25rem;
+    }
 }
 
 /* ==================== 打印样式 ==================== */
 @media print {
-    body {
-        background: #fff !important;
-        color: #000 !important;
-        padding-top: 0 !important;
-    }
-
     .navbar,
     .footer,
     .back-to-top,
-    .btn,
-    .no-print {
+    .btn {
         display: none !important;
     }
-
+    
+    body {
+        padding-top: 0;
+    }
+    
     .card {
-        box-shadow: none !important;
-        border: 1px solid #ddd !important;
-    }
-
-    a {
-        color: #000 !important;
-        text-decoration: underline !important;
+        box-shadow: none;
+        border: 1px solid #ddd;
     }
 }
-
-/* ==================== 辅助工具类 ==================== */
-.cursor-pointer {
-    cursor: pointer;
-}
-
-.transition-all {
-    transition: all 0.3s ease;
-}
-
-.hover-lift:hover {
-    transform: translateY(-4px);
-}
-
-.text-gradient {
-    background: var(--primary-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-/* 圆角工具类 */
-.rounded-xl {
-    border-radius: 16px !important;
-}
-
-.rounded-2xl {
-    border-radius: 20px !important;
-}
-
-/* 间距扩展 */
-.gap-4 {
-    gap: 1.5rem !important;
-}
-
-.gap-5 {
-    gap: 2rem !important;
-}
-
-/* ==================== 滚动条美化 ==================== */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--bg-body);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--text-muted);
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--text-secondary);
-}
-
-[data-theme="dark"] ::-webkit-scrollbar-track {
-    background: var(--bg-body);
-}
-
-[data-theme="dark"] ::-webkit-scrollbar-thumb {
-    background: #444;
-}
-
-[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-/* ==================== 选中文本样式 ==================== */
-::selection {
-    background: rgba(102, 126, 234, 0.3);
-    color: inherit;
-}
-
-[data-theme="dark"] ::selection {
-    background: rgba(102, 126, 234, 0.5);
-}
-
-/* ==================== 焦点可见性 (无障碍) ==================== */
-:focus-visible {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 2px;
-}
-
-/* ==================== 结束 ==================== */

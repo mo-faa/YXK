@@ -1,4 +1,3 @@
-// FILE: src/main/java/com/village/committee/web/api/ResidentApiController.java
 
 package com.village.committee.web.api;
 

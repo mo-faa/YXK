@@ -31,18 +31,6 @@ CREATE TABLE IF NOT EXISTS announcements (
   INDEX idx_status_publish (status, publish_time DESC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 访问记录（管理后台访问趋势统计）
-CREATE TABLE IF NOT EXISTS visit_events (
-  id BIGINT NOT NULL AUTO_INCREMENT,
-  visited_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  path VARCHAR(255) NOT NULL,
-  method VARCHAR(10) NOT NULL,
-  status INT NOT NULL,
-  took_ms INT NOT NULL,
-  request_id VARCHAR(36) NULL,
-  PRIMARY KEY (id),
-  KEY idx_visit_time (visited_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 操作日志表
 CREATE TABLE IF NOT EXISTS operation_logs (

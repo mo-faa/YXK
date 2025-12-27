@@ -1,4 +1,3 @@
-// FILE: src/main/java/com/village/committee/service/ResidentService.java
 
 package com.village.committee.service;
 

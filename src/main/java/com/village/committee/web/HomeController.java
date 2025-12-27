@@ -26,12 +26,8 @@ public class HomeController {
     public String home(Model model) {
         model.addAttribute("message", "欢迎使用网上村委会业务办理系统");
 
-        // 首页统计（动态）
         model.addAttribute("residentTotal", residentService.countAll());
         model.addAttribute("announcementTotal", announcementService.countAll());
-
-        // 首页公告：只查最新 5 条
-        model.addAttribute("announcements", announcementService.latest(5));
 
         // 最近公告（用于"最近公告"板块）
         model.addAttribute("recentAnnouncements", announcementService.latest(5));

@@ -10,13 +10,13 @@
     <meta name="theme-color" content="#667eea">
 
     <script>
-        // 主题初始化：尽可能早设置，避免闪烁（依赖 localStorage）
+        // 主题初始化：尽可能早设置，避免闪烁
         (function () {
             try {
                 var saved = localStorage.getItem('yxk-theme');
                 var theme = saved ? saved : ((window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
                 document.documentElement.setAttribute('data-theme', theme);
-                document.documentElement.setAttribute('data-bs-theme', theme); // 启用 Bootstrap 5.3 内置暗色变量
+                document.documentElement.setAttribute('data-bs-theme', theme);
             } catch (e) { /* ignore */ }
         })();
     </script>
@@ -29,16 +29,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome 6 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-    <!-- Animate.css（可选，但你项目里已在用） -->
+    <!-- Animate.css -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
 
-    <!-- 全站自定义主题（新） -->
-    <link href="<c:url value='/static/css/main.css'/>" rel="stylesheet">
-    <!-- 暗色模式补丁：只在 data-theme='dark' 时生效，修复文本/背景未切换的问题 -->
-    <link href="<c:url value='/static/css/dark-fix.css'/>" rel="stylesheet">
+    <!-- 全站自定义主题 -->
+    <link href="<c:url value='/static/css/main.css?v=20251221_01'/>" rel="stylesheet">
+    <!-- 暗色模式补丁 -->
+    <link href="<c:url value='/static/css/dark-fix.css?v=20251221_01'/>" rel="stylesheet">
 
     <script>
-        // 给 main.js 使用（避免写死 /YXK）
         window.__CTX = '${pageContext.request.contextPath}';
     </script>
 </head>

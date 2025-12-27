@@ -1,6 +1,5 @@
 package com.village.committee.config;
 
-import com.village.committee.web.interceptor.RequestTimingInterceptor;
 import java.util.concurrent.TimeUnit;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,7 +10,6 @@ import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.VersionResourceResolver;
@@ -23,13 +21,6 @@ import tools.jackson.databind.json.JsonMapper;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.village.committee.web")
 public class WebMvcConfig implements WebMvcConfigurer {
-
-    private final RequestTimingInterceptor requestTimingInterceptor;
-
-    public WebMvcConfig(RequestTimingInterceptor requestTimingInterceptor) {
-        this.requestTimingInterceptor = requestTimingInterceptor;
-    }
-
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver vr = new InternalResourceViewResolver();
@@ -48,13 +39,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void configureMessageConverters(HttpMessageConverters.ServerBuilder builder) {
         builder.withJsonConverter(new JacksonJsonHttpMessageConverter(jsonMapperBuilder()));
     }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(requestTimingInterceptor)
-                .excludePathPatterns("/static/**", "/api/**", "/db/**");
-    }
-
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
@@ -67,7 +51,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("/static/")
-                .setCacheControl(CacheControl.maxAge(30, TimeUnit.DAYS).cachePublic())
+                .setCacheControl(CacheControl.maxAge(0, TimeUnit.SECONDS).mustRevalidate())
                 .resourceChain(true)
                 .addResolver(versionResolver);
     }

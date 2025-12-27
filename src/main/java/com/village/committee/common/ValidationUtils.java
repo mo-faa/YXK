@@ -1,4 +1,3 @@
-// FILE: src/main/java/com/village/committee/common/ValidationUtils.java
 
 package com.village.committee.common;
 

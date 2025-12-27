@@ -66,3 +66,4 @@ test {
 war {
     archiveFileName = "YXK.war"
 }
+

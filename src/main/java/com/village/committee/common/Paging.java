@@ -1,4 +1,3 @@
-// FILE: src/main/java/com/village/committee/common/Paging.java
 
 package com.village.committee.common;
 

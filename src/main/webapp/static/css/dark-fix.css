@@ -1,10 +1,4 @@
-/* FILE: src/main/webapp/static/css/dark-fix.css
- * 目的：
- * 1) 修复暗色模式下“快捷入口 / 最近公告 / 最近操作”等区域文字仍为黑色
- * 2) 修复暗色模式下 list-group 背景仍为白色（最近操作/最近公告列表）
- * 3) 修复暗色模式下居民管理页（搜索/分页信息/表格/输入框等）颜色不随主题变化
- * 4) 尽量不破坏你现有 main.css 的设计：这里只做暗色模式覆盖 + Bootstrap 变量覆写
- */
+/* 暗色模式补丁：覆盖 Bootstrap 5.3 组件颜色与常用区域（尽量不改变布局） */
 
 html[data-theme="dark"] {
   /* ===== 你项目的暗色基调 ===== */
@@ -87,20 +81,6 @@ html[data-theme="dark"] .list-group-item a:hover {
 /* 修复：text-muted 在暗色下太暗/发黑 */
 html[data-theme="dark"] .text-muted {
   color: var(--bs-secondary-color) !important;
-}
-
-/* 修复：主页“快捷入口”卡片里的 quick-link 在暗色下文字/边框不随主题 */
-html[data-theme="dark"] .quick-link {
-  background: var(--yxk-surface-2) !important;
-  border: 1px solid var(--yxk-border) !important;
-  color: var(--bs-body-color) !important;
-}
-html[data-theme="dark"] .quick-link i {
-  color: var(--bs-link-color) !important;
-}
-html[data-theme="dark"] .quick-link:hover {
-  filter: brightness(1.06);
-  text-decoration: none;
 }
 
 /* 修复：主页/列表页里“查看全部”使用 btn-light，暗色下不要刺眼白底 */
