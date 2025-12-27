@@ -80,14 +80,14 @@ public class ResidentService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "村民信息不能为空");
         }
 
-        // 姓名必填
+        // 姓名必填且必须是中文
         if (ValidationUtils.isBlank(resident.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "姓名不能为空");
         }
 
-        String name = resident.getName().trim();
-        if (name.length() > 50) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "姓名不能超过50个字符");
+        String nameError = ValidationUtils.getChineseNameErrorMessage(resident.getName());
+        if (nameError != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, nameError);
         }
 
         // 身份证号校验（可选，但填了就必须正确）
@@ -96,15 +96,31 @@ public class ResidentService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, idCardError);
         }
 
+        // 如果身份证号有效，计算年龄并验证
+        if (resident.getIdCard() != null && !resident.getIdCard().trim().isEmpty() && ValidationUtils.isValidIdCard(resident.getIdCard())) {
+            Integer age = ValidationUtils.calculateAgeFromIdCard(resident.getIdCard());
+            String ageError = ValidationUtils.getAgeErrorMessage(age);
+            if (ageError != null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "根据身份证计算的年龄" + ageError);
+            }
+        }
+
         // 电话号码校验（可选，但填了就必须正确）
         String phoneError = ValidationUtils.getPhoneErrorMessage(resident.getPhone());
         if (phoneError != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, phoneError);
         }
 
-        // 地址长度校验
-        if (resident.getAddress() != null && resident.getAddress().length() > 255) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "地址不能超过255个字符");
+        // 地址校验
+        if (resident.getAddress() != null && !resident.getAddress().trim().isEmpty()) {
+            if (resident.getAddress().length() > 255) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "地址不能超过255个字符");
+            }
+            
+            String addressError = ValidationUtils.getAddressErrorMessage(resident.getAddress());
+            if (addressError != null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, addressError);
+            }
         }
     }
 
@@ -121,9 +137,9 @@ public class ResidentService {
             return "姓名不能为空";
         }
 
-        String name = resident.getName().trim();
-        if (name.length() > 50) {
-            return "姓名不能超过50个字符";
+        String nameError = ValidationUtils.getChineseNameErrorMessage(resident.getName());
+        if (nameError != null) {
+            return nameError;
         }
 
         String idCardError = ValidationUtils.getIdCardErrorMessage(resident.getIdCard());
@@ -131,13 +147,29 @@ public class ResidentService {
             return idCardError;
         }
 
+        // 如果身份证号有效，计算年龄并验证
+        if (resident.getIdCard() != null && !resident.getIdCard().trim().isEmpty() && ValidationUtils.isValidIdCard(resident.getIdCard())) {
+            Integer age = ValidationUtils.calculateAgeFromIdCard(resident.getIdCard());
+            String ageError = ValidationUtils.getAgeErrorMessage(age);
+            if (ageError != null) {
+                return "根据身份证计算的年龄" + ageError;
+            }
+        }
+
         String phoneError = ValidationUtils.getPhoneErrorMessage(resident.getPhone());
         if (phoneError != null) {
             return phoneError;
         }
 
-        if (resident.getAddress() != null && resident.getAddress().length() > 255) {
-            return "地址不能超过255个字符";
+        if (resident.getAddress() != null && !resident.getAddress().trim().isEmpty()) {
+            if (resident.getAddress().length() > 255) {
+                return "地址不能超过255个字符";
+            }
+            
+            String addressError = ValidationUtils.getAddressErrorMessage(resident.getAddress());
+            if (addressError != null) {
+                return addressError;
+            }
         }
 
         return null;

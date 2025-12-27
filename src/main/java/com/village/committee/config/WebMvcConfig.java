@@ -1,6 +1,6 @@
 package com.village.committee.config;
 
-import java.util.concurrent.TimeUnit;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -51,8 +51,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("/static/")
-                .setCacheControl(CacheControl.maxAge(0, TimeUnit.SECONDS).mustRevalidate())
-                .resourceChain(true)
-                .addResolver(versionResolver);
+                .setCacheControl(CacheControl.noCache())
+                .resourceChain(false);
     }
 }

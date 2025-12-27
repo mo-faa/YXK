@@ -46,3 +46,21 @@ CREATE TABLE IF NOT EXISTS operation_logs (
   PRIMARY KEY (id),
   INDEX idx_operator_time (operator, created_at DESC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 村委会成员表
+CREATE TABLE IF NOT EXISTS committee_members (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(50) NOT NULL COMMENT '姓名',
+  position VARCHAR(50) NOT NULL COMMENT '职务',
+  phone VARCHAR(20) NULL COMMENT '联系电话',
+  duties TEXT NULL COMMENT '职责描述',
+  join_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '任职时间',
+  is_active TINYINT(1) DEFAULT 1 COMMENT '是否在职',
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  INDEX idx_name (name),
+  INDEX idx_position (position),
+  INDEX idx_active (is_active),
+  INDEX idx_join_time (join_time DESC)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

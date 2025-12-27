@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -104,6 +105,26 @@ public class OperationLogService {
     @Transactional(readOnly = true)
     public List<String> getTargetTypes() {
         return operationLogMapper.findDistinctTargetTypes();
+    }
+
+    @Transactional(readOnly = true)
+    public long countAll() {
+        return operationLogMapper.countAll();
+    }
+
+    @Transactional(readOnly = true)
+    public long countByOperationType(String operationType) {
+        return operationLogMapper.countByOperationType(operationType);
+    }
+
+    @Transactional(readOnly = true)
+    public long countByTargetType(String targetType) {
+        return operationLogMapper.countByTargetType(targetType);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> getRecentOperationStats(int days) {
+        return operationLogMapper.getRecentOperationStats(days);
     }
 
     private String resolveOperator(HttpServletRequest request) {

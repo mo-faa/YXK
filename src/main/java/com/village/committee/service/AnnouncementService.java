@@ -95,6 +95,7 @@ public class AnnouncementService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "公告信息不能为空");
         }
 
+        // 标题校验
         if (ValidationUtils.isBlank(announcement.getTitle())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "标题不能为空");
         }
@@ -103,7 +104,20 @@ public class AnnouncementService {
         if (title.length() > 100) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "标题不能超过100个字符");
         }
+        
+        // 标题安全校验
+        String titleSafetyError = ValidationUtils.getContentSafetyErrorMessage(title);
+        if (titleSafetyError != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "标题" + titleSafetyError);
+        }
+        
+        // 标题HTML校验
+        String titleHtmlError = ValidationUtils.getHtmlSafetyErrorMessage(title, false);
+        if (titleHtmlError != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "标题" + titleHtmlError);
+        }
 
+        // 内容校验
         if (ValidationUtils.isBlank(announcement.getContent())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "内容不能为空");
         }
@@ -111,13 +125,33 @@ public class AnnouncementService {
         if (announcement.getContent().length() > 10000) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "内容不能超过10000个字符");
         }
+        
+        // 内容安全校验
+        String contentSafetyError = ValidationUtils.getContentSafetyErrorMessage(announcement.getContent());
+        if (contentSafetyError != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "内容" + contentSafetyError);
+        }
+        
+        // 内容HTML校验 - 允许基本HTML标签
+        String contentHtmlError = ValidationUtils.getHtmlSafetyErrorMessage(
+            announcement.getContent(), true, "p", "br", "div", "span", "strong", "em", "ul", "ol", "li", "h1", "h2", "h3", "h4", "h5", "h6");
+        if (contentHtmlError != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "内容" + contentHtmlError);
+        }
 
+        // 发布人校验
         if (ValidationUtils.isBlank(announcement.getPublisher())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "发布人不能为空");
         }
 
-        if (announcement.getPublisher().length() > 50) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "发布人不能超过50个字符");
+        String publisherError = ValidationUtils.getChineseNameErrorMessage(announcement.getPublisher());
+        if (publisherError != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "发布人" + publisherError);
+        }
+        
+        // 发布时间校验
+        if (announcement.getPublishTime() != null && announcement.getPublishTime().isAfter(java.time.LocalDateTime.now().plusDays(1))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "发布时间不能是未来时间");
         }
     }
 
@@ -129,6 +163,7 @@ public class AnnouncementService {
             return "公告信息不能为空";
         }
 
+        // 标题校验
         if (ValidationUtils.isBlank(announcement.getTitle())) {
             return "标题不能为空";
         }
@@ -136,7 +171,20 @@ public class AnnouncementService {
         if (announcement.getTitle().trim().length() > 100) {
             return "标题不能超过100个字符";
         }
+        
+        // 标题安全校验
+        String titleSafetyError = ValidationUtils.getContentSafetyErrorMessage(announcement.getTitle());
+        if (titleSafetyError != null) {
+            return "标题" + titleSafetyError;
+        }
+        
+        // 标题HTML校验
+        String titleHtmlError = ValidationUtils.getHtmlSafetyErrorMessage(announcement.getTitle(), false);
+        if (titleHtmlError != null) {
+            return "标题" + titleHtmlError;
+        }
 
+        // 内容校验
         if (ValidationUtils.isBlank(announcement.getContent())) {
             return "内容不能为空";
         }
@@ -144,13 +192,33 @@ public class AnnouncementService {
         if (announcement.getContent().length() > 10000) {
             return "内容不能超过10000个字符";
         }
+        
+        // 内容安全校验
+        String contentSafetyError = ValidationUtils.getContentSafetyErrorMessage(announcement.getContent());
+        if (contentSafetyError != null) {
+            return "内容" + contentSafetyError;
+        }
+        
+        // 内容HTML校验 - 允许基本HTML标签
+        String contentHtmlError = ValidationUtils.getHtmlSafetyErrorMessage(
+            announcement.getContent(), true, "p", "br", "div", "span", "strong", "em", "ul", "ol", "li", "h1", "h2", "h3", "h4", "h5", "h6");
+        if (contentHtmlError != null) {
+            return "内容" + contentHtmlError;
+        }
 
+        // 发布人校验
         if (ValidationUtils.isBlank(announcement.getPublisher())) {
             return "发布人不能为空";
         }
 
-        if (announcement.getPublisher().length() > 50) {
-            return "发布人不能超过50个字符";
+        String publisherError = ValidationUtils.getChineseNameErrorMessage(announcement.getPublisher());
+        if (publisherError != null) {
+            return "发布人" + publisherError;
+        }
+        
+        // 发布时间校验
+        if (announcement.getPublishTime() != null && announcement.getPublishTime().isAfter(java.time.LocalDateTime.now().plusDays(1))) {
+            return "发布时间不能是未来时间";
         }
 
         return null;

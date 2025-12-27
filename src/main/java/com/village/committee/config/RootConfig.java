@@ -15,12 +15,13 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration
 @PropertySource("classpath:db.properties")
 @EnableTransactionManagement
 @MapperScan(basePackages = "com.village.committee.mapper")
-@ComponentScan(basePackages = "com.village.committee.service")
+@ComponentScan(basePackages = {"com.village.committee.service", "com.village.committee.config"})
 public class RootConfig {
 
     @Bean
@@ -52,7 +53,8 @@ public class RootConfig {
         factoryBean.setDataSource(ds);
 
         org.apache.ibatis.session.Configuration mybatisCfg = new org.apache.ibatis.session.Configuration();
-        mybatisCfg.setMapUnderscoreToCamelCase(true);
+        // 不自动转换下划线为驼峰，保持表名原样
+        mybatisCfg.setMapUnderscoreToCamelCase(false);
         factoryBean.setConfiguration(mybatisCfg);
 
         SqlSessionFactory factory = factoryBean.getObject();
@@ -65,6 +67,11 @@ public class RootConfig {
     @Bean
     public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory factory) {
         return new SqlSessionTemplate(factory);
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
     }
 }
 

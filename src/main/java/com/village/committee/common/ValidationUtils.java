@@ -2,10 +2,13 @@
 package com.village.committee.common;
 
 import java.util.regex.Pattern;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 通用验证工具类
- * 提供身份证、手机号等中国特色字段的校验
+ * 提供身份证、手机号、中文名字等中国特色字段的校验
  */
 public final class ValidationUtils {
 
@@ -227,5 +230,255 @@ public final class ValidationUtils {
     public static String trimToEmpty(String s) {
         if (s == null) return "";
         return s.trim();
+    }
+
+    // ==================== 中文名字验证 ====================
+
+    /**
+     * 中文名字正则，支持2-4个汉字，可包含间隔号·
+     */
+    private static final Pattern CHINESE_NAME_PATTERN = Pattern.compile(
+            "^[\u4e00-\u9fa5]{2,4}$|^[\u4e00-\u9fa5]{1,3}·[\u4e00-\u9fa5]{1,3}$"
+    );
+
+    /**
+     * 验证是否为有效的中文名字
+     *
+     * @param name 名字（允许为空，空值返回 true）
+     * @return true=有效或为空，false=格式错误
+     */
+    public static boolean isValidChineseName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return true; // 允许为空
+        }
+
+        String n = name.trim();
+        return CHINESE_NAME_PATTERN.matcher(n).matches();
+    }
+
+    /**
+     * 获取中文名字验证失败的原因
+     */
+    public static String getChineseNameErrorMessage(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return null;
+        }
+
+        String n = name.trim();
+
+        if (n.length() < 2) {
+            return "姓名至少需要2个字符";
+        }
+
+        if (n.length() > 4) {
+            return "姓名不能超过4个字符";
+        }
+
+        if (!CHINESE_NAME_PATTERN.matcher(n).matches()) {
+            return "姓名只能包含中文和间隔号·";
+        }
+
+        return null;
+    }
+
+    // ==================== 地址验证 ====================
+
+    /**
+     * 中国地址正则，简单验证地址格式
+     */
+    private static final Pattern CHINESE_ADDRESS_PATTERN = Pattern.compile(
+            "^[\u4e00-\u9fa5]{2,}(省|市|区|县|镇|乡|街道|村|路|巷|号|室|栋|单元|层)[\u4e00-\u9fa50-9()（）#号-]*$"
+    );
+
+    /**
+     * 验证是否为有效的中国地址
+     *
+     * @param address 地址（允许为空，空值返回 true）
+     * @return true=有效或为空，false=格式错误
+     */
+    public static boolean isValidChineseAddress(String address) {
+        if (address == null || address.trim().isEmpty()) {
+            return true; // 允许为空
+        }
+
+        String a = address.trim();
+        return CHINESE_ADDRESS_PATTERN.matcher(a).matches();
+    }
+
+    /**
+     * 获取地址验证失败的原因
+     */
+    public static String getAddressErrorMessage(String address) {
+        if (address == null || address.trim().isEmpty()) {
+            return null;
+        }
+
+        String a = address.trim();
+
+        if (a.length() < 5) {
+            return "地址过于简短，请输入详细地址";
+        }
+
+        if (!CHINESE_ADDRESS_PATTERN.matcher(a).matches()) {
+            return "地址格式不正确，应包含省市区县等行政区划信息";
+        }
+
+        return null;
+    }
+
+    // ==================== 年龄验证 ====================
+
+    /**
+     * 根据身份证号计算年龄
+     *
+     * @param idCard 身份证号
+     * @return 年龄，如果身份证号无效返回null
+     */
+    public static Integer calculateAgeFromIdCard(String idCard) {
+        if (!isValidIdCard(idCard)) {
+            return null;
+        }
+
+        try {
+            String id = idCard.trim().toUpperCase();
+            String birthDateStr = id.substring(6, 14);
+            LocalDate birthDate = LocalDate.parse(birthDateStr, DateTimeFormatter.ofPattern("yyyyMMdd"));
+            return Period.between(birthDate, LocalDate.now()).getYears();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * 验证年龄是否在合理范围内
+     *
+     * @param age 年龄
+     * @return true=年龄合理，false=年龄不合理
+     */
+    public static boolean isValidAge(Integer age) {
+        if (age == null) {
+            return true; // 允许为空
+        }
+        return age >= 0 && age <= 150;
+    }
+
+    /**
+     * 获取年龄验证失败的原因
+     */
+    public static String getAgeErrorMessage(Integer age) {
+        if (age == null) {
+            return null;
+        }
+
+        if (age < 0) {
+            return "年龄不能为负数";
+        }
+
+        if (age > 150) {
+            return "年龄不能超过150岁";
+        }
+
+        return null;
+    }
+
+    // ==================== 内容安全验证 ====================
+
+    /**
+     * 简单的敏感词列表（实际项目中应该使用更完善的敏感词库）
+     */
+    private static final String[] SENSITIVE_WORDS = {
+        "敏感词1", "敏感词2", "敏感词3" // 示例，实际应替换为真实敏感词
+    };
+
+    /**
+     * 检查文本是否包含敏感词
+     *
+     * @param text 文本内容
+     * @return true=不包含敏感词，false=包含敏感词
+     */
+    public static boolean isContentSafe(String text) {
+        if (text == null || text.trim().isEmpty()) {
+            return true; // 允许为空
+        }
+
+        String t = text.trim().toLowerCase();
+        for (String word : SENSITIVE_WORDS) {
+            if (t.contains(word.toLowerCase())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 获取内容安全验证失败的原因
+     */
+    public static String getContentSafetyErrorMessage(String text) {
+        if (text == null || text.trim().isEmpty()) {
+            return null;
+        }
+
+        String t = text.trim().toLowerCase();
+        for (String word : SENSITIVE_WORDS) {
+            if (t.contains(word.toLowerCase())) {
+                return "内容包含敏感词：" + word;
+            }
+        }
+        return null;
+    }
+
+    // ==================== HTML标签过滤 ====================
+
+    /**
+     * 简单的HTML标签正则
+     */
+    private static final Pattern HTML_TAG_PATTERN = Pattern.compile("<[^>]+>");
+
+    /**
+     * 检查文本是否包含HTML标签
+     *
+     * @param text 文本内容
+     * @param allowAllowedTags 是否允许白名单中的标签
+     * @param allowedTags 允许的HTML标签白名单
+     * @return true=不包含非法HTML标签，false=包含非法HTML标签
+     */
+    public static boolean isHtmlSafe(String text, boolean allowAllowedTags, String... allowedTags) {
+        if (text == null || text.trim().isEmpty()) {
+            return true; // 允许为空
+        }
+
+        // 如果不允许任何HTML标签
+        if (!allowAllowedTags) {
+            return !HTML_TAG_PATTERN.matcher(text).find();
+        }
+
+        // 允许白名单中的HTML标签
+        // 这里简化处理，实际项目中应使用更完善的HTML解析器
+        String lowerText = text.toLowerCase();
+        for (String tag : allowedTags) {
+            lowerText = lowerText.replaceAll("<" + tag.toLowerCase() + "[^>]*>", "");
+            lowerText = lowerText.replaceAll("</" + tag.toLowerCase() + ">", "");
+        }
+
+        return !HTML_TAG_PATTERN.matcher(lowerText).find();
+    }
+
+    /**
+     * 获取HTML安全验证失败的原因
+     */
+    public static String getHtmlSafetyErrorMessage(String text, boolean allowAllowedTags, String... allowedTags) {
+        if (text == null || text.trim().isEmpty()) {
+            return null;
+        }
+
+        if (!isHtmlSafe(text, allowAllowedTags, allowedTags)) {
+            if (allowAllowedTags && allowedTags.length > 0) {
+                return "内容包含不允许的HTML标签，仅允许: " + String.join(", ", allowedTags);
+            } else {
+                return "内容不允许包含HTML标签";
+            }
+        }
+
+        return null;
     }
 }

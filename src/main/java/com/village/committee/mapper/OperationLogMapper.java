@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OperationLogMapper {
@@ -83,4 +84,22 @@ public interface OperationLogMapper {
 
     @Select("SELECT DISTINCT target_type FROM operation_logs ORDER BY target_type")
     List<String> findDistinctTargetTypes();
+
+    @Select("SELECT COUNT(*) FROM operation_logs")
+    long countAll();
+
+    @Select("SELECT COUNT(*) FROM operation_logs WHERE operation_type = #{operationType}")
+    long countByOperationType(@Param("operationType") String operationType);
+
+    @Select("SELECT COUNT(*) FROM operation_logs WHERE target_type = #{targetType}")
+    long countByTargetType(@Param("targetType") String targetType);
+
+    @Select("""
+            SELECT DATE_FORMAT(created_at, '%Y-%m-%d') as date, COUNT(*) as count
+            FROM operation_logs
+            WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL #{days} DAY)
+            GROUP BY DATE_FORMAT(created_at, '%Y-%m-%d')
+            ORDER BY date
+            """)
+    List<Map<String, Object>> getRecentOperationStats(@Param("days") int days);
 }
