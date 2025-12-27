@@ -32,8 +32,9 @@ public interface CommitteeMemberMapper {
     /**
      * 分页查询成员
      */
-    @Select("SELECT * FROM village_committee.committee_members WHERE " +
-            "(name LIKE CONCAT('%', #{query}, '%') OR " +
+    @Select("SELECT * FROM village_committee.committee_members " +
+            "WHERE (#{query} IS NULL OR #{query} = '' OR " +
+            "name LIKE CONCAT('%', #{query}, '%') OR " +
             "position LIKE CONCAT('%', #{query}, '%') OR " +
             "duties LIKE CONCAT('%', #{query}, '%')) " +
             "ORDER BY join_time DESC " +
@@ -45,8 +46,8 @@ public interface CommitteeMemberMapper {
     /**
      * 统计成员总数
      */
-    @Select("SELECT COUNT(*) FROM village_committee.committee_members WHERE " +
-            "(#{query} IS NULL OR #{query} = '' OR " +
+    @Select("SELECT COUNT(*) FROM village_committee.committee_members " +
+            "WHERE (#{query} IS NULL OR #{query} = '' OR " +
             "name LIKE CONCAT('%', #{query}, '%') OR " +
             "position LIKE CONCAT('%', #{query}, '%') OR " +
             "duties LIKE CONCAT('%', #{query}, '%'))")

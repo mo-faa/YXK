@@ -275,7 +275,7 @@ public final class ValidationUtils {
         }
 
         if (!CHINESE_NAME_PATTERN.matcher(n).matches()) {
-            return "姓名只能包含中文和间隔号·";
+            return "姓名只能包含中文和间隔号";
         }
 
         return null;

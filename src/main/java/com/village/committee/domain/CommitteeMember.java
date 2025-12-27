@@ -95,6 +95,13 @@ public class CommitteeMember {
     public boolean isActiveMember() {
         return isActive != null && isActive;
     }
+    
+    /**
+     * 是否在职（符合JavaBean命名规范）
+     */
+    public boolean getIsActiveMember() {
+        return isActiveMember();
+    }
 
     /**
      * 状态文本
