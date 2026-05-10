@@ -6,19 +6,16 @@
 
 <%@ include file="../common/header.jsp" %>
 
-<div class="container py-4">
-    <div class="page-hero mb-4" data-animate="fade-up">
-        <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+<div class="site-container">
+    <div class="page-intro" data-animate="fade-up">
+        <div class="page-intro-row">
             <div>
-                <h1 class="page-hero-title">
-                    <i class="fa-solid fa-gauge-high me-2"></i>系统监控
-                </h1>
-                <div class="page-hero-subtitle">系统状态与性能监控</div>
+                <h1>系统监控</h1>
+                <p>系统状态与性能监控</p>
             </div>
-
-            <div class="text-md-end">
-                <button class="btn btn-light btn-lg" onclick="refreshDashboard()">
-                    <i class="fa-solid fa-arrows-rotate me-2"></i>刷新数据
+            <div class="page-intro-actions">
+                <button class="btn btn-light btn-sm" onclick="refreshDashboard()">
+                    <i class="fa-solid fa-arrows-rotate me-1"></i>刷新数据
                 </button>
             </div>
         </div>
@@ -26,149 +23,125 @@
 
     <%@ include file="../common/flash.jsp" %>
 
-    <!-- 系统状态卡片 -->
-    <div class="row g-4 mb-5">
-        <!-- 数据库状态 -->
-        <div class="col-lg-6" data-animate="fade-up" data-delay="100">
-            <div class="card soft h-100">
-                <div class="card-header bg-gradient-primary text-white">
-                    <h3 class="card-title mb-0">
-                        <i class="fa-solid fa-database me-2"></i>数据库状态
-                    </h3>
+    <div class="content-grid cols-2 mb-5" data-animate="fade-up" data-delay="50">
+        <div class="card soft">
+            <div class="card-header" style="background:var(--c-forest);color:#fff;">
+                <h3 class="card-title mb-0" style="color:#fff;">
+                    <i class="fa-solid fa-database me-2"></i>数据库状态
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="status-indicator me-3" id="dbStatusIndicator">
+                        <div class="status-pulse"></div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="mb-1">数据库连接</h5>
+                        <p class="mb-0" style="color:var(--c-ink-muted);" id="dbStatusText">检查中...</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-sm btn-outline-primary" onclick="checkDbStatus()">
+                            <i class="fa-solid fa-plug me-1"></i>检查连接
+                        </button>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="status-indicator me-3" id="dbStatusIndicator">
-                            <div class="status-pulse"></div>
-                        </div>
-                        <div class="flex-grow-1">
-                            <h5 class="mb-1">数据库连接</h5>
-                            <p class="text-muted mb-0" id="dbStatusText">检查中...</p>
-                        </div>
-                        <div class="text-end">
-                            <button class="btn btn-sm btn-outline-primary" onclick="checkDbStatus()">
-                                <i class="fa-solid fa-plug me-1"></i>检查连接
-                            </button>
-                        </div>
+                <div class="mb-3" style="background:var(--c-paper-warm);border-radius:var(--r-sm);padding:var(--space-3);">
+                    <div class="d-flex justify-content-between" style="font-size:var(--text-sm);">
+                        <span>上次检查时间</span>
+                        <span id="lastCheckTime">未检查</span>
                     </div>
-
-                    <div class="info-box bg-light rounded p-3 mb-3">
-                        <div class="d-flex justify-content-between">
-                            <span>上次检查时间</span>
-                            <span id="lastCheckTime">未检查</span>
-                        </div>
-                    </div>
-
-                    <div class="info-box bg-light rounded p-3">
-                        <div class="d-flex justify-content-between">
-                            <span>连接状态</span>
-                            <span id="connectionStatus">未知</span>
-                        </div>
+                </div>
+                <div style="background:var(--c-paper-warm);border-radius:var(--r-sm);padding:var(--space-3);">
+                    <div class="d-flex justify-content-between" style="font-size:var(--text-sm);">
+                        <span>连接状态</span>
+                        <span id="connectionStatus">未知</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 系统信息 -->
-        <div class="col-lg-6" data-animate="fade-up" data-delay="200">
-            <div class="card soft h-100">
-                <div class="card-header bg-gradient-info text-white">
-                    <h3 class="card-title mb-0">
-                        <i class="fa-solid fa-server me-2"></i>系统信息
-                    </h3>
+        <div class="card soft">
+            <div class="card-header" style="background:var(--c-teal);color:#fff;">
+                <h3 class="card-title mb-0" style="color:#fff;">
+                    <i class="fa-solid fa-server me-2"></i>系统信息
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="info-item">
+                    <div class="info-label">应用名称</div>
+                    <div class="info-value">网上村委会业务办理系统</div>
                 </div>
-                <div class="card-body">
-                    <div class="info-item">
-                        <div class="info-label">应用名称</div>
-                        <div class="info-value">网上村委会业务办理系统</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">版本</div>
-                        <div class="info-value">v1.0.0</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">服务器时间</div>
-                        <div class="info-value" id="serverTime">获取中...</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">运行环境</div>
-                        <div class="info-value">Java Spring Boot</div>
-                    </div>
+                <div class="info-item">
+                    <div class="info-label">版本</div>
+                    <div class="info-value">v1.0.0</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">服务器时间</div>
+                    <div class="info-value" id="serverTime">获取中...</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">运行环境</div>
+                    <div class="info-value">Java Spring Boot</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 系统活动图表 -->
-    <div class="row g-4">
-        <div class="col-lg-8" data-animate="fade-up" data-delay="100">
-            <div class="card soft h-100">
-                <div class="card-header bg-gradient-success text-white">
-                    <h3 class="card-title mb-0">
-                        <i class="fa-solid fa-chart-line me-2"></i>系统活动
-                    </h3>
+    <div class="content-grid cols-2-1" data-animate="fade-up" data-delay="100">
+        <div class="card soft">
+            <div class="card-header" style="background:var(--c-gold);color:#fff;">
+                <h3 class="card-title mb-0" style="color:#fff;">
+                    <i class="fa-solid fa-chart-line me-2"></i>系统活动
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <ul class="nav nav-pills nav-pills-sm" id="activityTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="operations-tab" data-bs-toggle="tab" data-bs-target="#operations" type="button" role="tab">操作统计</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab">用户活动</button>
+                        </li>
+                    </ul>
                 </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <ul class="nav nav-pills nav-pills-sm" id="activityTabs" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="operations-tab" data-bs-toggle="tab" data-bs-target="#operations" type="button" role="tab">
-                                    操作统计
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab">
-                                    用户活动
-                                </button>
-                            </li>
-                        </ul>
+                <div class="tab-content" id="activityTabsContent">
+                    <div class="tab-pane fade show active" id="operations" role="tabpanel">
+                        <div style="position:relative;height:300px;"><canvas id="operationsChart"></canvas></div>
                     </div>
-
-                    <div class="tab-content" id="activityTabsContent">
-                        <div class="tab-pane fade show active" id="operations" role="tabpanel">
-                            <div class="chart-container" style="position: relative; height:300px;">
-                                <canvas id="operationsChart"></canvas>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="users" role="tabpanel">
-                            <div class="chart-container" style="position: relative; height:300px;">
-                                <canvas id="usersChart"></canvas>
-                            </div>
-                        </div>
+                    <div class="tab-pane fade" id="users" role="tabpanel">
+                        <div style="position:relative;height:300px;"><canvas id="usersChart"></canvas></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 快速操作 -->
-        <div class="col-lg-4" data-animate="fade-up" data-delay="200">
-            <div class="card soft h-100">
-                <div class="card-header bg-gradient-warning text-white">
-                    <h3 class="card-title mb-0">
-                        <i class="fa-solid fa-bolt me-2"></i>快速操作
-                    </h3>
-                </div>
-                <div class="card-body">
-                    <div class="d-grid gap-2">
-                        <a href="${pageContext.request.contextPath}/announcements" class="btn btn-outline-primary">
-                            <i class="fa-solid fa-bullhorn me-2"></i>管理公告
-                        </a>
-                        <a href="${pageContext.request.contextPath}/residents" class="btn btn-outline-primary">
-                            <i class="fa-solid fa-users me-2"></i>管理村民
-                        </a>
-                        <a href="${pageContext.request.contextPath}/committee-members" class="btn btn-outline-primary">
-                            <i class="fa-solid fa-user-tie me-2"></i>管理成员
-                        </a>
-                        <a href="${pageContext.request.contextPath}/logs" class="btn btn-outline-primary">
-                            <i class="fa-solid fa-clipboard-list me-2"></i>查看日志
-                        </a>
-                        <button class="btn btn-outline-warning" onclick="initDatabase()">
-                            <i class="fa-solid fa-database me-2"></i>初始化数据库
-                        </button>
-                        <button class="btn btn-outline-danger" onclick="clearCache()">
-                            <i class="fa-solid fa-trash me-2"></i>清除缓存
-                        </button>
-                    </div>
+        <div class="card soft">
+            <div class="card-header" style="background:var(--c-terracotta);color:#fff;">
+                <h3 class="card-title mb-0" style="color:#fff;">
+                    <i class="fa-solid fa-bolt me-2"></i>快速操作
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="${pageContext.request.contextPath}/announcements" class="btn btn-outline-primary">
+                        <i class="fa-solid fa-bullhorn me-2"></i>管理公告
+                    </a>
+                    <a href="${pageContext.request.contextPath}/residents" class="btn btn-outline-primary">
+                        <i class="fa-solid fa-users me-2"></i>管理村民
+                    </a>
+                    <a href="${pageContext.request.contextPath}/committee-members" class="btn btn-outline-primary">
+                        <i class="fa-solid fa-user-tie me-2"></i>管理成员
+                    </a>
+                    <a href="${pageContext.request.contextPath}/logs" class="btn btn-outline-primary">
+                        <i class="fa-solid fa-clipboard-list me-2"></i>查看日志
+                    </a>
+                    <button class="btn btn-outline-warning" onclick="initDatabase()">
+                        <i class="fa-solid fa-database me-2"></i>初始化数据库
+                    </button>
+                    <button class="btn btn-outline-danger" onclick="clearCache()">
+                        <i class="fa-solid fa-trash me-2"></i>清除缓存
+                    </button>
                 </div>
             </div>
         </div>
@@ -177,449 +150,145 @@
 
 <%@ include file="../common/footer.jsp" %>
 
-<style>
-/* 状态指示器样式 */
-.status-indicator {
-    width: 40px;
-    height: 40px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.status-pulse {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: var(--text-light);
-    position: relative;
-}
-
-.status-pulse::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-color: inherit;
-    animation: pulse 2s infinite;
-}
-
-.status-indicator.online .status-pulse {
-    background-color: #10b981;
-}
-
-.status-indicator.offline .status-pulse {
-    background-color: #ef4444;
-    animation: none;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.5);
-        opacity: 0.5;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-/* 信息项样式 */
-.info-item {
-    margin-bottom: 1.5rem;
-}
-
-.info-label {
-    font-weight: 600;
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.info-value {
-    font-size: 1.1rem;
-    font-weight: 500;
-}
-
-/* 标签页样式 */
-.nav-pills-sm .nav-link {
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-}
-</style>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // 初始化页面
     document.addEventListener('DOMContentLoaded', function() {
         updateServerTime();
         checkDbStatus();
         initCharts();
-
-        // 每分钟更新服务器时间
         setInterval(updateServerTime, 60000);
     });
 
-    // 更新服务器时间
     function updateServerTime() {
-        const now = new Date();
-        document.getElementById('serverTime').textContent = now.toLocaleString('zh-CN');
+        document.getElementById('serverTime').textContent = new Date().toLocaleString('zh-CN');
     }
 
-    // 检查数据库状态
     function checkDbStatus() {
-        const indicator = document.getElementById('dbStatusIndicator');
-        const statusText = document.getElementById('dbStatusText');
-        const lastCheckTime = document.getElementById('lastCheckTime');
-        const connectionStatus = document.getElementById('connectionStatus');
-
-        // 显示检查中状态
+        var indicator = document.getElementById('dbStatusIndicator');
+        var statusText = document.getElementById('dbStatusText');
+        var lastCheckTime = document.getElementById('lastCheckTime');
+        var connectionStatus = document.getElementById('connectionStatus');
         indicator.className = 'status-indicator checking';
         statusText.textContent = '检查中...';
-
         fetch('${pageContext.request.contextPath}/db/ping')
-            .then(response => response.text())
-            .then(data => {
-                // 检查成功
+            .then(function(response) { return response.text(); })
+            .then(function(data) {
                 indicator.className = 'status-indicator online';
                 statusText.textContent = '数据库连接正常';
                 connectionStatus.textContent = '已连接';
                 connectionStatus.className = 'text-success';
-
-                // 更新最后检查时间
-                const now = new Date();
-                lastCheckTime.textContent = now.toLocaleTimeString('zh-CN');
+                lastCheckTime.textContent = new Date().toLocaleTimeString('zh-CN');
             })
-            .catch(error => {
-                // 检查失败
+            .catch(function(error) {
                 indicator.className = 'status-indicator offline';
                 statusText.textContent = '数据库连接失败';
                 connectionStatus.textContent = '连接失败';
                 connectionStatus.className = 'text-danger';
-
-                // 更新最后检查时间
-                const now = new Date();
-                lastCheckTime.textContent = now.toLocaleTimeString('zh-CN');
-
-                console.error('数据库检查失败:', error);
+                lastCheckTime.textContent = new Date().toLocaleTimeString('zh-CN');
             });
     }
 
-    // 刷新仪表盘
     function refreshDashboard() {
         updateServerTime();
         checkDbStatus();
         updateCharts();
-
-        // 显示刷新提示
-        const toast = document.createElement('div');
-        toast.className = 'position-fixed bottom-0 end-0 p-3';
-        toast.style.zIndex = '11';
-        toast.innerHTML = `
-            <div class="toast show" role="alert">
-                <div class="toast-header">
-                    <i class="fa-solid fa-check-circle text-success me-2"></i>
-                    <strong class="me-auto">系统提示</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                </div>
-                <div class="toast-body">
-                    仪表盘数据已刷新
-                </div>
-            </div>
-        `;
-        document.body.appendChild(toast);
-
-        // 3秒后自动移除提示
-        setTimeout(() => {
-            document.body.removeChild(toast);
-        }, 3000);
     }
 
-    // 清除缓存
     function clearCache() {
         if (confirm('确定要清除系统缓存吗？')) {
             fetch('${pageContext.request.contextPath}/system/clear-cache', {
                 method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '${_csrf}'
-                }
+                headers: { 'X-CSRF-TOKEN': '${_csrf}' }
             })
-            .then(response => response.json())
-            .then(data => {
-                const isSuccess = data.success;
-                const toast = document.createElement('div');
-                toast.className = 'position-fixed bottom-0 end-0 p-3';
-                toast.style.zIndex = '11';
-                toast.innerHTML = `
-                    <div class="toast show" role="alert">
-                        <div class="toast-header">
-                            <i class="fa-solid fa-${isSuccess ? 'check' : 'exclamation'}-circle text-${isSuccess ? 'success' : 'danger'} me-2"></i>
-                            <strong class="me-auto">系统提示</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                        </div>
-                        <div class="toast-body">
-                            ${data.message}
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(toast);
-                setTimeout(() => {
-                    document.body.removeChild(toast);
-                }, 3000);
-            })
-            .catch(error => {
-                const toast = document.createElement('div');
-                toast.className = 'position-fixed bottom-0 end-0 p-3';
-                toast.style.zIndex = '11';
-                toast.innerHTML = `
-                    <div class="toast show" role="alert">
-                        <div class="toast-header">
-                            <i class="fa-solid fa-exclamation-circle text-danger me-2"></i>
-                            <strong class="me-auto">系统提示</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                        </div>
-                        <div class="toast-body">
-                            清除缓存请求失败
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(toast);
-                setTimeout(() => {
-                    document.body.removeChild(toast);
-                }, 3000);
-            });
+            .then(function(r) { return r.json(); })
+            .then(function(data) { alert(data.message); })
+            .catch(function() { alert('清除缓存请求失败'); });
         }
     }
 
-    // 初始化数据库
     function initDatabase() {
         if (confirm('确定要初始化数据库吗？这将创建缺失的数据库和表，但不会删除现有数据。')) {
-            // 显示加载状态
-            const toast = document.createElement('div');
-            toast.className = 'position-fixed bottom-0 end-0 p-3';
-            toast.style.zIndex = '11';
-            toast.innerHTML = `
-                <div class="toast show" role="alert">
-                    <div class="toast-header">
-                        <i class="fa-solid fa-spinner fa-spin me-2 text-info"></i>
-                        <strong class="me-auto">系统提示</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                    </div>
-                    <div class="toast-body">
-                        数据库初始化中...
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(toast);
-
-            // 调用数据库初始化接口
             fetch('${pageContext.request.contextPath}/db/init')
-                .then(response => response.text())
-                .then(result => {
-                    // 移除加载提示
-                    document.body.removeChild(toast);
-
-                    // 显示结果提示
-                    const resultToast = document.createElement('div');
-                    resultToast.className = 'position-fixed bottom-0 end-0 p-3';
-                    resultToast.style.zIndex = '11';
-                    
-                    // 根据结果设置不同的提示样式
-                    const isSuccess = result.includes('成功');
-                    resultToast.innerHTML = `
-                        <div class="toast show" role="alert">
-                            <div class="toast-header">
-                                <i class="fa-solid fa-${isSuccess ? 'check' : 'exclamation'}-circle text-${isSuccess ? 'success' : 'danger'} me-2"></i>
-                                <strong class="me-auto">系统提示</strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                            </div>
-                            <div class="toast-body">
-                                ${result}
-                            </div>
-                        </div>
-                    `;
-                    document.body.appendChild(resultToast);
-
-                    // 5秒后自动移除提示
-                    setTimeout(() => {
-                        document.body.removeChild(resultToast);
-                    }, 5000);
-
-                    // 如果初始化成功，重新检查数据库状态
-                    if (isSuccess) {
-                        setTimeout(checkDbStatus, 1000);
-                    }
+                .then(function(r) { return r.text(); })
+                .then(function(result) {
+                    alert(result);
+                    if (result.indexOf('成功') >= 0) { setTimeout(checkDbStatus, 1000); }
                 })
-                .catch(error => {
-                    // 移除加载提示
-                    document.body.removeChild(toast);
-
-                    // 显示错误提示
-                    const errorToast = document.createElement('div');
-                    errorToast.className = 'position-fixed bottom-0 end-0 p-3';
-                    errorToast.style.zIndex = '11';
-                    errorToast.innerHTML = `
-                        <div class="toast show" role="alert">
-                            <div class="toast-header">
-                                <i class="fa-solid fa-exclamation-circle text-danger me-2"></i>
-                                <strong class="me-auto">系统提示</strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                            </div>
-                            <div class="toast-body">
-                                数据库初始化失败：${error.message}
-                            </div>
-                        </div>
-                    `;
-                    document.body.appendChild(errorToast);
-
-                    // 5秒后自动移除提示
-                    setTimeout(() => {
-                        document.body.removeChild(errorToast);
-                    }, 5000);
-
-                    console.error('数据库初始化失败:', error);
-                });
+                .catch(function(error) { alert('数据库初始化失败：' + error.message); });
         }
     }
 
-    // 初始化图表
-    let operationsChart, usersChart;
+    var operationsChart, usersChart;
 
-    // 获取系统统计数据并更新图表
     function loadChartData() {
         fetch('${pageContext.request.contextPath}/system/stats')
-            .then(response => response.json())
-            .then(data => {
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
                 updateOperationsChart(data);
                 updateUsersChart(data);
             })
-            .catch(error => {
-                console.error('获取图表数据失败:', error);
-                // 失败时使用默认数据
-                initChartsWithDefaultData();
-            });
+            .catch(function() { initChartsWithDefaultData(); });
     }
 
-    // 使用默认数据初始化图表
     function initChartsWithDefaultData() {
-        var operationsCtx = document.getElementById('operationsChart').getContext('2d');
-        operationsChart = new Chart(operationsCtx, {
+        var ctx1 = document.getElementById('operationsChart').getContext('2d');
+        operationsChart = new Chart(ctx1, {
             type: 'line',
             data: {
                 labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
                 datasets: [{
-                    label: '新增操作',
-                    data: [12, 19, 8, 15, 22, 18, 25],
-                    borderColor: '#6366f1',
-                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 2,
-                    pointRadius: 4,
-                    pointBackgroundColor: '#6366f1'
+                    label: '新增操作', data: [12, 19, 8, 15, 22, 18, 25],
+                    borderColor: '#2d5a3d', backgroundColor: 'rgba(45,90,61,0.08)',
+                    fill: true, tension: 0.4, borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#2d5a3d'
                 }, {
-                    label: '更新操作',
-                    data: [15, 12, 18, 14, 20, 22, 16],
-                    borderColor: '#10b981',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 2,
-                    pointRadius: 4,
-                    pointBackgroundColor: '#10b981'
+                    label: '更新操作', data: [15, 12, 18, 14, 20, 22, 16],
+                    borderColor: '#2a7a7a', backgroundColor: 'rgba(42,122,122,0.08)',
+                    fill: true, tension: 0.4, borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#2a7a7a'
                 }, {
-                    label: '删除操作',
-                    data: [3, 5, 2, 4, 3, 6, 4],
-                    borderColor: '#ef4444',
-                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 2,
-                    pointRadius: 4,
-                    pointBackgroundColor: '#ef4444'
+                    label: '删除操作', data: [3, 5, 2, 4, 3, 6, 4],
+                    borderColor: '#c45a3c', backgroundColor: 'rgba(196,90,60,0.08)',
+                    fill: true, tension: 0.4, borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#c45a3c'
                 }]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'top', labels: { usePointStyle: true, padding: 20 } },
-                    title: { display: false }
-                },
-                scales: {
-                    y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } },
-                    x: { grid: { display: false } }
-                }
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 16 } } },
+                scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } }, x: { grid: { display: false } } }
             }
         });
 
-        var usersCtx = document.getElementById('usersChart').getContext('2d');
-        usersChart = new Chart(usersCtx, {
+        var ctx2 = document.getElementById('usersChart').getContext('2d');
+        usersChart = new Chart(ctx2, {
             type: 'doughnut',
             data: {
                 labels: ['公告管理', '村民管理', '成员管理', '其他操作'],
                 datasets: [{
                     data: [30, 45, 15, 10],
-                    backgroundColor: [
-                        'rgba(99, 102, 241, 0.85)',
-                        'rgba(16, 185, 129, 0.85)',
-                        'rgba(245, 158, 11, 0.85)',
-                        'rgba(239, 68, 68, 0.85)'
-                    ],
-                    borderColor: '#ffffff',
-                    borderWidth: 3,
-                    hoverOffset: 8
+                    backgroundColor: ['rgba(45,90,61,0.85)', 'rgba(42,122,122,0.85)', 'rgba(184,134,11,0.85)', 'rgba(196,90,60,0.85)'],
+                    borderColor: '#faf8f4', borderWidth: 3, hoverOffset: 8
                 }]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '65%',
-                plugins: {
-                    legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } },
-                    title: { display: false }
-                }
+                responsive: true, maintainAspectRatio: false, cutout: '65%',
+                plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } } }
             }
         });
     }
 
-    // 更新操作统计图表
     function updateOperationsChart(data) {
-        const operationsCtx = document.getElementById('operationsChart').getContext('2d');
-        
-        // 准备数据
-        let labels = [];
-        let createData = [];
-        let updateData = [];
-        let deleteData = [];
-        
+        var ctx = document.getElementById('operationsChart').getContext('2d');
+        var labels = [], createData = [], updateData = [], deleteData = [];
         if (data.recentOperations && data.recentOperations.length > 0) {
-            // 从后端数据中提取标签和数值
-            data.recentOperations.forEach(stat => {
+            data.recentOperations.forEach(function(stat) {
                 labels.push(stat.date || '未知');
                 createData.push(stat.createCount || stat.createcount || 0);
                 updateData.push(stat.updateCount || stat.updatecount || 0);
                 deleteData.push(stat.deleteCount || stat.deletecount || 0);
             });
         } else {
-            // 使用默认数据
-            labels = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
-            createData = [12, 19, 8, 15, 22, 18, 25];
-            updateData = [15, 12, 18, 14, 20, 22, 16];
-            deleteData = [3, 5, 2, 4, 3, 6, 4];
+            labels = ['周一','周二','周三','周四','周五','周六','周日'];
+            createData = [12,19,8,15,22,18,25]; updateData = [15,12,18,14,20,22,16]; deleteData = [3,5,2,4,3,6,4];
         }
-        
-        // 创建或更新图表
         if (operationsChart) {
             operationsChart.data.labels = labels;
             operationsChart.data.datasets[0].data = createData;
@@ -627,121 +296,66 @@
             operationsChart.data.datasets[2].data = deleteData;
             operationsChart.update();
         } else {
-            operationsChart = new Chart(operationsCtx, {
+            operationsChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: '新增操作',
-                        data: createData,
-                        borderColor: '#6366f1',
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                        fill: true,
-                        tension: 0.4,
-                        borderWidth: 2,
-                        pointRadius: 4,
-                        pointBackgroundColor: '#6366f1'
+                        label: '新增操作', data: createData,
+                        borderColor: '#2d5a3d', backgroundColor: 'rgba(45,90,61,0.08)',
+                        fill: true, tension: 0.4, borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#2d5a3d'
                     }, {
-                        label: '更新操作',
-                        data: updateData,
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        fill: true,
-                        tension: 0.4,
-                        borderWidth: 2,
-                        pointRadius: 4,
-                        pointBackgroundColor: '#10b981'
+                        label: '更新操作', data: updateData,
+                        borderColor: '#2a7a7a', backgroundColor: 'rgba(42,122,122,0.08)',
+                        fill: true, tension: 0.4, borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#2a7a7a'
                     }, {
-                        label: '删除操作',
-                        data: deleteData,
-                        borderColor: '#ef4444',
-                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        fill: true,
-                        tension: 0.4,
-                        borderWidth: 2,
-                        pointRadius: 4,
-                        pointBackgroundColor: '#ef4444'
+                        label: '删除操作', data: deleteData,
+                        borderColor: '#c45a3c', backgroundColor: 'rgba(196,90,60,0.08)',
+                        fill: true, tension: 0.4, borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#c45a3c'
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'top', labels: { usePointStyle: true, padding: 20 } },
-                        title: { display: false }
-                    },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } },
-                        x: { grid: { display: false } }
-                    }
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 16 } } },
+                    scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } }, x: { grid: { display: false } } }
                 }
             });
         }
     }
 
-    // 更新用户活动图表
     function updateUsersChart(data) {
-        const usersCtx = document.getElementById('usersChart').getContext('2d');
-        
-        // 准备数据
-        let labels = ['公告管理', '村民管理', '成员管理', '其他操作'];
-        let chartData = [30, 45, 15, 10];
-        
+        var ctx = document.getElementById('usersChart').getContext('2d');
+        var labels = ['公告管理', '村民管理', '成员管理', '其他操作'];
+        var chartData = [30, 45, 15, 10];
         if (data.targetTypes) {
-            // 从后端数据中提取模块使用比例
-            const announcementCount = data.targetTypes.ANNOUNCEMENT || 0;
-            const residentCount = data.targetTypes.RESIDENT || 0;
-            const memberCount = data.targetTypes.COMMITTEE_MEMBER || 0;
-            
-            // 计算其他操作
-            const total = announcementCount + residentCount + memberCount;
-            const otherCount = Math.max(0, total * 0.1); // 简单计算其他操作
-            
-            chartData = [announcementCount, residentCount, memberCount, otherCount];
+            var a = data.targetTypes.ANNOUNCEMENT || 0;
+            var r = data.targetTypes.RESIDENT || 0;
+            var m = data.targetTypes.COMMITTEE_MEMBER || 0;
+            var o = Math.max(0, (a + r + m) * 0.1);
+            chartData = [a, r, m, o];
         }
-        
-        // 创建或更新图表
         if (usersChart) {
             usersChart.data.datasets[0].data = chartData;
             usersChart.update();
         } else {
-            usersChart = new Chart(usersCtx, {
+            usersChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
                     labels: labels,
                     datasets: [{
                         data: chartData,
-                        backgroundColor: [
-                            'rgba(99, 102, 241, 0.85)',
-                            'rgba(16, 185, 129, 0.85)',
-                            'rgba(245, 158, 11, 0.85)',
-                            'rgba(239, 68, 68, 0.85)'
-                        ],
-                        borderColor: '#ffffff',
-                        borderWidth: 3,
-                        hoverOffset: 8
+                        backgroundColor: ['rgba(45,90,61,0.85)', 'rgba(42,122,122,0.85)', 'rgba(184,134,11,0.85)', 'rgba(196,90,60,0.85)'],
+                        borderColor: '#faf8f4', borderWidth: 3, hoverOffset: 8
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '65%',
-                    plugins: {
-                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } },
-                        title: { display: false }
-                    }
+                    responsive: true, maintainAspectRatio: false, cutout: '65%',
+                    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } } }
                 }
             });
         }
     }
 
-    // 初始化图表
-    function initCharts() {
-        loadChartData();
-    }
-
-    // 更新图表数据
-    function updateCharts() {
-        loadChartData();
-    }
+    function initCharts() { loadChartData(); }
+    function updateCharts() { loadChartData(); }
 </script>

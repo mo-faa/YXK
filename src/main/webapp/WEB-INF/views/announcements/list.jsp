@@ -1,24 +1,22 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
 <c:set var="pageTitle" value="公告管理 - 网上村委会"/>
 <c:set var="activePage" value="announcements"/>
 
 <%@ include file="../common/header.jsp" %>
 
-<div class="container py-4">
-    <div class="page-hero mb-4" data-animate="fade-up">
-        <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+<div class="site-container">
+    <div class="page-intro" data-animate="fade-up">
+        <div class="page-intro-row">
             <div>
-                <h1 class="page-hero-title">
-                    <i class="fa-solid fa-bullhorn me-2"></i>公告管理
-                </h1>
-                <div class="page-hero-subtitle">发布、编辑与管理通知公告</div>
+                <h1>公告管理</h1>
+                <p>发布、编辑与管理通知公告</p>
             </div>
-
-            <div class="text-md-end">
-                <a href="<c:url value='/announcements/new'/>" class="btn btn-light btn-lg">
-                    <i class="fa-solid fa-plus me-2"></i>发布公告
+            <div class="page-intro-actions">
+                <a href="<c:url value='/announcements/new'/>" class="btn btn-primary btn-sm">
+                    <i class="fa-solid fa-plus me-1"></i>发布公告
                 </a>
             </div>
         </div>
@@ -41,20 +39,20 @@
                         <label class="form-label">状态</label>
                         <select name="status" class="form-select">
                             <option value="">全部状态</option>
-                            <option value="0" <c:if test="${status eq 0}">selected</c:if>>📝 草稿</option>
-                            <option value="1" <c:if test="${status eq 1}">selected</c:if>>✅ 已发布</option>
+                            <option value="0" <c:if test="${status eq 0}">selected</c:if>>草稿</option>
+                            <option value="1" <c:if test="${status eq 1}">selected</c:if>>已发布</option>
                         </select>
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">置顶</label>
                         <select name="isTop" class="form-select">
                             <option value="">全部</option>
-                            <option value="true" <c:if test="${isTop eq 'true'}">selected</c:if>>⭐ 已置顶</option>
+                            <option value="true" <c:if test="${isTop eq 'true'}">selected</c:if>>已置顶</option>
                             <option value="false" <c:if test="${isTop eq 'false'}">selected</c:if>>未置顶</option>
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-gradient w-100">
+                        <button type="submit" class="btn btn-primary w-100">
                             <i class="fa-solid fa-filter me-1"></i>筛选
                         </button>
                     </div>
@@ -81,7 +79,7 @@
                             <tr>
                                 <td class="fw-bold">#${a.id}</td>
                                 <td>
-                                    <a href="<c:url value='/announcements/${a.id}'/>" class="fw-bold">
+                                    <a href="<c:url value='/announcements/${a.id}'/>" class="fw-semibold" style="text-decoration:none;color:var(--c-ink);">
                                         ${a.title}
                                     </a>
                                 </td>
@@ -92,10 +90,10 @@
                                 </td>
                                 <td>
                                     <c:if test="${a.isTop}">
-                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star" style="color:var(--c-gold);"></i>
                                     </c:if>
                                     <c:if test="${not a.isTop}">
-                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star" style="color:var(--c-ink-faint);"></i>
                                     </c:if>
                                 </td>
                                 <td>${a.publisher}</td>
@@ -103,17 +101,15 @@
                                     ${fn:substring(fn:replace(a.publishTime, 'T', ' '), 0, 16)}
                                 </td>
                                 <td>
-                                    <div class="d-flex gap-2">
+                                    <div class="d-flex gap-1">
                                         <a href="<c:url value='/announcements/${a.id}'/>"
                                            class="btn btn-sm btn-outline-secondary">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
-
                                         <a href="<c:url value='/announcements/${a.id}/edit'/>"
                                            class="btn btn-sm btn-outline-primary">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
-
                                         <form action="<c:url value='/announcements/${a.id}/delete'/>"
                                               method="post" style="display:inline;"
                                               onsubmit="return confirm('确定要删除这条公告吗？');">
@@ -130,7 +126,6 @@
                     </table>
                 </div>
             </c:if>
-
             <c:if test="${empty announcements}">
                 <div class="empty-state">
                     <i class="fa-solid fa-inbox"></i>
@@ -142,5 +137,3 @@
 </div>
 
 <%@ include file="../common/footer.jsp" %>
-
-
