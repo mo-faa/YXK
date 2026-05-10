@@ -10,6 +10,7 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(25)
     }
+    modularity.inferModulePath = false
 }
 
 repositories {
@@ -49,6 +50,14 @@ dependencies {
     compileOnly "jakarta.annotation:jakarta.annotation-api:3.0.0"
 
     testImplementation "org.junit.jupiter:junit-jupiter:5.11.0"
+    testImplementation "org.junit.platform:junit-platform-launcher:1.11.0"
+    testImplementation "org.mockito:mockito-core:5.18.0"
+    testImplementation "org.mockito:mockito-junit-jupiter:5.18.0"
+    testImplementation "net.bytebuddy:byte-buddy:1.17.5"
+    testImplementation "net.bytebuddy:byte-buddy-agent:1.17.5"
+    testImplementation "org.springframework:spring-test:7.0.2"
+    testImplementation "com.h2database:h2:2.3.232"
+    testImplementation "org.assertj:assertj-core:3.26.3"
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -61,6 +70,13 @@ tasks.withType(JavaCompile).configureEach {
 
 test {
     useJUnitPlatform()
+    jvmArgs = [
+        '--add-opens=java.base/java.lang=ALL-UNNAMED',
+        '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED',
+        '--add-opens=java.base/java.util=ALL-UNNAMED',
+        '--add-opens=java.base/java.io=ALL-UNNAMED',
+        '--add-opens=java.base/jdk.internal.loader=ALL-UNNAMED'
+    ]
 }
 
 war {
