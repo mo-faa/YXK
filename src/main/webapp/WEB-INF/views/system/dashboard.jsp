@@ -512,8 +512,7 @@
 
     // 使用默认数据初始化图表
     function initChartsWithDefaultData() {
-        // 操作统计图表
-        const operationsCtx = document.getElementById('operationsChart').getContext('2d');
+        var operationsCtx = document.getElementById('operationsChart').getContext('2d');
         operationsChart = new Chart(operationsCtx, {
             type: 'line',
             data: {
@@ -521,45 +520,50 @@
                 datasets: [{
                     label: '新增操作',
                     data: [12, 19, 8, 15, 22, 18, 25],
-                    borderColor: 'rgb(75, 192, 192)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    tension: 0.3
+                    borderColor: '#6366f1',
+                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#6366f1'
                 }, {
                     label: '更新操作',
                     data: [15, 12, 18, 14, 20, 22, 16],
-                    borderColor: 'rgb(255, 205, 86)',
-                    backgroundColor: 'rgba(255, 205, 86, 0.2)',
-                    tension: 0.3
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#10b981'
                 }, {
                     label: '删除操作',
                     data: [3, 5, 2, 4, 3, 6, 4],
-                    borderColor: 'rgb(255, 99, 132)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    tension: 0.3
+                    borderColor: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#ef4444'
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: '本周操作统计'
-                    }
+                    legend: { position: 'top', labels: { usePointStyle: true, padding: 20 } },
+                    title: { display: false }
                 },
                 scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+                    y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } },
+                    x: { grid: { display: false } }
                 }
             }
         });
 
-        // 用户活动图表
-        const usersCtx = document.getElementById('usersChart').getContext('2d');
+        var usersCtx = document.getElementById('usersChart').getContext('2d');
         usersChart = new Chart(usersCtx, {
             type: 'doughnut',
             data: {
@@ -567,31 +571,23 @@
                 datasets: [{
                     data: [30, 45, 15, 10],
                     backgroundColor: [
-                        'rgba(102, 126, 234, 0.8)',
-                        'rgba(118, 75, 162, 0.8)',
-                        'rgba(240, 147, 251, 0.8)',
-                        'rgba(245, 87, 108, 0.8)'
+                        'rgba(99, 102, 241, 0.85)',
+                        'rgba(16, 185, 129, 0.85)',
+                        'rgba(245, 158, 11, 0.85)',
+                        'rgba(239, 68, 68, 0.85)'
                     ],
-                    borderColor: [
-                        'rgb(102, 126, 234)',
-                        'rgb(118, 75, 162)',
-                        'rgb(240, 147, 251)',
-                        'rgb(245, 87, 108)'
-                    ],
-                    borderWidth: 1
+                    borderColor: '#ffffff',
+                    borderWidth: 3,
+                    hoverOffset: 8
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                cutout: '65%',
                 plugins: {
-                    legend: {
-                        position: 'right',
-                    },
-                    title: {
-                        display: true,
-                        text: '功能模块使用比例'
-                    }
+                    legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } },
+                    title: { display: false }
                 }
             }
         });
@@ -638,39 +634,45 @@
                     datasets: [{
                         label: '新增操作',
                         data: createData,
-                        borderColor: 'rgb(75, 192, 192)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        tension: 0.3
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#6366f1'
                     }, {
                         label: '更新操作',
                         data: updateData,
-                        borderColor: 'rgb(255, 205, 86)',
-                        backgroundColor: 'rgba(255, 205, 86, 0.2)',
-                        tension: 0.3
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#10b981'
                     }, {
                         label: '删除操作',
                         data: deleteData,
-                        borderColor: 'rgb(255, 99, 132)',
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        tension: 0.3
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#ef4444'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: '本周操作统计'
-                        }
+                        legend: { position: 'top', labels: { usePointStyle: true, padding: 20 } },
+                        title: { display: false }
                     },
                     scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+                        y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } },
+                        x: { grid: { display: false } }
                     }
                 }
             });
@@ -710,31 +712,23 @@
                     datasets: [{
                         data: chartData,
                         backgroundColor: [
-                            'rgba(102, 126, 234, 0.8)',
-                            'rgba(118, 75, 162, 0.8)',
-                            'rgba(240, 147, 251, 0.8)',
-                            'rgba(245, 87, 108, 0.8)'
+                            'rgba(99, 102, 241, 0.85)',
+                            'rgba(16, 185, 129, 0.85)',
+                            'rgba(245, 158, 11, 0.85)',
+                            'rgba(239, 68, 68, 0.85)'
                         ],
-                        borderColor: [
-                            'rgb(102, 126, 234)',
-                            'rgb(118, 75, 162)',
-                            'rgb(240, 147, 251)',
-                            'rgb(245, 87, 108)'
-                        ],
-                        borderWidth: 1
+                        borderColor: '#ffffff',
+                        borderWidth: 3,
+                        hoverOffset: 8
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    cutout: '65%',
                     plugins: {
-                        legend: {
-                            position: 'right',
-                        },
-                        title: {
-                            display: true,
-                            text: '功能模块使用比例'
-                        }
+                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } },
+                        title: { display: false }
                     }
                 }
             });

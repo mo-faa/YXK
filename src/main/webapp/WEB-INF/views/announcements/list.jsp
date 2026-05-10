@@ -27,29 +27,39 @@
     <%@ include file="../common/flash.jsp" %>
 
     <div class="card soft" data-animate="fade-up">
-        <div class="card-header bg-white p-4 border-bottom">
-            <div class="d-flex flex-column flex-md-row gap-3">
-                <div class="flex-grow-1">
-                    <form method="get" action="<c:url value='/announcements'/>" class="d-flex gap-2">
+        <div class="card-header p-4">
+            <form method="get" action="<c:url value='/announcements'/>">
+                <div class="row g-2 align-items-end">
+                    <div class="col-md-5">
+                        <label class="form-label">搜索</label>
                         <div class="input-group">
-                            <input type="text" name="q" class="form-control" placeholder="搜索公告标题" value="${q}">
-                            <button type="submit" class="btn btn-outline-primary">
-                                <i class="fa-solid fa-search"></i>
-                            </button>
+                            <span class="input-group-text"><i class="fa-solid fa-search"></i></span>
+                            <input type="text" name="q" class="form-control" placeholder="输入公告标题关键词..." value="${q}">
                         </div>
-                        <select name="status" class="form-select" style="width: auto;">
-                            <option value="">所有状态</option>
-                            <option value="0" <c:if test="${status eq 0}">selected</c:if>>草稿</option>
-                            <option value="1" <c:if test="${status eq 1}">selected</c:if>>已发布</option>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">状态</label>
+                        <select name="status" class="form-select">
+                            <option value="">全部状态</option>
+                            <option value="0" <c:if test="${status eq 0}">selected</c:if>>📝 草稿</option>
+                            <option value="1" <c:if test="${status eq 1}">selected</c:if>>✅ 已发布</option>
                         </select>
-                        <select name="isTop" class="form-select" style="width: auto;">
-                            <option value="">所有置顶状态</option>
-                            <option value="true" <c:if test="${isTop eq 'true'}">selected</c:if>>已置顶</option>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">置顶</label>
+                        <select name="isTop" class="form-select">
+                            <option value="">全部</option>
+                            <option value="true" <c:if test="${isTop eq 'true'}">selected</c:if>>⭐ 已置顶</option>
                             <option value="false" <c:if test="${isTop eq 'false'}">selected</c:if>>未置顶</option>
                         </select>
-                    </form>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-gradient w-100">
+                            <i class="fa-solid fa-filter me-1"></i>筛选
+                        </button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
         <div class="card-body p-0">
             <c:if test="${not empty announcements}">
