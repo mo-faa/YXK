@@ -35,6 +35,13 @@ dependencies {
     // Jackson 3
     implementation "tools.jackson.core:jackson-databind:3.0.3"
 
+    // Security
+    implementation "org.springframework.security:spring-security-crypto:6.4.2"
+    implementation "org.springframework.security:spring-security-web:6.4.2"
+
+    // Apache POI (Excel)
+    implementation "org.apache.poi:poi-ooxml:5.2.5"
+
     // JSP + JSTL (Jakarta JSTL 3.0.1) - MUST be packaged into WAR
     implementation "jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.1"
     implementation "org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1"
@@ -70,12 +77,15 @@ tasks.withType(JavaCompile).configureEach {
 
 test {
     useJUnitPlatform()
+    systemProperty 'file.encoding', 'UTF-8'
+    systemProperty 'sun.jnu.encoding', 'UTF-8'
     jvmArgs = [
         '--add-opens=java.base/java.lang=ALL-UNNAMED',
         '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED',
         '--add-opens=java.base/java.util=ALL-UNNAMED',
         '--add-opens=java.base/java.io=ALL-UNNAMED',
-        '--add-opens=java.base/jdk.internal.loader=ALL-UNNAMED'
+        '--add-opens=java.base/jdk.internal.loader=ALL-UNNAMED',
+        '--add-opens=java.base/sun.nio.ch=ALL-UNNAMED'
     ]
 }
 

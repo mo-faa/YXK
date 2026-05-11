@@ -1,5 +1,6 @@
 package com.village.committee.config;
 
+import com.village.committee.web.filter.AuthFilter;
 import com.village.committee.web.filter.CsrfTokenFilter;
 import com.village.committee.web.filter.RequestIdFilter;
 import jakarta.servlet.Filter;
@@ -32,8 +33,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         return new Filter[]{
                 encoding,
                 new RequestIdFilter(),
-                new CsrfTokenFilter()
+                new CsrfTokenFilter(),
+                new AuthFilter()
         };
     }
 }
-

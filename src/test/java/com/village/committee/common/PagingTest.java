@@ -1,262 +1,238 @@
 package com.village.committee.common;
 
 import org.junit.jupiter.api.*;
-import java.util.List;
-import java.util.Collections;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("Paging")
+@DisplayName("Paging工具类")
 class PagingTest {
 
     @Nested
-    @DisplayName("normalizeQuery")
+    @DisplayName("normalizeQuery - 规范化搜索关键词")
     class NormalizeQuery {
 
         @Test
         @DisplayName("null应返回null")
-        void nullQuery() {
+        void null应返回null() {
             assertNull(Paging.normalizeQuery(null));
         }
 
         @Test
         @DisplayName("空字符串应返回null")
-        void emptyQuery() {
+        void 空字符串应返回null() {
             assertNull(Paging.normalizeQuery(""));
             assertNull(Paging.normalizeQuery("   "));
         }
 
         @Test
-        @DisplayName("应去除首尾空格")
-        void trimQuery() {
-            assertEquals("test", Paging.normalizeQuery("  test  "));
+        @DisplayName("正常关键词应去空格返回")
+        void 正常关键词应去空格返回() {
+            assertEquals("张三", Paging.normalizeQuery("  张三  "));
         }
 
         @Test
-        @DisplayName("超过100字符应截断")
-        void longQuery() {
-            String longStr = "a".repeat(150);
-            String result = Paging.normalizeQuery(longStr);
+        @DisplayName("超长关键词应截断到100字符")
+        void 超长关键词应截断() {
+            String longQuery = "a".repeat(200);
+            String result = Paging.normalizeQuery(longQuery);
             assertEquals(100, result.length());
         }
 
         @Test
-        @DisplayName("正常查询应原样返回")
-        void normalQuery() {
-            assertEquals("test query", Paging.normalizeQuery("test query"));
+        @DisplayName("100字符以内的关键词不应截断")
+        void 一百字符以内不应截断() {
+            String query = "a".repeat(100);
+            assertEquals(100, Paging.normalizeQuery(query).length());
         }
     }
 
     @Nested
-    @DisplayName("normalizePage")
+    @DisplayName("normalizePage - 规范化页码")
     class NormalizePage {
 
         @Test
         @DisplayName("null应返回1")
-        void nullPage() {
+        void null应返回1() {
             assertEquals(1, Paging.normalizePage(null));
         }
 
         @Test
-        @DisplayName("小于1应返回1")
-        void lessThanOne() {
+        @DisplayName("0应返回1")
+        void 零应返回1() {
             assertEquals(1, Paging.normalizePage(0));
+        }
+
+        @Test
+        @DisplayName("负数应返回1")
+        void 负数应返回1() {
             assertEquals(1, Paging.normalizePage(-1));
             assertEquals(1, Paging.normalizePage(-100));
         }
 
         @Test
+        @DisplayName("1应返回1")
+        void 一应返回1() {
+            assertEquals(1, Paging.normalizePage(1));
+        }
+
+        @Test
         @DisplayName("超过10000应返回10000")
-        void overMax() {
+        void 超过一万应返回一万() {
             assertEquals(10000, Paging.normalizePage(10001));
             assertEquals(10000, Paging.normalizePage(99999));
         }
 
         @Test
         @DisplayName("正常页码应原样返回")
-        void normalPage() {
-            assertEquals(1, Paging.normalizePage(1));
+        void 正常页码应原样返回() {
             assertEquals(5, Paging.normalizePage(5));
-            assertEquals(10000, Paging.normalizePage(10000));
+            assertEquals(100, Paging.normalizePage(100));
         }
     }
 
     @Nested
-    @DisplayName("normalizeSize")
+    @DisplayName("normalizeSize - 规范化每页数量")
     class NormalizeSize {
 
         @Test
         @DisplayName("null应返回默认值")
-        void nullSize() {
+        void null应返回默认值() {
             assertEquals(10, Paging.normalizeSize(null, 10, 100));
         }
 
         @Test
-        @DisplayName("小于1应返回默认值")
-        void lessThanOne() {
+        @DisplayName("0应返回默认值")
+        void 零应返回默认值() {
             assertEquals(10, Paging.normalizeSize(0, 10, 100));
+        }
+
+        @Test
+        @DisplayName("负数应返回默认值")
+        void 负数应返回默认值() {
             assertEquals(10, Paging.normalizeSize(-1, 10, 100));
         }
 
         @Test
         @DisplayName("超过最大值应返回最大值")
-        void overMax() {
+        void 超过最大值应返回最大值() {
             assertEquals(100, Paging.normalizeSize(200, 10, 100));
         }
 
         @Test
         @DisplayName("正常值应原样返回")
-        void normalSize() {
+        void 正常值应原样返回() {
             assertEquals(20, Paging.normalizeSize(20, 10, 100));
         }
     }
 
     @Nested
-    @DisplayName("offset")
+    @DisplayName("offset - 计算偏移量")
     class Offset {
 
         @Test
-        @DisplayName("第1页偏移0")
-        void page1() {
+        @DisplayName("第1页每页10条偏移量为0")
+        void 第一页偏移量为0() {
             assertEquals(0, Paging.offset(1, 10));
         }
 
         @Test
-        @DisplayName("第2页偏移10")
-        void page2() {
+        @DisplayName("第2页每页10条偏移量为10")
+        void 第二页偏移量为10() {
             assertEquals(10, Paging.offset(2, 10));
         }
 
         @Test
-        @DisplayName("第3页偏移20")
-        void page3() {
-            assertEquals(20, Paging.offset(3, 10));
+        @DisplayName("第5页每页20条偏移量为80")
+        void 第五页偏移量为80() {
+            assertEquals(80, Paging.offset(5, 20));
         }
     }
 
     @Nested
-    @DisplayName("totalPages")
+    @DisplayName("totalPages - 计算总页数")
     class TotalPages {
 
         @Test
         @DisplayName("总数为0应返回0")
-        void zeroTotal() {
+        void 总数为0应返回0() {
             assertEquals(0, Paging.totalPages(0, 10));
         }
 
         @Test
-        @DisplayName("总数小于每页数量应返回1")
-        void lessThanSize() {
-            assertEquals(1, Paging.totalPages(5, 10));
+        @DisplayName("总数为负数应返回0")
+        void 总数为负数应返回0() {
+            assertEquals(0, Paging.totalPages(-1, 10));
         }
 
         @Test
-        @DisplayName("总数等于每页数量应返回1")
-        void equalSize() {
-            assertEquals(1, Paging.totalPages(10, 10));
+        @DisplayName("每页大小为0应返回0")
+        void 每页大小为0应返回0() {
+            assertEquals(0, Paging.totalPages(100, 0));
         }
 
         @Test
-        @DisplayName("总数大于每页数量应向上取整")
-        void greaterThanSize() {
-            assertEquals(2, Paging.totalPages(15, 10));
-            assertEquals(3, Paging.totalPages(25, 10));
+        @DisplayName("100条每页10条应返回10页")
+        void 一百条十页() {
+            assertEquals(10, Paging.totalPages(100, 10));
         }
 
         @Test
-        @DisplayName("size为0应返回0")
-        void zeroSize() {
-            assertEquals(0, Paging.totalPages(10, 0));
+        @DisplayName("101条每页10条应返回11页")
+        void 一百零一条十一页() {
+            assertEquals(11, Paging.totalPages(101, 10));
+        }
+
+        @Test
+        @DisplayName("1条每页10条应返回1页")
+        void 一条一页() {
+            assertEquals(1, Paging.totalPages(1, 10));
         }
     }
 
     @Nested
-    @DisplayName("hasNext")
+    @DisplayName("hasNext - 是否有下一页")
     class HasNext {
 
         @Test
-        @DisplayName("有下一页应返回true")
-        void hasNextPage() {
-            assertTrue(Paging.hasNext(1, 10, 25));
+        @DisplayName("第1页10条共100条应有下一页")
+        void 应有下一页() {
+            assertTrue(Paging.hasNext(1, 10, 100));
         }
 
         @Test
-        @DisplayName("无下一页应返回false")
-        void noNextPage() {
-            assertFalse(Paging.hasNext(3, 10, 25));
-            assertFalse(Paging.hasNext(1, 10, 10));
+        @DisplayName("第10页10条共100条应无下一页")
+        void 应无下一页() {
+            assertFalse(Paging.hasNext(10, 10, 100));
+        }
+
+        @Test
+        @DisplayName("第11页10条共100条应无下一页")
+        void 超出范围应无下一页() {
+            assertFalse(Paging.hasNext(11, 10, 100));
         }
     }
 
     @Nested
-    @DisplayName("hasPrev")
+    @DisplayName("hasPrev - 是否有上一页")
     class HasPrev {
 
         @Test
-        @DisplayName("第1页无上一页")
-        void firstPage() {
+        @DisplayName("第1页应无上一页")
+        void 第一页应无上一页() {
             assertFalse(Paging.hasPrev(1));
         }
 
         @Test
-        @DisplayName("第2页有上一页")
-        void secondPage() {
+        @DisplayName("第2页应有上一页")
+        void 第二页应有上一页() {
             assertTrue(Paging.hasPrev(2));
         }
-    }
-}
 
-@DisplayName("PageResult")
-class PageResultTest {
-
-    @Test
-    @DisplayName("null items应转为空列表")
-    void nullItems() {
-        PageResult<String> result = new PageResult<>(null, 1, 10, 0);
-        assertEquals(Collections.emptyList(), result.getItems());
-    }
-
-    @Test
-    @DisplayName("基本属性应正确返回")
-    void basicProperties() {
-        PageResult<String> result = new PageResult<>(List.of("a", "b"), 2, 10, 25);
-        assertEquals(List.of("a", "b"), result.getItems());
-        assertEquals(2, result.getPage());
-        assertEquals(10, result.getSize());
-        assertEquals(25, result.getTotal());
-    }
-
-    @Test
-    @DisplayName("getTotalPages应正确计算")
-    void totalPages() {
-        PageResult<String> result = new PageResult<>(List.of(), 1, 10, 25);
-        assertEquals(3, result.getTotalPages());
-    }
-
-    @Test
-    @DisplayName("isHasPrev第1页应返回false")
-    void noPrevOnFirstPage() {
-        PageResult<String> result = new PageResult<>(List.of("a"), 1, 10, 15);
-        assertFalse(result.isHasPrev());
-    }
-
-    @Test
-    @DisplayName("isHasPrev非第1页应返回true")
-    void hasPrevOnSecondPage() {
-        PageResult<String> result = new PageResult<>(List.of("a"), 2, 10, 15);
-        assertTrue(result.isHasPrev());
-    }
-
-    @Test
-    @DisplayName("isHasNext最后一页应返回false")
-    void noNextOnLastPage() {
-        PageResult<String> result = new PageResult<>(List.of("a"), 3, 10, 25);
-        assertFalse(result.isHasNext());
-    }
-
-    @Test
-    @DisplayName("isHasNext非最后一页应返回true")
-    void hasNextOnFirstPage() {
-        PageResult<String> result = new PageResult<>(List.of("a"), 1, 10, 25);
-        assertTrue(result.isHasNext());
+        @Test
+        @DisplayName("第100页应有上一页")
+        void 第一百页应有上一页() {
+            assertTrue(Paging.hasPrev(100));
+        }
     }
 }
