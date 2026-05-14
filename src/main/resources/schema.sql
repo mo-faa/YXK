@@ -181,13 +181,13 @@ CREATE TABLE IF NOT EXISTS system_config (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 插入默认角色
-INSERT INTO sys_role (code, name, description, sort_order) VALUES
+INSERT IGNORE INTO sys_role (code, name, description, sort_order) VALUES
 ('ADMIN', '系统管理员', '拥有所有权限', 1),
 ('MANAGER', '村委会管理员', '管理村务数据', 2),
 ('USER', '普通用户', '查看基本信息', 3);
 
 -- 插入默认权限
-INSERT INTO sys_permission (code, name, module, description) VALUES
+INSERT IGNORE INTO sys_permission (code, name, module, description) VALUES
 ('user:view', '查看用户', '用户管理', '查看用户列表和详情'),
 ('user:edit', '编辑用户', '用户管理', '创建和修改用户'),
 ('user:delete', '删除用户', '用户管理', '删除用户'),
@@ -208,11 +208,11 @@ INSERT INTO sys_permission (code, name, module, description) VALUES
 ('dashboard:view', '查看仪表盘', '仪表盘', '查看统计仪表盘');
 
 -- 为管理员角色分配所有权限
-INSERT INTO sys_role_permission (role_id, permission_id)
+INSERT IGNORE INTO sys_role_permission (role_id, permission_id)
 SELECT r.id, p.id FROM sys_role r CROSS JOIN sys_permission p WHERE r.code = 'ADMIN';
 
 -- 为村委会管理员分配业务权限
-INSERT INTO sys_role_permission (role_id, permission_id)
+INSERT IGNORE INTO sys_role_permission (role_id, permission_id)
 SELECT r.id, p.id FROM sys_role r, sys_permission p
 WHERE r.code = 'MANAGER'
 AND p.code IN ('resident:view', 'resident:edit', 'resident:export',
@@ -221,21 +221,21 @@ AND p.code IN ('resident:view', 'resident:edit', 'resident:export',
                 'log:view', 'log:export', 'dashboard:view');
 
 -- 为普通用户分配基本权限
-INSERT INTO sys_role_permission (role_id, permission_id)
+INSERT IGNORE INTO sys_role_permission (role_id, permission_id)
 SELECT r.id, p.id FROM sys_role r, sys_permission p
 WHERE r.code = 'USER'
 AND p.code IN ('resident:view', 'announcement:view', 'committee:view', 'dashboard:view');
 
 -- 插入默认管理员账号 (密码: admin123，使用BCrypt加密)
-INSERT INTO sys_user (username, password_hash, nickname, real_name, enabled, login_count) VALUES
+INSERT IGNORE INTO sys_user (username, password_hash, nickname, real_name, enabled, login_count) VALUES
 ('admin', '$2b$12$ndhZsY0Loz6GwBI4IP0GfueTBP3gD0ZclRnlScqT9wnL4v7.w6IEO', '系统管理员', '管理员', 1, 0);
 
 -- 为管理员分配角色
-INSERT INTO sys_user_role (user_id, role_id)
+INSERT IGNORE INTO sys_user_role (user_id, role_id)
 SELECT u.id, r.id FROM sys_user u, sys_role r WHERE u.username = 'admin' AND r.code = 'ADMIN';
 
 -- 插入默认系统配置
-INSERT INTO system_config (config_key, config_value, config_group, description) VALUES
+INSERT IGNORE INTO system_config (config_key, config_value, config_group, description) VALUES
 ('site.name', '网上村委会', 'basic', '站点名称'),
 ('site.description', '智慧村务管理系统', 'basic', '站点描述'),
 ('site.logo', '', 'basic', '站点Logo'),
