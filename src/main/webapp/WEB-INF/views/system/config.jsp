@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-<c:set var="_active" value="system"/>
+<c:set var="activePage" value="dashboard"/>
 
 <%@ include file="../common/header.jsp" %>
 
