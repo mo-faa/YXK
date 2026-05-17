@@ -27,7 +27,6 @@ class ExportServiceTest {
     @Mock private ResidentMapper residentMapper;
     @Mock private AnnouncementMapper announcementMapper;
     @Mock private OperationLogMapper operationLogMapper;
-    @Mock private CommitteeMemberMapper committeeMemberMapper;
 
     @InjectMocks private ExportService exportService;
 
