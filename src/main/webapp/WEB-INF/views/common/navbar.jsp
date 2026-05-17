@@ -37,20 +37,22 @@
                         <i class="fas fa-user-tie me-1"></i>村委会成员
                     </a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle ${_active == "system" || _active == "dashboard" || _active == "users" || _active == "logs" ? "active" : ""}"
-                       href="#" id="systemDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-cogs me-1"></i>系统管理
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="systemDropdown">
-                        <li><a class="dropdown-item" href="<c:url value="/system/dashboard"/>"><i class="fas fa-gauge-high me-2"></i>系统监控</a></li>
-                        <li><a class="dropdown-item" href="<c:url value="/users"/>"><i class="fas fa-users-cog me-2"></i>用户管理</a></li>
-                        <li><a class="dropdown-item" href="<c:url value="/logs"/>"><i class="fas fa-clipboard-list me-2"></i>操作日志</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="<c:url value="/system/backup"/>"><i class="fas fa-database me-2"></i>数据备份</a></li>
-                        <li><a class="dropdown-item" href="<c:url value="/system/config"/>"><i class="fas fa-sliders-h me-2"></i>系统配置</a></li>
-                    </ul>
-                </li>
+                <c:if test="${not empty sessionScope.isAdmin and sessionScope.isAdmin}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle ${_active == "system" || _active == "dashboard" || _active == "users" || _active == "logs" ? "active" : ""}"
+                           href="#" id="systemDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-cogs me-1"></i>系统管理
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="systemDropdown">
+                            <li><a class="dropdown-item" href="<c:url value="/system/dashboard"/>"><i class="fas fa-gauge-high me-2"></i>系统监控</a></li>
+                            <li><a class="dropdown-item" href="<c:url value="/users"/>"><i class="fas fa-users-cog me-2"></i>用户管理</a></li>
+                            <li><a class="dropdown-item" href="<c:url value="/logs"/>"><i class="fas fa-clipboard-list me-2"></i>操作日志</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="<c:url value="/system/backup"/>"><i class="fas fa-database me-2"></i>数据备份</a></li>
+                            <li><a class="dropdown-item" href="<c:url value="/system/config"/>"><i class="fas fa-sliders-h me-2"></i>系统配置</a></li>
+                        </ul>
+                    </li>
+                </c:if>
 
                 <c:if test="${not empty sessionScope.userId}">
                     <li class="nav-item ms-lg-3 mt-2 mt-lg-0 position-relative">
@@ -74,6 +76,7 @@
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form method="post" action="<c:url value="/logout"/>" style="display:inline;">
+                                    <input type="hidden" name="_csrf" value="${_csrf}"/>
                                     <button type="submit" class="dropdown-item text-danger">
                                         <i class="fas fa-sign-out-alt me-2"></i>退出登录
                                     </button>

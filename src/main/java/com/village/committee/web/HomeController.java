@@ -7,6 +7,7 @@ import com.village.committee.service.ResidentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
@@ -27,8 +28,12 @@ public class HomeController {
     }
 
     @GetMapping(value = {"/", "/home"})
-    public String home(Model model) {
+    public String home(@RequestParam(required = false) String forbidden, Model model) {
         model.addAttribute("message", "欢迎使用网上村委会业务办理系统");
+
+        if (forbidden != null) {
+            model.addAttribute("forbiddenMessage", "您没有权限访问该页面");
+        }
 
         model.addAttribute("residentTotal", residentService.countAll());
         model.addAttribute("announcementTotal", announcementService.countAll());

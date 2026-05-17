@@ -28,34 +28,41 @@
 
     <%@ include file="common/flash.jsp" %>
 
+    <c:if test="${not empty forbiddenMessage}">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>${forbiddenMessage}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="关闭"></button>
+        </div>
+    </c:if>
+
     <div class="stat-grid mb-5" data-animate="fade-up" data-delay="50">
-        <div class="stat-block">
+        <div class="stat-block animate-fade-in-up delay-1">
             <div class="stat-block-accent" style="background: var(--c-forest);"></div>
             <div class="stat-block-label">居民总数</div>
-            <div class="stat-block-value">${residentTotal}</div>
+            <div class="stat-block-value animate-count-up delay-2">${residentTotal}</div>
             <div class="stat-block-meta">户籍与常住居民</div>
         </div>
-        <div class="stat-block">
+        <div class="stat-block animate-fade-in-up delay-2">
             <div class="stat-block-accent" style="background: var(--c-teal);"></div>
             <div class="stat-block-label">公告总数</div>
-            <div class="stat-block-value">${announcementTotal}</div>
+            <div class="stat-block-value animate-count-up delay-3">${announcementTotal}</div>
             <div class="stat-block-meta">已发布与草稿</div>
         </div>
-        <div class="stat-block">
+        <div class="stat-block animate-fade-in-up delay-3">
             <div class="stat-block-accent" style="background: var(--c-gold);"></div>
             <div class="stat-block-label">村委会成员</div>
-            <div class="stat-block-value">${memberTotal}</div>
+            <div class="stat-block-value animate-count-up delay-4">${memberTotal}</div>
             <div class="stat-block-meta">在职成员</div>
         </div>
-        <div class="stat-block">
+        <div class="stat-block animate-fade-in-up delay-4">
             <div class="stat-block-accent" style="background: var(--c-terracotta);"></div>
             <div class="stat-block-label">操作日志</div>
-            <div class="stat-block-value">${logTotal}</div>
+            <div class="stat-block-value animate-count-up delay-5">${logTotal}</div>
             <div class="stat-block-meta">系统操作记录</div>
         </div>
     </div>
 
-    <div class="content-grid cols-2-1 mb-5" data-animate="fade-up" data-delay="100">
+    <div class="content-grid cols-2-1 mb-5 animate-fade-in-up delay-5">
         <div class="card soft">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h3 class="card-title mb-0">最近公告</h3>

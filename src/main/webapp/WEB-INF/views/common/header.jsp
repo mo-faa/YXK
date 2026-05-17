@@ -36,7 +36,7 @@
 <c:set var="_active" value="${empty activePage ? '' : activePage}" />
 
 <nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
+    <div class="navbar-inner" style="display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1800px;margin:0 auto;padding:0 1.5rem;height:100%;">
         <a class="navbar-brand" href="<c:url value="/"/>">
             <span class="brand-mark">村</span>网上村委会
         </a>
@@ -68,18 +68,64 @@
                         村委会成员
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link ${_active == "logs" ? "active" : ""}" href="<c:url value="/logs"/>">
-                        操作日志
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link ${_active == "dashboard" ? "active" : ""}" href="<c:url value="/system/dashboard"/>">
-                        系统监控
-                    </a>
-                </li>
+                <c:if test="${not empty sessionScope.isAdmin and sessionScope.isAdmin}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle ${_active == "system" || _active == "dashboard" || _active == "users" || _active == "logs" ? "active" : ""}"
+                           href="#" id="systemDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-cogs me-1"></i>系统管理
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="systemDropdown">
+                            <li><a class="dropdown-item" href="<c:url value="/system/dashboard"/>"><i class="fas fa-gauge-high me-2"></i>系统监控</a></li>
+                            <li><a class="dropdown-item" href="<c:url value="/users"/>"><i class="fas fa-users-cog me-2"></i>用户管理</a></li>
+                            <li><a class="dropdown-item" href="<c:url value="/logs"/>"><i class="fas fa-clipboard-list me-2"></i>操作日志</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="<c:url value="/system/backup"/>"><i class="fas fa-database me-2"></i>数据备份</a></li>
+                            <li><a class="dropdown-item" href="<c:url value="/system/config"/>"><i class="fas fa-sliders-h me-2"></i>系统配置</a></li>
+                        </ul>
+                    </li>
+                </c:if>
 
-                <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                <c:if test="${not empty sessionScope.userId}">
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0 position-relative">
+                        <a class="nav-link" href="<c:url value="/notifications"/>" title="消息通知">
+                            <i class="fas fa-bell"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                  id="unreadBadge" style="display: none;">
+                                0
+                            </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-1"></i>${sessionScope.username}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>个人中心</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-key me-2"></i>修改密码</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="post" action="<c:url value="/logout"/>" style="display:inline;">
+                                    <input type="hidden" name="_csrf" value="${_csrf}"/>
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="fas fa-sign-out-alt me-2"></i>退出登录
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </c:if>
+
+                <c:if test="${empty sessionScope.userId}">
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <a class="btn btn-outline-primary btn-sm" href="<c:url value="/login"/>">
+                            <i class="fas fa-sign-in-alt me-1"></i>登录
+                        </a>
+                    </li>
+                </c:if>
+
+                <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
                     <button type="button" id="themeToggle" class="btn btn-sm" title="切换主题">
                         <i class="fa-solid fa-moon"></i>
                     </button>

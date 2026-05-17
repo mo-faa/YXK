@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -20,16 +19,13 @@ public class ExportService {
     private final ResidentMapper residentMapper;
     private final AnnouncementMapper announcementMapper;
     private final OperationLogMapper operationLogMapper;
-    private final CommitteeMemberMapper committeeMemberMapper;
 
     public ExportService(ResidentMapper residentMapper,
                          AnnouncementMapper announcementMapper,
-                         OperationLogMapper operationLogMapper,
-                         CommitteeMemberMapper committeeMemberMapper) {
+                         OperationLogMapper operationLogMapper) {
         this.residentMapper = residentMapper;
         this.announcementMapper = announcementMapper;
         this.operationLogMapper = operationLogMapper;
-        this.committeeMemberMapper = committeeMemberMapper;
     }
 
     public byte[] exportResidentsToExcel() throws IOException {

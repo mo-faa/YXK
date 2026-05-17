@@ -105,14 +105,6 @@
     })();
 
     var currentPath = window.location.pathname;
-    var navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-
-    navLinks.forEach(function (link) {
-        var href = link.getAttribute('href');
-        if (href && currentPath.includes(href) && href !== '/' && href.length > 1) {
-            link.classList.add('active');
-        }
-    });
 
     var tableRows = document.querySelectorAll('.table-hover tbody tr');
 

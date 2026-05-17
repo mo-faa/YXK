@@ -2,15 +2,14 @@ package com.village.committee.service;
 
 import com.village.committee.common.PageResult;
 import com.village.committee.common.Paging;
+import com.village.committee.common.ValidationResult;
 import com.village.committee.common.ValidationUtils;
 import com.village.committee.domain.CommitteeMember;
 import com.village.committee.mapper.CommitteeMemberMapper;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  * 村委会成员服务类
@@ -66,123 +65,59 @@ public class CommitteeMemberService {
         return committeeMemberMapper.findById(id);
     }
 
-    /**
-     * 验证村委会成员数据（抛异常）
-     */
-    public void validate(CommitteeMember member) {
+    private ValidationResult doValidate(CommitteeMember member) {
         if (member == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "成员信息不能为空");
+            return ValidationResult.error("成员信息不能为空");
         }
 
-        // 姓名必填
         if (ValidationUtils.isBlank(member.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "姓名不能为空");
+            return ValidationResult.error("姓名不能为空");
         }
 
-        // 职务必填
         if (ValidationUtils.isBlank(member.getPosition())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "职务不能为空");
+            return ValidationResult.error("职务不能为空");
         }
 
         String position = member.getPosition().trim();
         if (position.length() > 50) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "职务不能超过50个字符");
+            return ValidationResult.error("职务不能超过50个字符");
         }
 
-        // 职务安全校验
         String positionSafetyError = ValidationUtils.getContentSafetyErrorMessage(position);
         if (positionSafetyError != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "职务" + positionSafetyError);
+            return ValidationResult.error("职务" + positionSafetyError);
         }
 
-        // 电话号码校验（可选，但填了就必须正确）
-        // 已删除表单提交后的校验逻辑，改为前端实时校验
-
-        // 职责描述校验（可选）
         if (member.getDuties() != null && !member.getDuties().trim().isEmpty()) {
             if (member.getDuties().length() > 500) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "职责描述不能超过500个字符");
+                return ValidationResult.error("职责描述不能超过500个字符");
             }
 
-            // 职责描述安全校验
             String dutiesSafetyError = ValidationUtils.getContentSafetyErrorMessage(member.getDuties());
             if (dutiesSafetyError != null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "职责描述" + dutiesSafetyError);
+                return ValidationResult.error("职责描述" + dutiesSafetyError);
             }
 
-            // 职责描述HTML校验 - 允许基本HTML标签
             String dutiesHtmlError = ValidationUtils.getHtmlSafetyErrorMessage(
                 member.getDuties(), true, "p", "br", "div", "span", "strong", "em", "ul", "ol", "li");
             if (dutiesHtmlError != null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "职责描述" + dutiesHtmlError);
+                return ValidationResult.error("职责描述" + dutiesHtmlError);
             }
         }
 
-        // 任职时间校验
         if (member.getJoinTime() != null && member.getJoinTime().isAfter(LocalDateTime.now().plusDays(1))) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "任职时间不能是未来时间");
+            return ValidationResult.error("任职时间不能是未来时间");
         }
+
+        return ValidationResult.ok();
     }
 
-    /**
-     * 验证并返回错误消息（用于MVC控制器）
-     * @return 错误消息，null表示验证通过
-     */
+    public void validate(CommitteeMember member) {
+        doValidate(member).orThrow();
+    }
+
     public String validateAndGetError(CommitteeMember member) {
-        if (member == null) {
-            return "成员信息不能为空";
-        }
-
-        // 姓名必填
-        if (ValidationUtils.isBlank(member.getName())) {
-            return "姓名不能为空";
-        }
-
-        // 职务必填
-        if (ValidationUtils.isBlank(member.getPosition())) {
-            return "职务不能为空";
-        }
-
-        String position = member.getPosition().trim();
-        if (position.length() > 50) {
-            return "职务不能超过50个字符";
-        }
-
-        // 职务安全校验
-        String positionSafetyError = ValidationUtils.getContentSafetyErrorMessage(position);
-        if (positionSafetyError != null) {
-            return "职务" + positionSafetyError;
-        }
-
-        // 电话号码校验（可选，但填了就必须正确）
-        // 已删除表单提交后的校验逻辑，改为前端实时校验
-
-        // 职责描述校验（可选）
-        if (member.getDuties() != null && !member.getDuties().trim().isEmpty()) {
-            if (member.getDuties().length() > 500) {
-                return "职责描述不能超过500个字符";
-            }
-
-            // 职责描述安全校验
-            String dutiesSafetyError = ValidationUtils.getContentSafetyErrorMessage(member.getDuties());
-            if (dutiesSafetyError != null) {
-                return "职责描述" + dutiesSafetyError;
-            }
-
-            // 职责描述HTML校验 - 允许基本HTML标签
-            String dutiesHtmlError = ValidationUtils.getHtmlSafetyErrorMessage(
-                member.getDuties(), true, "p", "br", "div", "span", "strong", "em", "ul", "ol", "li");
-            if (dutiesHtmlError != null) {
-                return "职责描述" + dutiesHtmlError;
-            }
-        }
-
-        // 任职时间校验
-        if (member.getJoinTime() != null && member.getJoinTime().isAfter(LocalDateTime.now().plusDays(1))) {
-            return "任职时间不能是未来时间";
-        }
-
-        return null;
+        return doValidate(member).orNull();
     }
 
     /**

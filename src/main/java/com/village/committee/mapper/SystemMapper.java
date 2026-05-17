@@ -5,7 +5,6 @@ import com.village.committee.domain.SystemConfig;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface SystemMapper {

@@ -3,10 +3,12 @@ package com.village.committee.web;
 import com.village.committee.domain.User;
 import com.village.committee.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class AuthController {
@@ -29,10 +31,15 @@ public class AuthController {
         try {
             User user = authService.authenticate(username, password);
             if (user == null) return "redirect:/login?error=1";
-            request.getSession().setAttribute("currentUser", user);
-            request.getSession().setAttribute("userId", user.getId());
-            request.getSession().setAttribute("username", user.getUsername());
-            request.getSession().setAttribute("permissions", authService.getPermissionCodes(user.getId()));
+            HttpSession session = request.getSession();
+            List<String> roleCodes = authService.getUserRoleCodes(user.getId());
+            session.setAttribute("currentUser", user);
+            session.setAttribute("userId", user.getId());
+            session.setAttribute("username", user.getUsername());
+            session.setAttribute("permissions", authService.getPermissionCodes(user.getId()));
+            session.setAttribute("roleCodes", roleCodes);
+            session.setAttribute("isAdmin", roleCodes.contains("ADMIN"));
+            session.setAttribute("isManager", roleCodes.contains("MANAGER"));
             return "redirect:/";
         } catch (Exception e) {
             return "redirect:/login?error=1";
@@ -60,6 +67,12 @@ public class AuthController {
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+        return "redirect:/login";
+    }
+
+    @PostMapping("/logout")
+    public String logoutPost(HttpServletRequest request) {
         request.getSession().invalidate();
         return "redirect:/login";
     }

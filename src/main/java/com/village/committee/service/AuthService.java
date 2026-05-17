@@ -121,6 +121,12 @@ public class AuthService {
         return getUserRoles(userId).stream().map(Role::getId).collect(Collectors.toList());
     }
 
+    public List<String> getUserRoleCodes(Long userId) {
+        return roleMapper.findByUserId(userId).stream()
+                .map(Role::getCode)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public void createUser(User user, List<Long> roleIds, String operator) {
         if (userMapper.findByUsername(user.getUsername()) != null) {

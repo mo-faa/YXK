@@ -3,15 +3,14 @@ package com.village.committee.service;
 
 import com.village.committee.common.PageResult;
 import com.village.committee.common.Paging;
+import com.village.committee.common.ValidationResult;
 import com.village.committee.common.ValidationUtils;
 import com.village.committee.domain.Resident;
 import com.village.committee.mapper.ResidentMapper;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class ResidentService {
@@ -71,84 +70,43 @@ public class ResidentService {
         return residentMapper.findById(id);
     }
 
-    /**
-     * 验证村民数据
-     * @throws ResponseStatusException 如果验证失败
-     */
-    public void validate(Resident resident) {
+    private ValidationResult doValidate(Resident resident) {
         if (resident == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "村民信息不能为空");
+            return ValidationResult.error("村民信息不能为空");
         }
 
-        // 姓名必填
         if (ValidationUtils.isBlank(resident.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "姓名不能为空");
+            return ValidationResult.error("姓名不能为空");
         }
 
-        // 身份证号校验（可选，但填了就必须正确）
         String idCardError = ValidationUtils.getIdCardErrorMessage(resident.getIdCard());
         if (idCardError != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, idCardError);
+            return ValidationResult.error(idCardError);
         }
 
-        // 如果身份证号有效，计算年龄并验证
         if (resident.getIdCard() != null && !resident.getIdCard().trim().isEmpty() && ValidationUtils.isValidIdCard(resident.getIdCard())) {
             Integer age = ValidationUtils.calculateAgeFromIdCard(resident.getIdCard());
             String ageError = ValidationUtils.getAgeErrorMessage(age);
             if (ageError != null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "根据身份证计算的年龄" + ageError);
+                return ValidationResult.error("根据身份证计算的年龄" + ageError);
             }
         }
 
-        // 电话号码校验（可选，但填了就必须正确）
-        // 已删除表单提交后的校验逻辑，改为前端实时校验
-
-        // 地址校验
         if (resident.getAddress() != null && !resident.getAddress().trim().isEmpty()) {
             if (resident.getAddress().length() > 255) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "地址不能超过255个字符");
+                return ValidationResult.error("地址不能超过255个字符");
             }
-            
         }
+
+        return ValidationResult.ok();
     }
 
-    /**
-     * 验证并返回错误消息（用于MVC控制器）
-     * @return 错误消息，null表示验证通过
-     */
+    public void validate(Resident resident) {
+        doValidate(resident).orThrow();
+    }
+
     public String validateAndGetError(Resident resident) {
-        if (resident == null) {
-            return "村民信息不能为空";
-        }
-
-        if (ValidationUtils.isBlank(resident.getName())) {
-            return "姓名不能为空";
-        }
-
-        String idCardError = ValidationUtils.getIdCardErrorMessage(resident.getIdCard());
-        if (idCardError != null) {
-            return idCardError;
-        }
-
-        // 如果身份证号有效，计算年龄并验证
-        if (resident.getIdCard() != null && !resident.getIdCard().trim().isEmpty() && ValidationUtils.isValidIdCard(resident.getIdCard())) {
-            Integer age = ValidationUtils.calculateAgeFromIdCard(resident.getIdCard());
-            String ageError = ValidationUtils.getAgeErrorMessage(age);
-            if (ageError != null) {
-                return "根据身份证计算的年龄" + ageError;
-            }
-        }
-
-        // 已删除表单提交后的电话号码校验逻辑，改为前端实时校验
-
-        if (resident.getAddress() != null && !resident.getAddress().trim().isEmpty()) {
-            if (resident.getAddress().length() > 255) {
-                return "地址不能超过255个字符";
-            }
-            
-        }
-
-        return null;
+        return doValidate(resident).orNull();
     }
 
     /**
